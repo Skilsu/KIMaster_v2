@@ -3,7 +3,7 @@
 
 ## Projektbeschreibung
 
-KIMaster ist eine benutzerfreundliche Plattform, die es Nutzern ermöglicht, praxisnahe Erfahrungen mit künstlicher Intelligenz (KI) zu sammeln. Die Plattform bietet eine interaktive Umgebung, in der verschiedene KIs gegeneinander antreten können und Nutzer die Möglichkeit haben, eigene KI-Entwicklungen zu testen.
+KIMaster ist keine benutzerfreundliche Plattform, die es Nutzern ermöglicht, praxisnahe Erfahrungen mit künstlicher Intelligenz (KI) zu sammeln. Die Plattform bietet eine interaktive Umgebung, in der verschiedene KIs gegeneinander antreten können und Nutzer die Möglichkeit haben, eigene KI-Entwicklungen zu testen.
 
 ## Inhaltsverzeichnis
 
