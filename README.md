@@ -61,10 +61,11 @@ KIMaster ist eine benutzerfreundliche Plattform, die es Nutzern ermöglicht, pra
    git clone https://github.com/12ghostrider21/KIMaster.git
    cd KIMaster
    ```
-
+#ee
 3. **Docker-Container starten**
 
-   Für Windows:
+   Für Windows:pip install requests tweepy praw pandas
+
    ```sh
    ./start.cmd
    ```
