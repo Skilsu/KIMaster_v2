@@ -1,23 +1,25 @@
+# Trainer/coach.py
+
 import logging
 import os
 import sys
 from collections import deque
+from copy import deepcopy
 from pickle import Pickler, Unpickler
 from random import shuffle
-from copy import deepcopy
+from Tools.kpi_tracker import KpiTracker
 
 import numpy as np
 from tqdm import tqdm
 
-from arena import Arena
 from Tools.mcts import MCTS
+from arena import Arena
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 console_handler = logging.StreamHandler()
 console_handler.setLevel(logging.INFO)
 log.addHandler(console_handler)
-
 
 class Coach:
     """
@@ -32,6 +34,7 @@ class Coach:
         self.args = args
         self.mcts = MCTS(deepcopy(self.game), self.nnet, self.args)
         self.trainExamplesHistory = []  # history of examples from args.numItersForTrainExamplesHistory latest iterations
+        self.kpi_tracker = KpiTracker()  # Initialize KpiTracker
 
     def executeEpisode(self):
         """
@@ -129,6 +132,20 @@ class Coach:
                 log.info('ACCEPTING NEW MODEL')
                 self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.getCheckpointFile(i))
                 self.nnet.save_checkpoint(folder=self.args.checkpoint, filename='best.pth.tar')
+
+            # Evaluate model performance and track KPIs
+            self.evaluate_model(self.nnet, self.trainExamplesHistory)
+
+    def evaluate_model(self, model, data_loader):
+        for data in data_loader:
+            inputs, labels = data
+            start_time = time.time()
+            outputs = model(inputs)
+            end_time = time.time()
+            _, preds = torch.max(outputs, 1)
+            self.kpi_tracker.track_performance(labels.numpy(), preds.numpy(), start_time, end_time)
+        avg_kpis = self.kpi_tracker.get_average_kpis()
+        print(avg_kpis)
 
     def getCheckpointFile(self, iteration):
         return 'checkpoint_' + str(iteration) + '.pth.tar'
