@@ -98,6 +98,17 @@ const messages = {
       blunder: "Show Blunders",
       you_won: "You Won!",
       opponent_won: "Opponent Won",
+
+      login: {
+        header: "Bitte logge dich ein",
+        email: "Email",
+        password: "Passwort",
+        placeholderEmail: "THM Mail Adresse",
+        placeholderPassword: "*********",
+        loginBtn: "Anmelden",
+        registerBtn: "Registrieren",
+        failed: "Anmeldung leider fehlgeschlagen.<br>Möglich Gründe: <br>- Kombination existiert nicht. <br>- Email existiert bereits <br>- Email ist keine offizielle THM Mail"
+      }
     },
 
     rules: {
@@ -533,6 +544,18 @@ const messages = {
       blunder: "Fehler anzeigen",
       you_won: "Du hast gewonnen!",
       opponent_won: "Gegner hat gewonnen",
+
+      login: {
+        header: "Bitte logge dich ein",
+        email: "Email",
+        password: "Passwort",
+        placeholderEmail: "THM Mail Adresse",
+        placeholderPassword: "*********",
+        loginBtn: "Anmelden",
+        registerBtn: "Registrieren",
+        failed: "Anmeldung leider fehlgeschlagen.<br>Möglich Gründe: <br>- Kombination existiert nicht. <br>- Email existiert bereits <br>- Email ist keine offizielle THM Mail"
+      }
+
     },
 /////////////////////////////////////////Spielregeln///////////////////////////////////////////////////////////////////////////////////////
     rules: {

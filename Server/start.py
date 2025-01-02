@@ -12,6 +12,9 @@ from fastAPIServer import FastAPIServer
 from socketServer import SocketServer
 from Tools.language_handler import LanguageHandler
 
+from auth_routes import router as auth_router  # Importiere den Router aus auth_routes
+from fastapi.middleware.cors import CORSMiddleware
+
 
 def create_app():
     """
@@ -35,6 +38,19 @@ def create_app():
     # Define WebSocket endpoints
     app.websocket("/ws")(fast_api_server.websocket_endpoint)  # WebSocket endpoint for FastAPIServer
     app.websocket("/game")(socket_server.websocket_endpoint)  # WebSocket endpoint for SocketServer
+
+    # Authentifizierungsrouten hinzufügen
+    app.include_router(auth_router, prefix="/auth")  # Alle Routen unter /auth verfügbar
+
+    # CORS-Middleware hinzufügen
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],  # Alle Ursprünge zulassen (entwicklungsfreundlich)
+        allow_credentials=True,
+        allow_methods=["*"],  # Alle Methoden (GET, POST, etc.) zulassen
+        allow_headers=["*"],  # Alle Header zulassen
+    )
+
 
     return app
 

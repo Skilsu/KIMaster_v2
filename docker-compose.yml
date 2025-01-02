@@ -6,6 +6,7 @@ services:
     image: swtp-server-img
     container_name: swtp-server
     restart: always
+
     environment:
       - SERVER_HOST=swtp-server
       - SERVER_PORT=8010
@@ -23,6 +24,8 @@ services:
       resources:
         limits:
           cpus: '0'
+    depends_on:
+      - swtp-database
 
   swtp-game-client:
     build:
@@ -71,6 +74,28 @@ services:
     depends_on:
       - swtp-server
 
+  # MySQL-Datenbank-Service
+  swtp-database:
+    image: mysql:8.0
+    container_name: swtp-database
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: -W$7,tM&:uL{)KS_UN.u$a.K#YajG}E-b>8EYM7c-rDxC_eaWu=Be
+      MYSQL_DATABASE: kimaster_db
+      MYSQL_USER: kimaster_dbuser
+      MYSQL_PASSWORD: kimasterpw123
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    networks:
+      - swtp-net
+
 networks:
   swtp-net:
     name: swtp-net
+
+volumes:
+  db_data:
+    driver: local
