@@ -36,6 +36,7 @@
         Play:
         <select v-model="game" >
           <option value='connect4'>Vier Gewinnt</option>
+          <option value='connect4_8'>Vier Gewinnt (8)</option>
           <option value="tictactoe">Tic Tac Toe</option>
           <option value="othello">Othello</option>
           <option value="nim">Nim</option>
@@ -488,6 +489,9 @@ else {this.socket = new WebSocket('ws://localhost:8010/ws');} //Static URL if ad
            this.othelloMove();
            break;
            case "connect4":
+           this.toPos= this.mouseX-1;
+           this.playMakeMove();
+           case "connect4_8":
            this.toPos= this.mouseX-1;
            this.playMakeMove();
            default: 

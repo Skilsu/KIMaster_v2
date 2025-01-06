@@ -77,6 +77,8 @@ export default {
           return 'ChessRules';
         case 'connect4':
           return 'Connect4Rules';
+        case 'connect4_8':
+          return 'Connect4_8Rules';
         case 'tictactoe':
           return 'TicTacToeRules';
         case 'othello':
@@ -131,6 +133,11 @@ export default {
         break;
       case "connect4":
         this.boardWidth = 7;
+        this.boardHeight = 7;
+        this.twoTurnGame = false;
+        break;
+      case "connect4_8":
+        this.boardWidth = 8;
         this.boardHeight = 7;
         this.twoTurnGame = false;
         break;
@@ -346,6 +353,10 @@ export default {
             this.nimMove(this.mouseY - 1);
             break;
           case ENUMS.games.CONNECT4:
+            this.toPos = this.mouseX - 1;
+            this.playMakeMove();
+            break;
+          case ENUMS.games.CONNECT4_8:
             this.toPos = this.mouseX - 1;
             this.playMakeMove();
             break;
