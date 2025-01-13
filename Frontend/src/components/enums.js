@@ -16,6 +16,7 @@ export const popUpStatus = Object.freeze({
 
 export const games= Object.freeze({
     CONNECT4:'connect4',
+    CONNECT4_8:'connect4_8',
     TICTACTOE:'tictactoe',
     OTHELLO:'othello',
     NIM:'nim',

@@ -158,6 +158,7 @@
 import PlayPageLogic from '../UI/PlayPage.js';
 // import ChessRules from '@/components/gameRules/ChessRules.vue';
 import Connect4Rules from '@/components/gameRules/Connect4Rules.vue';
+import Connect4_8Rules from '@/components/gameRules/Connect4_8Rules.vue';
 import TicTacToeRules from '@/components/gameRules/TicTacToeRules.vue';
 import OthelloRules from '@/components/gameRules/OthelloRules.vue';
 import NimRules from '@/components/gameRules/NimRules.vue';
@@ -167,6 +168,7 @@ export default {
   mixins: [PlayPageLogic],
   components: {
     Connect4Rules,
+    Connect4_8Rules,
     TicTacToeRules,
     NimRules,
     OthelloRules,

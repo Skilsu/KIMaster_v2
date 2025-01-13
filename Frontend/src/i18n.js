@@ -20,6 +20,7 @@ const messages = {
       create: "Create",
       chess: "Chess",
       connect4: "Connect 4",
+      connect4_8: "Connect 4_8",
       tictactoe: "Tic Tac Toe",
       othello: "Othello",
       nim: "Nim",
@@ -109,6 +110,34 @@ const messages = {
         setup: {
           title: "Setup",
           point1: "The game board consists of 7 columns and 6 rows.",
+          point2:
+            "Each player chooses a color and receives an unlimited number of discs of that color.",
+        },
+        gameplay: {
+          title: "Gameplay",
+          point1: "Players take turns dropping a disc into one of the columns.",
+          point2:
+            "The disc falls to the lowest available position within the column.",
+          point3:
+            "The game continues until a player gets four of their discs in a row or the board is full.",
+        },
+        endgame: {
+          title: "Endgame",
+          point1:
+            "A player wins by getting four discs in a row (horizontally, vertically, or diagonally).",
+          point2:
+            "The game ends in a draw if the board is full and no player has four discs in a row.",
+        },
+      },
+
+      connect4_8: {
+        game_title: "Connect4_8 Rules",
+        description:
+          "Connect 4 is a two-player game where players take turns dropping their colored disc into a column. The objective is to be the first to get four of your discs in a row, either horizontally, vertically, or diagonally.",
+
+        setup: {
+          title: "Setup",
+          point1: "The game board consists of 8 columns and 6 rows.",
           point2:
             "Each player chooses a color and receives an unlimited number of discs of that color.",
         },
@@ -456,6 +485,7 @@ const messages = {
       create: "erstellen",
       chess: "Schach",
       connect4: "Vier Gewinnt",
+      connect4_8: "Vier Gewinnt (8)",
       tictactoe: "Tic Tac Toe",
       othello: "Othello",
       nim: "Nim",
@@ -538,6 +568,35 @@ const messages = {
     rules: {
       connect4: {
         game_title: "Vier Gewinnt Regeln",
+        description:
+          " Vier Gewinnt ist ein Zwei-Personen-Spiel, bei dem die Spieler abwechselnd einen Stein ihrer Farbe in eine der sieben Spalten des Gitters fallen lassen. Das Ziel ist es, als Erster vier Steine in einer Reihe zu haben, sei es horizontal, vertikal oder diagonal.",
+
+        setup: {
+          title: "Spielvorbereitung",
+          point1: "Das Spielbrett besteht aus 8 Spalten und 6 Reihen",
+          point2:
+            "Jeder Spieler wählt eine Farbe und erhält eine unbegrenzte Anzahl an Steinen in dieser Farbe.",
+        },
+        gameplay: {
+          title: "Spielablauf",
+          point1:
+            "Die Spieler lassen abwechselnd einen Stein in eine der Spalten fallen.",
+          point2:
+            "Der Stein fällt in die tiefste verfügbare Position in der Spalte.",
+          point3:
+            "Das Spiel geht weiter, bis ein Spieler vier seiner Steine in einer Reihe hat oder das Spielfeld voll ist.",
+        },
+        endgame: {
+          title: "Spielende",
+          point1:
+            "Ein Spieler gewinnt, wenn er vier Steine in einer Reihe hat (horizontal, vertikal oder diagonal).",
+          point2:
+            "Das Spiel endet unentschieden, wenn das Spielfeld voll ist und kein Spieler vier Steine in einer Reihe hat.",
+        },
+      },
+
+      connect4_8: {
+        game_title: "Vier Gewinnt (8) Regeln",
         description:
           " Vier Gewinnt ist ein Zwei-Personen-Spiel, bei dem die Spieler abwechselnd einen Stein ihrer Farbe in eine der sieben Spalten des Gitters fallen lassen. Das Ziel ist es, als Erster vier Steine in einer Reihe zu haben, sei es horizontal, vertikal oder diagonal.",
 
@@ -920,6 +979,7 @@ const messages = {
       joinAs: "Adhérer en tant que",
       chess: "Échecs",
       connect4: "Puissance 4",
+      connect4_8: "Puissance 4_8",
       tictactoe: "Morpion",
       othello: "Othello",
       nim: "Nim",
@@ -1004,6 +1064,35 @@ const messages = {
     rules: {
       connect4: {
         game_title: 'Règles du jeu "Quatre gagnants',
+        description:
+          " Quatre gagnants est un jeu pour deux personnes dans lequel les joueurs font tomber à tour de rôle un pion de leur couleur dans l'une des sept colonnes de la grille. Le but est d'être le premier à aligner quatre pions, que ce soit horizontalement, verticalement ou en diagonale.",
+
+        setup: {
+          title: "Préparation du jeu",
+          point1: "Le plateau de jeu se compose de 8 colonnes et 6 rangées",
+          point2:
+            "Chaque joueur choisit une couleur et reçoit un nombre illimité de pions de cette couleur.",
+        },
+
+        gameplay: {
+          title: "Déroulement du jeu",
+          point1: "Les joueurs marquent à tour de rôle une case de la grille.",
+          point2:
+            "La pierre tombe dans la position la plus basse disponible dans la colonne.",
+          point3:
+            "Le jeu se poursuit jusqu'à ce qu'un joueur ait aligné quatre de ses pions ou que le plateau de jeu soit plein.",
+        },
+        endgame: {
+          title: "Fin du jeu",
+          point1:
+            "Un joueur gagne s'il a trois signes dans une rangée (horizontale, verticale ou diagonale).",
+          point2:
+            "Le jeu se termine par un match nul lorsque toutes les cases sont occupées et qu'aucun joueur n'a trois signes dans une rangée.",
+        },
+      },
+
+      connect4_8: {
+        game_title: 'Règles du jeu "Quatre gagnants (8)',
         description:
           " Quatre gagnants est un jeu pour deux personnes dans lequel les joueurs font tomber à tour de rôle un pion de leur couleur dans l'une des sept colonnes de la grille. Le but est d'être le premier à aligner quatre pions, que ce soit horizontalement, verticalement ou en diagonale.",
 
@@ -1261,6 +1350,7 @@ es: {
       create: "crear",
       chess: "Ajedrez",
       connect4: "Conecta 4",
+      connect4_8: "Conecta 4_8",
       tictactoe: "Tres en raya",
       othello: "Othello",
       nim: "Nim",
@@ -1350,6 +1440,36 @@ es: {
         setup: {
           title: "Preparación del juego",
           point1: "El tablero de juego consta de 7 columnas y 6 filas",
+          point2:
+            "Cada jugador elige un color y recibe un número ilimitado de fichas de ese color.",
+        },
+
+        gameplay: {
+          title: "Jugabilidad",
+          point1:
+            "Por turnos, los jugadores dejan caer una piedra en una de las columnas.",
+          point2:
+            "La piedra cae en la posición más baja disponible de la columna.",
+          point3:
+            "El juego continúa hasta que un jugador tiene cuatro de sus piezas en fila o el tablero está lleno.",
+        },
+        endgame: {
+          title: "Fin del juego",
+          point1:
+            "Un jugador gana cuando tiene cuatro fichas en fila (horizontal, vertical o diagonalmente).",
+          point2:
+            "El juego termina en tablas cuando el campo de juego está lleno y ningún jugador tiene cuatro fichas seguidas.",
+        },
+      },
+
+      connect4_8: {
+        game_title: "Reglas de las cuatro victorias",
+        description:
+          "Cuatro victorias es un juego para dos jugadores en el que, por turnos, dejan caer una ficha de su color en una de las siete columnas de la cuadrícula. El objetivo es ser el primero en tener cuatro fichas seguidas, ya sea en horizontal, vertical o diagonal.",
+
+        setup: {
+          title: "Preparación del juego",
+          point1: "El tablero de juego consta de 8 columnas y 6 filas",
           point2:
             "Cada jugador elige un color y recibe un número ilimitado de fichas de ese color.",
         },

@@ -40,6 +40,7 @@ import { mapActions, mapGetters } from "vuex";
 import { useRoute } from "vue-router";
 // Importing rule components for various games
 import Connect4Rules from '@/components/gameRules/Connect4Rules.vue';
+import Connect4_8Rules from '@/components/gameRules/Connect4_8Rules.vue';
 import NimRules from '@/components/gameRules/NimRules.vue';
 import OthelloRules from '@/components/gameRules/OthelloRules.vue';
 import TicTacToeRules from '@/components/gameRules/TicTacToeRules.vue';
@@ -56,6 +57,7 @@ import logo from '@/components/icons/logo.png'; // Import the logo image
 export default {
   components: {
     Connect4Rules,
+    Connect4_8Rules,
     NimRules,
     OthelloRules,
     TicTacToeRules,
@@ -161,6 +163,8 @@ export default {
     showRules() {
       if (this.game === 'connect4') {
         this.currentRuleComponent = 'Connect4Rules';
+      } else if (this.game === 'connect4_8') {
+        this.currentRuleComponent = 'Connect4_8Rules';
       } else if (this.game === 'tictactoe') {
         this.currentRuleComponent = 'TicTacToeRules';
       } else if (this.game === 'nim') {
