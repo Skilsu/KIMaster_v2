@@ -444,7 +444,8 @@ const messages = {
     },
     footer: {
       datenschutz: 'Privacy Policy',
-      impressum: 'Imprint'
+      impressum: 'Imprint',
+      logout: "Logout"
     },
   },
 
@@ -553,7 +554,7 @@ const messages = {
         placeholderPassword: "*********",
         loginBtn: "Anmelden",
         registerBtn: "Registrieren",
-        failed: "Anmeldung leider fehlgeschlagen.<br>Möglich Gründe: <br>- Kombination existiert nicht. <br>- Email existiert bereits <br>- Email ist keine offizielle THM Mail"
+        failed: "Anmeldung leider fehlgeschlagen.<br>Möglich Gründe: <br>- Kombination existiert nicht. <br>- Email existiert bereits. <br>- Keine offizielle THM Mail."
       }
 
     },
@@ -921,7 +922,8 @@ const messages = {
     },
     footer: {
       datenschutz: 'Datenschutz',
-      impressum: 'Impressum'
+      impressum: 'Impressum',
+      logout: "Abmelden"
     },
   },
 ////////////////////////////////////////////////////////////////Französisch///////////////////////////////////////////////////////////////////////////////////
@@ -1261,7 +1263,8 @@ const messages = {
     },
       footer: {
         datenschutz: 'Politique de Confidentialité',
-        impressum: 'Mentions légales'
+        impressum: 'Mentions légales',
+        logout: "Abmelden"
       },
   },
 /////////////////////////////////////////////////////////Spanisch////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1609,7 +1612,8 @@ es: {
     },
     footer: {
       datenschutz: 'Política de Privacidad',
-      impressum: 'Pie de imprenta'
+      impressum: 'Pie de imprenta',
+      logout: "Abmelden"
     },
   },
 };

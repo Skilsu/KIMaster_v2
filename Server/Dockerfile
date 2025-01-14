@@ -1,24 +1,31 @@
 FROM python:3.11.9-slim
 
+# Set the working directory in the container
 WORKDIR /app
-# Add and install all packages
-ADD ./Server/requirements.txt .
-RUN pip install -r requirements.txt
+
+# Add and install Python dependencies
+COPY ./Server/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Set the PYTHONPATH environment variable
 ENV PYTHONPATH=/app
 
-# Set the working directory in the container
-WORKDIR /app/Server
+# Copy all required files into the container
+COPY Server /app/Server
+COPY Tools /app/Tools
+COPY Games /app/Games
 
-# Copy specific files from the Server directory
-ADD Server /app/Server
+# Install cron
+RUN apt-get update && apt-get install -y cron && apt-get clean
 
-# Copy the Tools directory
-ADD Tools /app/Tools
+# Add crontab file to the cron directory
+COPY crontab /etc/cron.d/delete_dsgvo_cron
 
-# Copy the Games directory
-ADD Games /app/Games
+# Set permissions for the crontab file
+RUN chmod 0644 /etc/cron.d/delete_dsgvo_cron && crontab /etc/cron.d/delete_dsgvo_cron
 
-# Run StartServer.py when the container launches
-CMD ["python", "-u", "start.py"]
+# Ensure cron logs are visible
+RUN touch /var/log/cron.log
+
+# Default command for the container (overwritten by docker-compose if needed)
+CMD ["python", "-u", "/app/Server/start.py"]

@@ -1,4 +1,17 @@
 services:
+  cronjob:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my_cronjob
+    restart: always
+    volumes:
+      - ./Server:/app/Server
+    environment:
+      - PYTHONPATH=/app
+    command: >
+      bash -c "cron && tail -f /var/log/cron.log"
+
   swtp-server:
     build:
       context: ./

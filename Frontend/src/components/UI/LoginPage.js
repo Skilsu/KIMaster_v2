@@ -83,12 +83,14 @@ export default {
      * Überprüft, ob der Benutzer bereits eingeloggt ist.
      * Wenn ja, wird er zur Startseite weitergeleitet.
      */
-    checkAlreadyLoggedIn() {
+    checkAlreadyLoggedIn(forward=false) {
       const token = localStorage.getItem("authToken");
-      if (token) {
+      if (token && forward) {
         this.$router.push({ name: "home" });
       }
-    },
+      return token != null;
+    }
+
   },
   created() {
     // Prüft beim Laden der Seite, ob der Benutzer bereits eingeloggt ist
