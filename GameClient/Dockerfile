@@ -12,7 +12,7 @@ ENV LOBBY_KEY=MISSING_LOBBY_KEY
 # This level of redundancy makes it harder to change the Port and Host. 
 # When changing the port Remember to change it everywhere in the entire Project to make sure it is consistent 
 ENV SERVER_HOST=swtp-server
-ENV SERVER_PORT=8010
+ENV SERVER_PORT=8210
 
 # Set the PYTHONPATH environment variable
 ENV PYTHONPATH=/app
