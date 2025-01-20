@@ -6,6 +6,8 @@
     <!-- Router link to the 'about' page -->
     <RouterLink :to="{ name: 'about' }">{{ $t('footer.datenschutz') }}</RouterLink>
 
+    <RouterLink :to="{ name: 'account' }">{{ $t('footer.account') }}</RouterLink>
+
     <!-- External link to the Impressum page -->
     <a href="https://www.thm.de/site/impressum.html">{{ $t('footer.impressum') }}</a>
   </footer>
@@ -33,6 +35,11 @@ footer {
   padding: 10px; /* Padding inside the footer */
   background-color: #f8f9fa; /* Light background color */
   box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+}
+
+.dark-mode footer {
+  background-color: #333333;
+  color: #ffffff;
 }
 
 /* Styles for anchor tags within the footer */

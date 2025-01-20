@@ -15,6 +15,10 @@
   text-align: center;
 }
 
+.dark-mode .SpielerZug {
+  color: #ffffff;
+}
+
 .control-Buttons {
   display: flex;
   justify-content: center;
@@ -67,6 +71,16 @@
     flex: 1 1 100%; /* jeder Button nimmt die volle Breite ein */
     margin: 10px 0; /* Abstand zwischen den Buttons */
   }
+  .base-card.lower-card {
+    margin: 15px;
+    width: auto;
+  }
+  .dialog-content {
+    flex-direction: column;
+  }
+  .dialog-content img {
+    margin-left: 0px !important;
+  }
 }
 
 .centered-container {
@@ -114,4 +128,8 @@
 
 .dialog-content img {
   margin-left: 43px; /* Verschiebt das Spielfeld (Bild) nach rechts */
+}
+
+.Timer {
+  color: #ff5722;
 }

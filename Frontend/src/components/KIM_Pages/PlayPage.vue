@@ -2,6 +2,9 @@
   <!-- Game Controls -->
   <base-card>
     <div class="ButtonUp">
+      <div v-if="this.moveTimer > 0" class="Timer">
+        <p>{{ $t('message.time_remaining') }}: {{ formatTime() }}</p>
+      </div>
       <base-button @click="showRules">{{ $t('message.show_rules') }}</base-button>
       <base-button v-if="!this.gameOver && position !== 'sp'" @click="surrenderGame()">
         {{ $t('message.surrender') }}

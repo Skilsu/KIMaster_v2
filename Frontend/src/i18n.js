@@ -98,6 +98,7 @@ const messages = {
       blunder: "Show Blunders",
       you_won: "You Won!",
       opponent_won: "Opponent Won",
+      time_remaining: "Time Remaining",
     },
 
     rules: {
@@ -231,25 +232,32 @@ const messages = {
 
         capturing: {
           title: "Capturing",
-          description1: "There is a capture obligation. If your own free pieces cannot be clicked during a move, it may be because there is a capture opportunity somewhere on the board. Only one of these pieces can then be selected. Single pieces are only allowed to capture forward. When capturing, the piece must stand directly in front of the opponent's piece and must land directly behind the captured piece. This square must be free.",
-          description2: "If you have a choice between different capture opportunities, you are free to decide. An exception is multiple captures.",
-          description3: "Multiple captures mean: If a piece has captured and there is an opportunity to capture again with the same piece, the player continues their turn until multiple captures are no longer possible.",
+          description1:
+            "There is a capture obligation. If your own free pieces cannot be clicked during a move, it may be because there is a capture opportunity somewhere on the board. Only one of these pieces can then be selected. Single pieces are only allowed to capture forward. When capturing, the piece must stand directly in front of the opponent's piece and must land directly behind the captured piece. This square must be free.",
+          description2:
+            "If you have a choice between different capture opportunities, you are free to decide. An exception is multiple captures.",
+          description3:
+            "Multiple captures mean: If a piece has captured and there is an opportunity to capture again with the same piece, the player continues their turn until multiple captures are no longer possible.",
         },
 
         queening: {
           title: "Queening",
-          description1: "You get a queen when one of your pieces reaches the opponent's back row, either by a normal move or by a capture. The piece is marked with a 'Crown' (in the board game, a second piece is placed on top).",
-          description2: "A queen can move diagonally both forward and backward and can also capture in both directions. Unlike international checkers, the king can only move one square forward or backward.",
+          description1:
+            "You get a queen when one of your pieces reaches the opponent's back row, either by a normal move or by a capture. The piece is marked with a 'Crown' (in the board game, a second piece is placed on top).",
+          description2:
+            "A queen can move diagonally both forward and backward and can also capture in both directions. Unlike international checkers, the king can only move one square forward or backward.",
         },
 
         endgame: {
           title: "End of the Game",
-          description: "You lose if you have no pieces left or if your pieces are blocked and cannot move. You can also concede the game by choosing 'Surrender'.",
+          description:
+            "You lose if you have no pieces left or if your pieces are blocked and cannot move. You can also concede the game by choosing 'Surrender'.",
         },
 
         draw: {
           title: "Draw",
-          description: "Some games end in a draw. This happens when neither player can win unless the other makes a significant mistake. To prevent endless games, there are two ways to declare a draw:",
+          description:
+            "Some games end in a draw. This happens when neither player can win unless the other makes a significant mistake. To prevent endless games, there are two ways to declare a draw:",
           point1: "Both players agree to a draw, or",
           point2: "30 moves have been made without a capture.",
         },
@@ -260,13 +268,16 @@ const messages = {
       instruction_title: "Instructions",
       introduction: {
         title: "Introduction",
-        description1: "This documentation describes the process of using a WebSocket connection in a selected programming language to connect to the URI wss://kimaster.mni.thm.de/ws.",
-        description2: "Additionally, it explains how to log in to the THM internal network and send messages in JSON format and receive feedback from the server.",
+        description1:
+          "This documentation describes the process of using a WebSocket connection in a selected programming language to connect to the URI wss://kimaster.mni.thm.de/ws.",
+        description2:
+          "Additionally, it explains how to log in to the THM internal network and send messages in JSON format and receive feedback from the server.",
         description3: "A sample connection using Python is also provided.",
       },
       requirements: {
         title: "Requirements",
-        network_access: "You must be in the THM internal network. This can be done either via the THM VPN or the Eduroam network.",
+        network_access:
+          "You must be in the THM internal network. This can be done either via the THM VPN or the Eduroam network.",
         websocket_uri_title: "WebSocket URI: ",
         websocket_uri: "wss://kimaster.mni.thm.de/ws",
         browser_url_title: "Browser URL:",
@@ -274,18 +285,21 @@ const messages = {
         message_format_title: "Message format: ",
         message_format: "JSON",
         documentation_title: "Documentation: ",
-        documentation: "Information about the JSON commands can be found in the command.md file."
+        documentation:
+          "Information about the JSON commands can be found in the command.md file.",
       },
       webSocketConnection: {
         title: "WebSocket Connection",
         step1: {
           title: "Step 1: Establish Network Access",
           vpn: "THM VPN:",
-          vpn_description: " Connect to the THM VPN. You can find instructions on how to set it up on the official THM website.",
+          vpn_description:
+            " Connect to the THM VPN. You can find instructions on how to set it up on the official THM website.",
           vpn_link: "THM VPN Guide",
-          eduroam:"Eduroam Network: ",
-          eduroam_description: "Alternatively, you can connect to the Eduroam network, if available.",
-          eduroam_link: "Eduroam Guide"
+          eduroam: "Eduroam Network: ",
+          eduroam_description:
+            "Alternatively, you can connect to the Eduroam network, if available.",
+          eduroam_link: "Eduroam Guide",
         },
         step2: {
           title: "Step 2: Establish WebSocket Connection",
@@ -297,8 +311,10 @@ const messages = {
           },
           connection_with_ProgrammingLanguage: {
             title: "Connection with a Programming Language (Python Example)",
-            install_python:"1. Install Python: Ensure Python is installed on your computer.",
-            install_webSocket:"2. Install WebSocket library: Install the WebSocket library for Python using the following command:",
+            install_python:
+              "1. Install Python: Ensure Python is installed on your computer.",
+            install_webSocket:
+              "2. Install WebSocket library: Install the WebSocket library for Python using the following command:",
             pip_command: "pip install websocket-client",
             connection_code: "Connection code:",
             example_code: `
@@ -406,7 +422,7 @@ const messages = {
                   image = Image.open(image_stream)
                   image.show()
           `,
-          }
+          },
         },
         step3: {
           title: "Step 3: Send JSON Messages",
@@ -420,20 +436,22 @@ const messages = {
             }
           `,
           send_message: "3. Send message:",
-          send_message_description: "Use the WebSocket library of your chosen programming language to send messages.",
+          send_message_description:
+            "Use the WebSocket library of your chosen programming language to send messages.",
         },
         step4: {
           title: "Step 4: Receive Feedback",
           json_feedback: "1. JSON feedback: ",
           feedback: "The server sends feedback in JSON format.",
           bytestream: "2. Receive bytestreams: ",
-          bytestream_receive: "If the feedback is a bytestream representing a PNG, save it accordingly.",
+          bytestream_receive:
+            "If the feedback is a bytestream representing a PNG, save it accordingly.",
         },
       },
     },
     footer: {
-      datenschutz: 'Privacy Policy',
-      impressum: 'Imprint'
+      datenschutz: "Privacy Policy",
+      impressum: "Imprint",
     },
   },
 
@@ -450,7 +468,7 @@ const messages = {
       join_lobby: "Lobby beitreten",
       joinAs: "Beitreten als",
       lobby_join_failed: "Lobbybeitritt fehlgeschlagen!",
-      lobby_swap_failed:"Position besetzt!",
+      lobby_swap_failed: "Position besetzt!",
       game_start_failed: "Falsche Spieleranzahl!",
       createLobby: "Lobby erstellen",
       create: "erstellen",
@@ -467,7 +485,8 @@ const messages = {
       lobby_key_generating: "Lobby-Schlüssel: Wird generiert",
       lobby_key: "Lobby-Schlüssel: {key}",
       your_position: "Ihre Position {position}",
-      lobby_position: "Lobby Positionen: P1= {p1} P2= {p2} Zuschauer {spectators}",
+      lobby_position:
+        "Lobby Positionen: P1= {p1} P2= {p2} Zuschauer {spectators}",
       lobbyPos: "Lobby Pos",
       lobbyStatus: "Lobby Status",
       webSocketConnectionStatus: "WebSocketverbindung Status:",
@@ -533,8 +552,9 @@ const messages = {
       blunder: "Fehler anzeigen",
       you_won: "Du hast gewonnen!",
       opponent_won: "Gegner hat gewonnen",
+      time_remaining: "Resterende Tijd",
     },
-/////////////////////////////////////////Spielregeln///////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////Spielregeln///////////////////////////////////////////////////////////////////////////////////////
     rules: {
       connect4: {
         game_title: "Vier Gewinnt Regeln",
@@ -704,7 +724,7 @@ const messages = {
         },
       },
     },
-///////////////////////////////////////////////////////////////Anleitung/////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////Anleitung/////////////////////////////////////////////////////////////////////////////////////////////////////
     instructions: {
       instruction_title: "Anmeldungsdokumentation",
 
@@ -720,15 +740,18 @@ const messages = {
 
       requirements: {
         title: "Voraussetzungen",
-        network_access:"Sie müssen sich im THM internen Netzwerk befinden. Dies kann entweder über das THM VPN oder das Eduroam Netzwerk erfolgen.",
+        network_access:
+          "Sie müssen sich im THM internen Netzwerk befinden. Dies kann entweder über das THM VPN oder das Eduroam Netzwerk erfolgen.",
         websocket_uri_title: "WebSocket-URI:",
-        websocket_uri:" wss://kimaster.mni.thm.de/ws",
-        browser_url_title:"Browser-URL:",
-        browser_url: " https://kimaster.mni.thm.de (für Verbindungen über den Browser)",
+        websocket_uri: " wss://kimaster.mni.thm.de/ws",
+        browser_url_title: "Browser-URL:",
+        browser_url:
+          " https://kimaster.mni.thm.de (für Verbindungen über den Browser)",
         message_format_title: "Nachrichtenformat: ",
         message_format: "JSON",
         documentation_title: "Dokumentation:",
-        documentation:"Informationen zu den JSON-Kommandos finden Sie in der Datei command.md"
+        documentation:
+          "Informationen zu den JSON-Kommandos finden Sie in der Datei command.md",
       },
 
       webSocketConnection: {
@@ -736,11 +759,13 @@ const messages = {
         step1: {
           title: "Schritt 1: Netzwerkzugang herstellen",
           vpn: "THM VPN:",
-          vpn_description: " Verbinden Sie sich mit dem THM VPN. Anweisungen zur Einrichtung finden Sie auf der offiziellen THM-Website.",
+          vpn_description:
+            " Verbinden Sie sich mit dem THM VPN. Anweisungen zur Einrichtung finden Sie auf der offiziellen THM-Website.",
           vpn_link: "THM VPN Anleitung",
-          eduroam:"Eduroam Netzwerk: ",
-          eduroam_description: "Alternativ können Sie sich mit dem Eduroam Netzwerk verbinden, falls verfügbar.",
-          eduroam_link: "Eduroam Anleitung"
+          eduroam: "Eduroam Netzwerk: ",
+          eduroam_description:
+            "Alternativ können Sie sich mit dem Eduroam Netzwerk verbinden, falls verfügbar.",
+          eduroam_link: "Eduroam Anleitung",
         },
         step2: {
           title: "Schritt 2: WebSocket-Verbindung herstellen",
@@ -748,7 +773,8 @@ const messages = {
             title: " Verbindung über Browser",
             open_browser: "1. Öffnen Sie Ihren Webbrowser.",
             enter_url: "2. Geben Sie die URL https://kimaster.mni.thm.de ein.",
-            internal_network:"3. Stellen Sie sicher, dass Sie sich im THM internen Netzwerk befinden.",
+            internal_network:
+              "3. Stellen Sie sicher, dass Sie sich im THM internen Netzwerk befinden.",
           },
           connection_with_ProgrammingLanguage: {
             title:
@@ -897,11 +923,11 @@ const messages = {
       },
     },
     footer: {
-      datenschutz: 'Datenschutz',
-      impressum: 'Impressum'
+      datenschutz: "Datenschutz",
+      impressum: "Impressum",
     },
   },
-////////////////////////////////////////////////////////////////Französisch///////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////Französisch///////////////////////////////////////////////////////////////////////////////////
   fr: {
     message: {
       home: "Accueil",
@@ -999,8 +1025,9 @@ const messages = {
       blunder: "Montre Erreurs",
       you_won: "Vous avez gagné!",
       opponent_won: "L'adversaire a gagné",
+      time_remaining: "Temps Restant",
     },
-/////////////////////////////////////////////////////////////Spielregeln//////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////Spielregeln//////////////////////////////////////////////////////////////////////////////////////////////
     rules: {
       connect4: {
         game_title: 'Règles du jeu "Quatre gagnants',
@@ -1167,34 +1194,42 @@ const messages = {
       },
     },
 
-//////////////////////////////////////////////////////////////////Anleitung//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////Anleitung//////////////////////////////////////////////////////////////////////////////////////////////////////////////
     instructions: {
       instruction_title: "Documentation d'inscription",
 
       introduction: {
         title: "Introduction",
-        description1: "Cette documentation décrit le processus d'utilisation d'une connexion WebSocket dans un langage de programmation sélectionné afin d'établir une connexion à l'URI wss://kimaster.mni.thm.de/ws. ",
-        description2: "En outre, il décrit comment se connecter au réseau interne THM et envoyer des messages au format JSON et recevoir des retours du serveur.",
-        description3:" Un exemple de connexion avec Python est également présenté.",
+        description1:
+          "Cette documentation décrit le processus d'utilisation d'une connexion WebSocket dans un langage de programmation sélectionné afin d'établir une connexion à l'URI wss://kimaster.mni.thm.de/ws. ",
+        description2:
+          "En outre, il décrit comment se connecter au réseau interne THM et envoyer des messages au format JSON et recevoir des retours du serveur.",
+        description3:
+          " Un exemple de connexion avec Python est également présenté.",
       },
       requirements: {
         title: "Conditions préalables",
-        network_access:"Vous devez vous trouver dans le réseau interne du THM. Cela peut se faire soit via le VPN THM, soit via le réseau Eduroam.",
+        network_access:
+          "Vous devez vous trouver dans le réseau interne du THM. Cela peut se faire soit via le VPN THM, soit via le réseau Eduroam.",
         websocket_uri: "WebSocket-URI: wss://kimaster.mni.thm.de/ws",
-        browser_url: "Browser-URL: https://kimaster.mni.thm.de (pour les connexions via le navigateur)",
+        browser_url:
+          "Browser-URL: https://kimaster.mni.thm.de (pour les connexions via le navigateur)",
         message_format: "Format du message: JSON",
-        documentation: "Documentation : Vous trouverez des informations sur les commandes JSON dans le fichier command.md.",
+        documentation:
+          "Documentation : Vous trouverez des informations sur les commandes JSON dans le fichier command.md.",
       },
       webSocketConnection: {
         title: "Verbindung mit Websocket",
         step1: {
           title: "Étape 1 : Créer un accès réseau",
           vpn: "THM VPN:",
-          vpn_description: " Connectez-vous au VPN THM. Vous trouverez les instructions de configuration sur le site officiel de la THM.",
+          vpn_description:
+            " Connectez-vous au VPN THM. Vous trouverez les instructions de configuration sur le site officiel de la THM.",
           vpn_link: "THM VPN Instructions",
-          eduroam:"Réseau Eduroam: ",
-          eduroam_description: "Alternativement, vous pouvez vous connecter au réseau Eduroam, si disponible.",
-          eduroam_link: "Instructions Eduroam"
+          eduroam: "Réseau Eduroam: ",
+          eduroam_description:
+            "Alternativement, vous pouvez vous connecter au réseau Eduroam, si disponible.",
+          eduroam_link: "Instructions Eduroam",
         },
         step2: {
           title: "Étape 2 : établir une connexion WebSocket",
@@ -1202,13 +1237,16 @@ const messages = {
             title: " Connexion par navigateur",
             open_browser: "1. ouvrez votre navigateur web",
             enter_url: "2. Saisissez l'URL https://kimaster.mni.thm.de.",
-            internal_network: "3. Assurez-vous que vous vous trouvez dans le réseau interne THM.",
+            internal_network:
+              "3. Assurez-vous que vous vous trouvez dans le réseau interne THM.",
           },
 
           connection_with_ProgrammingLanguage: {
             title: "Lien avec un langage de programmation (exemple en Python)",
-            install_python:"1. Installer Python : Assurez-vous que Python est installé sur votre ordinateur.",
-            install_webSocket:"2. installer la bibliothèque WebSocket : Installez la bibliothèque WebSocket pour Python avec la commande suivante :",
+            install_python:
+              "1. Installer Python : Assurez-vous que Python est installé sur votre ordinateur.",
+            install_webSocket:
+              "2. installer la bibliothèque WebSocket : Installez la bibliothèque WebSocket pour Python avec la commande suivante :",
             pip_command: "3. pip install websocket-client",
             connection_code: "Connection code:",
           },
@@ -1216,7 +1254,8 @@ const messages = {
         step3: {
           title: "Étape 3 : Envoyer des messages JSON",
           json_format: "1. Formater un message JSON : ",
-          json_format_descripton:"Tous les messages doivent être envoyés au format JSON.",
+          json_format_descripton:
+            "Tous les messages doivent être envoyés au format JSON.",
           example_message: "2. Exemple de message :",
           example_code: {
             command: "start_game",
@@ -1224,7 +1263,8 @@ const messages = {
           },
 
           send_message: "3. Envoyer un message :",
-          send_message_description: "Utilisez la bibliothèque WebSocket du langage de programmation que vous avez choisi pour envoyer des messages.",
+          send_message_description:
+            "Utilisez la bibliothèque WebSocket du langage de programmation que vous avez choisi pour envoyer des messages.",
         },
 
         step4: {
@@ -1232,18 +1272,19 @@ const messages = {
           json_feedback: " 1.Confirmations JSON:",
           feedback: " Le serveur renvoie des réponses au format JSON.",
           bytestream: "2. Recevoir des bytestreams :",
-          bytestream_receive: "Si le feed-back est un bytestream représentant un PNG, enregistrez-le en conséquence.",
+          bytestream_receive:
+            "Si le feed-back est un bytestream représentant un PNG, enregistrez-le en conséquence.",
         },
       },
     },
-      footer: {
-        datenschutz: 'Politique de Confidentialité',
-        impressum: 'Mentions légales'
-      },
+    footer: {
+      datenschutz: "Politique de Confidentialité",
+      impressum: "Mentions légales",
+    },
   },
-/////////////////////////////////////////////////////////Spanisch////////////////////////////////////////////////////////////////////////////////////////////////////
-  
-es: {
+  /////////////////////////////////////////////////////////Spanisch////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  es: {
     message: {
       home: "Inicio",
       instruction: "Instrucción",
@@ -1339,6 +1380,7 @@ es: {
       blunder: "Muestra Errores",
       you_won: "¡Has ganado!",
       opponent_won: "El oponente ganó",
+      time_remaining: "Tiempo Restante",
     },
 
     rules: {
@@ -1518,32 +1560,40 @@ es: {
       instruction_title: "Instrucciones",
       introduction: {
         title: "Introducción",
-        description1: "Esta documentación describe el proceso de utilización de una conexión WebSocket en un lenguaje de programación seleccionado para conectarse a la URI wss://kimaster.mni.thm.de/ws.",
-        description2: "Además, explica cómo conectarse a la red interna de THM y enviar mensajes en formato JSON y recibir respuesta del servidor.",
-        description3: "También se proporciona un ejemplo de conexión utilizando Python.",
+        description1:
+          "Esta documentación describe el proceso de utilización de una conexión WebSocket en un lenguaje de programación seleccionado para conectarse a la URI wss://kimaster.mni.thm.de/ws.",
+        description2:
+          "Además, explica cómo conectarse a la red interna de THM y enviar mensajes en formato JSON y recibir respuesta del servidor.",
+        description3:
+          "También se proporciona un ejemplo de conexión utilizando Python.",
       },
       requirements: {
         title: "Requisitos",
-        network_access: "Debe estar en la red interna de THM. Puede hacerlo a través de la VPN de THM o de la red Eduroam.",
+        network_access:
+          "Debe estar en la red interna de THM. Puede hacerlo a través de la VPN de THM o de la red Eduroam.",
         websocket_uri_title: "WebSocket URI:",
-        websocket_uri:" wss://kimaster.mni.thm.de/ws",
+        websocket_uri: " wss://kimaster.mni.thm.de/ws",
         browser_url_title: "Browser URL:",
-        browser_url: " https://kimaster.mni.thm.de (para conexiones de navegador)",
+        browser_url:
+          " https://kimaster.mni.thm.de (para conexiones de navegador)",
         message_format_title: "Formato del mensaje: ",
         message_format: "JSON",
         documentation_title: "Documentación:",
-        documentation: " Encontrará información sobre los comandos JSON en el archivo command.md."
+        documentation:
+          " Encontrará información sobre los comandos JSON en el archivo command.md.",
       },
       webSocketConnection: {
         title: "Conexión WebSocket",
         step1: {
           title: "Paso 1: Establecer el acceso a la red",
           vpn: "THM VPN:",
-          vpn_description: " Conéctese a la VPN de THM. Puedes encontrar instrucciones sobre cómo configurarlo en el sitio web oficial de THM.",
+          vpn_description:
+            " Conéctese a la VPN de THM. Puedes encontrar instrucciones sobre cómo configurarlo en el sitio web oficial de THM.",
           vpn_link: "Guía THM VPN",
-          eduroam:"Red Eduroam: ",
-          eduroam_description: "También puede conectarse a la red Eduroam, si está disponible.",
-          eduroam_link: "Guía Eduroam"
+          eduroam: "Red Eduroam: ",
+          eduroam_description:
+            "También puede conectarse a la red Eduroam, si está disponible.",
+          eduroam_link: "Guía Eduroam",
         },
         step2: {
           title: "Paso 2: Establecer conexión WebSocket",
@@ -1551,12 +1601,15 @@ es: {
             title: "Conexión a través del navegador",
             open_browser: "1. Abre tu navegador web.",
             enter_url: "2. Introduzca la URL https://kimaster.mni.thm.de.",
-            internal_network: "3.Asegúrese de que se encuentra en la red interna de THM.",
+            internal_network:
+              "3.Asegúrese de que se encuentra en la red interna de THM.",
           },
           connection_with_ProgrammingLanguage: {
             title: "Enlace con un lenguaje de programación (ejemplo en Python)",
-            install_python:"1. Instalar Python : Asegúrese de que Python está instalado en su ordenador.",
-            install_webSocket:"2. Instalar la librería WebSocket : Instale la librería WebSocket para Python con el siguiente comando :",
+            install_python:
+              "1. Instalar Python : Asegúrese de que Python está instalado en su ordenador.",
+            install_webSocket:
+              "2. Instalar la librería WebSocket : Instale la librería WebSocket para Python con el siguiente comando :",
             pip_command: "3. pip install websocket-client",
             connection_code: "Código de conexión:",
           },
@@ -1564,7 +1617,8 @@ es: {
         step3: {
           title: "Paso 3: Envío de mensajes JSON",
           json_format: "1. Formatear un mensaje JSON : ",
-          json_format_descripton:"Todos los mensajes deben enviarse en formato JSON.",
+          json_format_descripton:
+            "Todos los mensajes deben enviarse en formato JSON.",
           example_message: "2. Ejemplo de mensaje :",
           example_code: {
             command: "start_game",
@@ -1572,7 +1626,8 @@ es: {
           },
 
           send_message: "3. Enviar un mensaje :",
-          send_message_description: "Utiliza la biblioteca WebSocket del lenguaje de programación que elijas para enviar mensajes.",
+          send_message_description:
+            "Utiliza la biblioteca WebSocket del lenguaje de programación que elijas para enviar mensajes.",
         },
 
         step4: {
@@ -1580,13 +1635,14 @@ es: {
           json_feedback: " 1.Confirmaciones JSON:",
           feedback: " El servidor devuelve las respuestas en formato JSON.",
           bytestream: "2. Recibir bytestreams :",
-          bytestream_receive: "Si la respuesta es un flujo de bytes que representa un PNG, guárdelo en consecuencia.",
+          bytestream_receive:
+            "Si la respuesta es un flujo de bytes que representa un PNG, guárdelo en consecuencia.",
         },
       },
     },
     footer: {
-      datenschutz: 'Política de Privacidad',
-      impressum: 'Pie de imprenta'
+      datenschutz: "Política de Privacidad",
+      impressum: "Pie de imprenta",
     },
   },
 };

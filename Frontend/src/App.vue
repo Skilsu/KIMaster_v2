@@ -1,52 +1,249 @@
 <template>
-  <header>
-    <nav-bar></nav-bar>
-  </header>
-  <main>
-    <RouterView v-if="connectionLost===false"/>
-    <div v-else>
-      <teleport to="body"><base-dialog  :title="'Connection Lost'">
-        <template #default>
-          {{$t('message.connection_not_possible')}}:
-        </template>
-        <template #actions>
-          <base-button @click="connectWebSocket">Try Reconnecting</base-button>
-        </template></base-dialog> </teleport></div>
-    <dragable-image v-if="gameActive && !isPlayPage"></dragable-image>
-  </main>
+  <div :class="selectedBackground" :style="dynamicStyles">
+    <header>
+      <nav-bar  @change-bg="changeBackground"></nav-bar>
+    </header>
+    <main :class="selectedBackground">
+      <RouterView v-if="connectionLost===false"/>
+      <div v-else>
+        <teleport to="body"><base-dialog  :title="'Connection Lost'">
+          <template #default>
+            {{$t('message.connection_not_possible')}}:
+          </template>
+          <template #actions>
+            <base-button @click="connectWebSocket">Try Reconnecting</base-button>
+          </template></base-dialog> </teleport></div>
+      <dragable-image v-if="gameActive && !isPlayPage"></dragable-image>
+    </main>
+  </div>
 </template>
-
 <script>
 import { useRouter } from 'vue-router';
 import { mapGetters } from "vuex";
+import NavBar from "@/components/layout/NavBar.vue";
 
 export default {
+  components: {
+    NavBar,
+  },
+  data() {
+    return {
+      selectedBackground: "background-gray", // Standardhintergrund
+      colorSchemes: {
+        'background-dark': {
+          primary: '#000000',
+          secondary: '#a0a0a0',
+          accent: '#808080',
+          text: '#000000',
+          link: '#404040',
+          hover: '#666666',
+          border: '#b3b3b3',
+          shadow: 'rgba(0, 0, 0, 0.1)'
+        },
+        'background-gray': {
+          primary: '#cccccc',
+          secondary: '#a0a0a0',
+          accent: '#808080',
+          text: '#000000',
+          link: '#404040',
+          hover: '#666666',
+          border: '#b3b3b3',
+          shadow: 'rgba(0, 0, 0, 0.1)'
+        },
+        'background-yellow': {
+          primary: '#ffeb3b',
+          secondary: '#fdd835',
+          accent: '#fbc02d',
+          text: '#000000',
+          link: '#f57f17',
+          hover: '#f9a825',
+          border: '#ffd600',
+          shadow: 'rgba(251, 192, 45, 0.1)'
+        },
+        'background-red': {
+          primary: '#f44336',
+          secondary: '#e53935',
+          accent: '#d32f2f',
+          text: '#000000',
+          link: '#ffcdd2',
+          hover: '#ef5350',
+          border: '#ef9a9a',
+          shadow: 'rgba(244, 67, 54, 0.1)'
+        },
+        'background-green': {
+          primary: '#4caf50',
+          secondary: '#43a047',
+          accent: '#388e3c',
+          text: '#000000',
+          link: '#c8e6c9',
+          hover: '#66bb6a',
+          border: '#a5d6a7',
+          shadow: 'rgba(76, 175, 80, 0.1)'
+        },
+        'background-blue': {
+          primary: '#2196f3',
+          secondary: '#1e88e5',
+          accent: '#1976d2',
+          text: '#000000',
+          link: '#bbdefb',
+          hover: '#42a5f5',
+          border: '#90caf9',
+          shadow: 'rgba(33, 150, 243, 0.1)'
+        }
+      }
+    };
+  },
   computed: {
-    ...mapGetters(["gameActive",'connectionLost']),
+    ...mapGetters(["gameActive", "connectionLost", "isDarkMode"]),
     isPlayPage() {
       return this.$route.name === "play";
+    },
 
+    currentColorScheme() {
+      return this.colorSchemes[this.selectedBackground];
+    },
+
+    dynamicStyles() {
+      const colors = this.currentColorScheme;
+      return {
+        '--primary-color': colors.primary,
+        '--secondary-color': colors.secondary,
+        '--accent-color': colors.accent,
+        '--text-color': colors.text,
+        '--link-color': colors.link,
+        '--hover-color': colors.hover,
+        '--border-color': colors.border,
+        '--shadow-color': colors.shadow,
+        
+        // Apply CSS variables to common elements
+        color: 'var(--text-color)',
+        backgroundColor: 'var(--primary-color)',
+        '--button-bg': 'var(--secondary-color)',
+        '--button-text': 'var(--text-color)',
+        '--button-hover': 'var(--hover-color)',
+        '--input-border': 'var(--border-color)',
+        '--card-shadow': '0 2px 4px var(--shadow-color)',
+        '--link-text': 'var(--link-color)',
+        '--border': '1px solid var(--border-color)'
+      };
     }
   },
   methods: {
-    connectWebSocket(){
-      this.$router.push({
-      name: "home"
-    });
+    changeBackground(backgroundClass) {
+      this.selectedBackground = backgroundClass;
+    },
+    connectWebSocket() {
       this.$store.dispatch("initWebSocket");
     },
-    showRules() {
-      this.$root.$emit('show-rules');
-    }
   },
-  created() {
-    this.$store.dispatch("initWebSocket"); /*Start the WebSocket Connection on start */
+  mounted() {
+    // Initialisiere WebSocket und Spracheinstellungen
+    this.$store.dispatch("initWebSocket");
     const savedLanguage = localStorage.getItem("locale");
     if (savedLanguage) {
       this.$i18n.locale = savedLanguage;
+    }
+
+    const savedBackground = localStorage.getItem('selectedBackground');
+    if (savedBackground) {
+      this.selectedBackground = savedBackground;
     }
   },
 };
 </script>
 
-<style scoped></style>
+
+<style>
+
+:root {
+  --primary-color: #cccccc;
+  --secondary-color: #a0a0a0;
+  --accent-color: #808080;
+  --text-color: #000000;
+  --link-color: #404040;
+  --hover-color: #666666;
+  --border-color: #b3b3b3;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+.background-gray,
+.background-dark,
+.background-yellow,
+.background-red,
+.background-green,
+.background-blue {
+  transition: all 0.3s ease;
+}
+
+/*header {
+  top: 0;
+  background-color: var(--primary-color);
+  border-bottom: var(--border);
+}*/
+
+
+.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+  .background-gray {
+  background-color: #cccccc;
+  color: #000000;
+}
+
+.background-dark {
+  background-color:#000000;
+}
+
+.background-yellow {
+  background-color: #ffeb3b;
+  color: #000000;
+}
+
+.background-red {
+  background-color: #f44336;
+  color: #ffffff;
+}
+
+.background-green {
+  background-color: #4caf50;
+  color: #ffffff;
+}
+
+.background-blue {
+  background-color: #2196f3;
+  color: #ffffff;
+}
+
+/* Dark Mode */
+.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.dark-mode .background-gray {
+  background-color: #3c3c3c;
+  color: #e0e0e0;
+}
+
+.dark-mode .background-yellow {
+  background-color: #8b8000;
+  color: #e0e0e0;
+}
+
+.dark-mode .background-red {
+  background-color: #8b0000;
+  color: #e0e0e0;
+}
+
+.dark-mode .background-green {
+  background-color: #006400;
+  color: #e0e0e0;
+}
+
+.dark-mode .background-blue {
+  background-color: #00008b;
+  color: #e0e0e0;
+}
+  
+}
+</style>

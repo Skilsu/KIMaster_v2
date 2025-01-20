@@ -23,6 +23,7 @@ ADD ./Frontend .
 # Run the build process for the frontend project.
 RUN npm run build
 
+
 # Set the default command to be executed when the container starts.
 # In this case, it starts the http-server and serves the "dist" directory.
 CMD [ "http-server", "dist" ]
