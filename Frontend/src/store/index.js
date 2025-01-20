@@ -37,6 +37,7 @@ const getDefaultState = () => {
         blunder: [],
         yourTurn: false,
         playSound: false,
+        evaluatedTurn: 0,
     };
 };
 
@@ -71,6 +72,7 @@ export default createStore({
         skipMove: false,
         yourTurn: false,
         playSound: false,
+        evaluatedTurn: 0,
     },
     mutations: {
         /**
@@ -369,14 +371,14 @@ export default createStore({
             const currentUrl = window.location.href;
             let socket;
 
-            if (currentUrl.startsWith('http://') && currentUrl.includes(':8086')) {
-                let modifiedUrl = currentUrl.replace('http://', 'ws://').replace(':8086', ':8010/ws');
+            if (currentUrl.startsWith('http://') && currentUrl.includes(':8286')) {
+                let modifiedUrl = currentUrl.replace('http://', 'ws://').replace(':8286', ':8010/ws');
                 if (modifiedUrl.endsWith('/')) {
                     modifiedUrl = modifiedUrl.slice(0, -1);
                 }
                 socket = new WebSocket(modifiedUrl); // When deployed on Local System
             } else {
-                socket = new WebSocket('wss://kimaster.mni.thm.de/ws'); // Change to 'ws://localhost:8010/ws' when Locally deployed outside of the Docker File
+                socket = new WebSocket('wss://kimaster.mni.thm.de:2443/ws'); // Change to 'ws://localhost:8010/ws' when Locally deployed outside of the Docker File
             }
 
             socket.onopen = () => {

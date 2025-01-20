@@ -84,7 +84,7 @@ class Example(KIMaster):
 
 if __name__ == "__main__":
     # List of URIs to connect to
-    uri = ["wss:/kimaster.mni.thm.de/ws", "ws://localhost:8010/ws"]
+    uri = ["wss:/kimaster.mni.thm.de:2443/ws", "ws://localhost:8010/ws"]
     # Create an instance of the Example class with the URI list
     master = Example(uri_list=uri)
     # Run the main method

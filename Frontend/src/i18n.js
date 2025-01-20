@@ -98,6 +98,7 @@ const messages = {
       blunder: "Show Blunders",
       you_won: "You Won!",
       opponent_won: "Opponent Won",
+      turn_evaluation: "Evaluation of your turn: {turn}",
     },
 
     rules: {
@@ -533,6 +534,7 @@ const messages = {
       blunder: "Fehler anzeigen",
       you_won: "Du hast gewonnen!",
       opponent_won: "Gegner hat gewonnen",
+      turn_evaluation: "Auswertung deines Zuges: {turn}",
     },
 /////////////////////////////////////////Spielregeln///////////////////////////////////////////////////////////////////////////////////////
     rules: {
@@ -999,6 +1001,7 @@ const messages = {
       blunder: "Montre Erreurs",
       you_won: "Vous avez gagné!",
       opponent_won: "L'adversaire a gagné",
+      turn_evaluation: "Evaluation of your turn: {turn}",
     },
 /////////////////////////////////////////////////////////////Spielregeln//////////////////////////////////////////////////////////////////////////////////////////////
     rules: {
@@ -1339,6 +1342,7 @@ es: {
       blunder: "Muestra Errores",
       you_won: "¡Has ganado!",
       opponent_won: "El oponente ganó",
+      turn_evaluation: "Evaluation of your turn: {turn}",
     },
 
     rules: {

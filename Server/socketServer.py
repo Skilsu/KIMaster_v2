@@ -131,7 +131,31 @@ class SocketServer(AbstractConnectionManager):
         move = game.translate(board, cur_player, action_index)
         await self.send_cmd(lobby.game_client, "play", "make_move",
                             {"move": str(move), "p_pos": self.player_to_pos(cur_player)})
-        
+
+    async def evaluate_move(self, game: IGame, board: np.array, cur_player, mcts, move):
+        """
+        Evaluates the MCTS probability for a specific move.
+
+        Parameters:
+            game (IGame): Game logic instance.
+            board (np.array): Current state of the game board.
+            cur_player: The player taking the action.
+            mcts: Monte Carlo Tree Search instance.
+            move: The move to evaluate (game-specific format).
+
+        Returns:
+            float: Probability (as a percentage) of the given move according to MCTS.
+        """
+        # Get the action probabilities for all moves
+        action_probs = mcts.get_action_prob(board, cur_player, temp=1.0)  # Use temp=1.0 for probabilities.
+        # Translate the move into the action index
+        action_index = game.translate_to_action_index(board, cur_player, move)
+        # Get the probability for the specific action index
+        move_probability = action_probs[action_index]
+        # Convert to percentage
+        move_percentage = move_probability * 100
+        return move_percentage
+
     async def draw(self, read_object: dict, game: IGame, lobby: Lobby, p_pos: str):
         array: np.array = np.array(read_object.get("board"))
         valid: bool = bool(read_object.get("valid"))
