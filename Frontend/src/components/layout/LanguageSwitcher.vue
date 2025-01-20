@@ -5,6 +5,7 @@
     <option value="de">Deutsch</option>
     <option value="fr">Français</option>
     <option value="es">Español</option>
+    <option value="ar">Arabic</option>
   </select>
 </template>
 
@@ -31,21 +32,21 @@ export default {
     changeLanguage(event) {
       const language = event.target.value;
       this.$i18n.locale = language;
-      localStorage.setItem('locale', language);
+      localStorage.setItem("locale", language);
       this.currentLanguage = language;
-    }
+    },
   },
   created() {
     /**
      * Sets the initial language based on the saved locale in localStorage.
      * This lifecycle hook is called after the instance is created.
      */
-    const savedLanguage = localStorage.getItem('locale');
+    const savedLanguage = localStorage.getItem("locale");
     if (savedLanguage) {
       this.$i18n.locale = savedLanguage;
       this.currentLanguage = savedLanguage;
     }
-  }
+  },
 };
 </script>
 

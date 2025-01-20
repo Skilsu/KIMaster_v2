@@ -32,7 +32,10 @@ class OthelloGame(IGame):
     def getNextState(self, board, player, action):
         """if player takes action on board, return next (board,player)
            action must be a valid move"""
-        if action == self.n * self.n:
+        b = Board(self.n, np.copy(board))
+        legalMoves = b.get_legal_moves(player)
+        legalMoves1 = b.get_legal_moves(-player)
+        if len(legalMoves) == 0:
             return (board, -player)
         b = Board(self.n, np.copy(board))
         move = (int(action / self.n), action % self.n)
@@ -44,6 +47,7 @@ class OthelloGame(IGame):
         valids = [0] * self.getActionSize()
         b = Board(self.n, np.copy(board))
         legalMoves = b.get_legal_moves(player)
+        legalMoves1 = b.get_legal_moves(-player)
         if len(legalMoves) == 0:
             valids[-1] = 1
             return np.array(valids)
@@ -89,7 +93,8 @@ class OthelloGame(IGame):
         return board.tostring()
 
     def stringRepresentationReadable(self, board):
-        board_s = "".join(self.square_content[square] for row in board for square in row)
+        board_s = "".join(self.square_content[square]
+                          for row in board for square in row)
         return board_s
 
     def getScore(self, board, player):
@@ -138,26 +143,32 @@ class OthelloGame(IGame):
 
         for row in range(len(board)):
             for col in range(len(board[row])):
-                center = (col * SQUARESIZE + SQUARESIZE // 2, row * SQUARESIZE + SQUARESIZE // 2)
+                center = (col * SQUARESIZE + SQUARESIZE // 2,
+                          row * SQUARESIZE + SQUARESIZE // 2)
                 radius = SQUARESIZE // 3
 
                 pygame.draw.rect(surface, color_grid,
-                                 (col * SQUARESIZE, row * SQUARESIZE, SQUARESIZE, SQUARESIZE),
+                                 (col * SQUARESIZE, row * SQUARESIZE,
+                                  SQUARESIZE, SQUARESIZE),
                                  1)  # show grid
                 valids = self.getValidMoves(board, cur_player)
                 if valid_moves and valids[(row * len(board[row])) + col]:
                     pygame.draw.circle(surface, color_valid,
-                                       (col * SQUARESIZE + SQUARESIZE // 2, row * SQUARESIZE + SQUARESIZE // 2),
+                                       (col * SQUARESIZE + SQUARESIZE // 2,
+                                        row * SQUARESIZE + SQUARESIZE // 2),
                                        SQUARESIZE // 3)  # displaying valid moves
                 if board[row][col] == 1:
                     pygame.draw.circle(surface, color_ply_one,
-                                       (col * SQUARESIZE + SQUARESIZE // 2, row * SQUARESIZE + SQUARESIZE // 2),
+                                       (col * SQUARESIZE + SQUARESIZE // 2,
+                                        row * SQUARESIZE + SQUARESIZE // 2),
                                        SQUARESIZE // 3)
                 elif board[row][col] == -1:
                     pygame.draw.circle(surface, color_ply_minus_one,
-                                       (col * SQUARESIZE + SQUARESIZE // 2, row * SQUARESIZE + SQUARESIZE // 2),
+                                       (col * SQUARESIZE + SQUARESIZE // 2,
+                                        row * SQUARESIZE + SQUARESIZE // 2),
                                        SQUARESIZE // 3)
                     pygame.draw.arc(surface, (0, 0, 0),
-                                    pygame.Rect(center[0] - radius, center[1] - radius, 2 * radius, 2 * radius),
+                                    pygame.Rect(
+                                        center[0] - radius, center[1] - radius, 2 * radius, 2 * radius),
                                     0, np.pi * 2, 1)
         return surface

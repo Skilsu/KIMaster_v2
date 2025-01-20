@@ -35,6 +35,11 @@ footer {
   box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
 }
 
+.dark-mode footer {
+  background-color: #333333;
+  color: #ffffff;
+}
+
 /* Styles for anchor tags within the footer */
 footer a {
   color: green; /* Text color for links */

@@ -1,20 +1,21 @@
 <template>
-  <div
-    :style="{ left: position.x + 'px', top: position.y + 'px', position: 'absolute' }"
-    class="draggable"
-    @mousedown="startDrag"
-    @dblclick="handleClick"
-  >
-    <div class="blackbox">
-      <img
-        class="imageRef"
-        ref="imageRef"
-        v-if="imageSrc"
-        :src="imageSrc"
-        alt="Received Image"
-      />
-    </div>
+ <div
+  :style="{ left: position.x + 'px', top: position.y + 'px', position: 'absolute' }"
+  class="draggable"
+  @mousedown="startDrag"
+  @touchstart="startDrag"
+  @dblclick="handleClick"
+>
+  <div class="blackbox">
+    <img
+      class="imageRef"
+      ref="imageRef"
+      v-if="imageSrc"
+      :src="imageSrc"
+      alt="Received Image"
+    />
   </div>
+</div>
 </template>
 
 <script>
@@ -53,47 +54,58 @@ export default {
     enums() { return ENUMS; }
   },
   methods: {
+  /**
+   * Starts the drag operation, calculates the offset, and adds event listeners for movement and release.
+   * Works for both mouse and touch events.
+   * @param {MouseEvent|TouchEvent} event 
+   */
+  startDrag(event) {
+    this.dragging = true;
+    const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+    const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+    this.offset.x = clientX - this.position.x;
+    this.offset.y = clientY - this.position.y;
 
-    /**
-     * Starts the drag operation, calculates the offset, and adds event listeners for mouse movement and release.
-     * @param event 
-     */
-    
-    startDrag(event) {
-      this.dragging = true;
-      this.offset.x = event.clientX - this.position.x;
-      this.offset.y = event.clientY - this.position.y;
+    if (event.type === 'mousedown') {
       document.addEventListener('mousemove', this.onDrag);
       document.addEventListener('mouseup', this.stopDrag);
-    },
-    /**
-     * Updates the position of the image based on mouse movement while dragging.
-     * @param event 
-     */
-    onDrag(event) {
-      if (this.dragging) {
-        this.position.x = event.clientX - this.offset.x;
-        this.position.y = event.clientY - this.offset.y;
-      }
-    },
-    /**
-     * Stops the drag operation and removes event listeners.
-     * @param void 
-     */
-    stopDrag() {
-      this.dragging = false;
-      document.removeEventListener('mousemove', this.onDrag);
-      document.removeEventListener('mouseup', this.stopDrag);
-    },
-    /**
-     * Navigates to the 'play' route when the image is double-clicked.
-     *@param void 
-     */
-    handleClick() {
-      this.$router.push({ name: 'play', params: { game: this.game }});
-      
-    },
+    } else {
+      document.addEventListener('touchmove', this.onDrag, { passive: false }); // Prevent default touch behavior
+      document.addEventListener('touchend', this.stopDrag);
+    }
   },
+  /**
+   * Updates the position of the image based on movement while dragging.
+   * Prevents the page from scrolling during the drag.
+   * Works for both mouse and touch events.
+   * @param {MouseEvent|TouchEvent} event 
+   */
+  onDrag(event) {
+    if (this.dragging) {
+      event.preventDefault(); // Prevent scrolling
+      const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+      const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+      this.position.x = clientX - this.offset.x;
+      this.position.y = clientY - this.offset.y;
+    }
+  },
+  /**
+   * Stops the drag operation and removes event listeners.
+   */
+  stopDrag() {
+    this.dragging = false;
+    document.removeEventListener('mousemove', this.onDrag);
+    document.removeEventListener('mouseup', this.stopDrag);
+    document.removeEventListener('touchmove', this.onDrag);
+    document.removeEventListener('touchend', this.stopDrag);
+  },
+  /**
+   * Navigates to the 'play' route when the image is double-clicked.
+   */
+  handleClick() {
+    this.$router.push({ name: 'play', params: { game: this.game }});
+  },
+}
 };
 </script>
 

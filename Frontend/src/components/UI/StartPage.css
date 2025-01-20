@@ -50,7 +50,9 @@ input[type="text"] {
 
 .message-box {
   position: absolute;
-  top: calc(100% + 8px); /* Adjusts the top position to place it directly under the input field */
+  top: calc(
+    100% + 8px
+  ); /* Adjusts the top position to place it directly under the input field */
   left: 0;
   background-color: #f8d7da;
   color: #721c24;
@@ -64,29 +66,123 @@ input[type="text"] {
   z-index: 1000;
 }
 
-.FooterStart{
+.FooterStart {
   position: fixed;
 }
 
-
 @media (max-width: 768px) {
   .game-selection-container {
-      flex-direction: column;
+    flex-direction: column;
+  }
+
+  .game-selection-container a {
+    width: 100%;
   }
 
   .LobbySection {
-      flex-direction: column;
+    flex-direction: column;
   }
 
   .welcome-container h1 {
-      font-size: 3rem; /* Kleinere Schriftgröße für Überschrift */
+    font-size: 3rem; /* Kleinere Schriftgröße für Überschrift */
   }
 
   .subtitle {
-      font-size: 1.2rem; /* Kleinere Schriftgröße für Untertitel */
+    font-size: 1.2rem; /* Kleinere Schriftgröße für Untertitel */
   }
 
   .base-card.LobbySection {
     margin-bottom: 10%;
+  }
+}
+
+.dark-mode #hauptteil {
+  background-color: #333333;
+  color: #e0e0e0;
+}
+
+.dark-mode .content-container {
+  background-color: #333333;
+  color: #e0e0e0;
+}
+
+.dark-mode .welcome-container h1 {
+  color: #ffffff;
+}
+
+.dark-mode .subtitle {
+  color: #b0b0b0;
+}
+
+.dark-mode .game-selection-container {
+  background-color: transparent;
+}
+
+.dark-mode .base-card.LobbySection {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark-mode input[type="text"] {
+  border: 2px solid #444;
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .message-box {
+  background-color: #2c2c2c;
+  color: #ff5252;
+  border: 1px solid #ff8888;
+}
+
+.dark-mode .FooterStart {
+  background-color: #333333;
+  color: #e0e0e0;
+}
+
+.game-timer {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff0000;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.music-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.music-toggle button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.music-toggle button:hover {
+  background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+  .dark-mode .LobbySection {
+    background-color: #1e1e1e;
+  }
+
+  .dark-mode .welcome-container h1 {
+    color: #ffffff;
+  }
+
+  .dark-mode .subtitle {
+    color: #b0b0b0;
+  }
+
+  .dark-mode .base-card.LobbySection {
+    background-color: #2c2c2c;
   }
 }

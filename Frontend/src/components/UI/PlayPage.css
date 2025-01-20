@@ -15,6 +15,10 @@
   text-align: center;
 }
 
+.dark-mode .SpielerZug {
+  color: #ffffff;
+}
+
 .control-Buttons {
   display: flex;
   justify-content: center;
@@ -67,6 +71,16 @@
     flex: 1 1 100%; /* jeder Button nimmt die volle Breite ein */
     margin: 10px 0; /* Abstand zwischen den Buttons */
   }
+  .base-card.lower-card {
+    margin: 15px;
+    width: auto;
+  }
+  .dialog-content {
+    flex-direction: column;
+  }
+  .dialog-content img {
+    margin-left: 0px !important;
+  }
 }
 
 .centered-container {
@@ -114,4 +128,80 @@
 
 .dialog-content img {
   margin-left: 43px; /* Verschiebt das Spielfeld (Bild) nach rechts */
+}
+
+.Timer {
+  color: #ff5722;
+}
+
+.game-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 2rem;
+  animation: fade-in 0.5s ease-in-out;
+}
+
+.win-animation {
+  color: gold;
+  animation: scale-up 1s infinite alternate;
+}
+
+.lose-animation {
+  color: red;
+  animation: shake 1s infinite alternate;
+}
+
+.draw-animation {
+  color: gray;
+  animation: pulse 1s infinite alternate;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-up {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(-5px);
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
 }

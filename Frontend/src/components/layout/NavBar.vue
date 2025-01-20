@@ -3,21 +3,31 @@
   <nav class="navbar-expand-lg bg-body-tertiary nav-bar">
     <div class="container-fluid">
       <!-- Link to home page with logo -->
-      <router-link class="navbar-brand" @click="leaveLobby()" :to="{ name: 'home' }">
+      <router-link
+        class="navbar-brand"
+        @click="leaveLobby()"
+        :to="{ name: 'home' }"
+      >
         <img :src="logo" alt="KI Master Logo" class="logo" />
       </router-link>
       <div class="navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <!-- Conditional link for instructions page, shown only on starting page -->
           <li class="nav-item" v-if="isStartingPage">
-            <router-link class="nav-link" :to="{ name: 'instruction' }">{{ $t('message.instruction') }}</router-link>
+            <router-link class="nav-link" :to="{ name: 'instruction' }">{{
+              $t("message.instruction")
+            }}</router-link>
           </li>
         </ul>
       </div>
       <!-- Controls for theme switcher and language selection -->
       <div class="top-right-controls">
         <label class="switch">
-          <input type="checkbox" v-model="isDarkMode" @change="toggleDarkMode">
+          <input
+            type="checkbox"
+            v-model="isDarkMode"
+            @change="toggleDarkMode"
+          />
           <span class="slider round"></span>
         </label>
         <language-switcher class="me-2"></language-switcher>
@@ -25,10 +35,16 @@
     </div>
     <!-- Rules Dialog Component -->
     <teleport to="body">
-      <base-dialog :title="$t('rules.game_title')" v-if="isRulesVisible" @close="closeRules">
+      <base-dialog
+        :title="$t('rules.game_title')"
+        v-if="isRulesVisible"
+        @close="closeRules"
+      >
         <component :is="currentRuleComponent" />
         <template #actions>
-          <base-button @click="closeRules">{{ $t('message.okay') }}</base-button>
+          <base-button @click="closeRules">{{
+            $t("message.okay")
+          }}</base-button>
         </template>
       </base-dialog>
     </teleport>
@@ -39,14 +55,14 @@
 import { mapActions, mapGetters } from "vuex";
 import { useRoute } from "vue-router";
 // Importing rule components for various games
-import Connect4Rules from '@/components/gameRules/Connect4Rules.vue';
-import NimRules from '@/components/gameRules/NimRules.vue';
-import OthelloRules from '@/components/gameRules/OthelloRules.vue';
-import TicTacToeRules from '@/components/gameRules/TicTacToeRules.vue';
-import PlayPageLogic from '../UI/PlayPage.js';
-import BaseDialog from '@/components/UI/BaseDialog.vue';
-import LanguageSwitcher from './LanguageSwitcher.vue';
-import logo from '@/components/icons/logo.png'; // Import the logo image
+import Connect4Rules from "@/components/gameRules/Connect4Rules.vue";
+import NimRules from "@/components/gameRules/NimRules.vue";
+import OthelloRules from "@/components/gameRules/OthelloRules.vue";
+import TicTacToeRules from "@/components/gameRules/TicTacToeRules.vue";
+import PlayPageLogic from "../UI/PlayPage.js";
+import BaseDialog from "@/components/UI/BaseDialog.vue";
+import LanguageSwitcher from "./LanguageSwitcher.vue";
+import logo from "@/components/icons/logo.png"; // Import the logo image
 
 /**
  * NavBar component that includes a Home Button and language selection Options
@@ -65,7 +81,7 @@ export default {
   mixins: [PlayPageLogic],
   data() {
     return {
-      /** 
+      /**
        * Current language of the application */
       currentLanguage: this.$i18n.locale,
       /** Whether the rules dialog is visible */
@@ -83,35 +99,36 @@ export default {
      * @method
      */
     isStartingPage() {
-      return this.$route.name === 'home';
+      return this.$route.name === "home";
     },
     /**
      * Checks if the current route is the play page.
      * @returns {boolean} - True if on the play page, otherwise false.
      */
     isPlayPage() {
-      return this.$route.name === 'play';
+      return this.$route.name === "play";
     },
     /**
      * Checks if the current route is the lobby page.
      * @returns {boolean} - True if on the lobby page, otherwise false.
      */
     isLobbyPage() {
-      return this.$route.name === 'lobby';
+      return this.$route.name === "lobby";
     },
     /**
      * Vuex getter for game active state.
      * @type {boolean}
      */
-    ...mapGetters(['gameActive']),
+    ...mapGetters(["gameActive"]),
+    ...mapGetters(["isDarkMode"]),
   },
   methods: {
     /**
      * Maps Vuex actions to the component.
-     * @type {Function} 
+     * @type {Function}
      */
     ...mapActions(["sendWebSocketMessage"]),
-    
+
     /**
      * Sends a WebSocket message.
      * @param {Object} data - Data to be sent in the message.
@@ -120,17 +137,19 @@ export default {
       console.log(data);
       this.sendWebSocketMessage(JSON.stringify(data));
     },
-    
+
     /**
      * Handles leaving the lobby based on the current route and game state.
      */
     leaveLobby() {
-      if (this.$route.name === 'lobby' || 
-        this.$route.name === 'wait' || 
-        (this.$route.name === 'play' && !this.gameActive) || 
-        (this.$route.name === 'instructions' && !this.gameActive) || 
-        (this.$route.name === 'impressum' && !this.gameActive) || 
-        (this.$route.name === 'about' && !this.gameActive)) {   
+      if (
+        this.$route.name === "lobby" ||
+        this.$route.name === "wait" ||
+        (this.$route.name === "play" && !this.gameActive) ||
+        (this.$route.name === "instructions" && !this.gameActive) ||
+        (this.$route.name === "impressum" && !this.gameActive) ||
+        (this.$route.name === "about" && !this.gameActive)
+      ) {
         const data = {
           command: "lobby",
           command_key: "leave",
@@ -138,41 +157,41 @@ export default {
         this.sendMessage(data);
       }
     },
-    
+
     /**
      * Toggles the application language.
      */
     changeLanguage() {
-      if (this.$i18n.locale === 'en') {
-        this.$i18n.locale = 'de';
-        this.currentLanguage = 'de';
+      if (this.$i18n.locale === "en") {
+        this.$i18n.locale = "de";
+        this.currentLanguage = "de";
       } else {
-        this.$i18n.locale = 'en';
-        this.currentLanguage = 'en';
+        this.$i18n.locale = "en";
+        this.currentLanguage = "en";
       }
       this.$nextTick(() => {
-        document.querySelector('.form-select').blur();
+        document.querySelector(".form-select").blur();
       });
     },
-    
+
     /**
      * Shows the rules dialog based on the current game.
      */
     showRules() {
-      if (this.game === 'connect4') {
-        this.currentRuleComponent = 'Connect4Rules';
-      } else if (this.game === 'tictactoe') {
-        this.currentRuleComponent = 'TicTacToeRules';
-      } else if (this.game === 'nim') {
-        this.currentRuleComponent = 'NimRules';
-      } else if (this.game === 'othello') {
-        this.currentRuleComponent = 'OthelloRules';
+      if (this.game === "connect4") {
+        this.currentRuleComponent = "Connect4Rules";
+      } else if (this.game === "tictactoe") {
+        this.currentRuleComponent = "TicTacToeRules";
+      } else if (this.game === "nim") {
+        this.currentRuleComponent = "NimRules";
+      } else if (this.game === "othello") {
+        this.currentRuleComponent = "OthelloRules";
       } else {
         this.currentRuleComponent = null;
       }
       this.isRulesVisible = true;
     },
-    
+    ...mapActions(["toggleDarkMode"]),
     /**
      * Closes the rules dialog.
      */
@@ -280,7 +299,7 @@ export default {
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 input:checked + .slider:before {
@@ -303,6 +322,10 @@ input:checked + .slider:before {
     width: 100%;
   }
 
+  .lopo {
+    height: 32px;
+  }
+
   .navbar-nav {
     flex-direction: row;
     align-items: center;
@@ -310,6 +333,68 @@ input:checked + .slider:before {
 
   .form-select {
     margin-bottom: 0.5rem;
+  }
+
+  .nav-link {
+    padding-left: 0px;
+  }
+  .nav-item {
+    margin-left: 5px;
+  }
+
+  .switch {
+    margin-right: 3px;
+  }
+}
+
+.dark-mode .navbar-brand {
+  color: #fff;
+}
+
+.dark-mode .navbar-brand:hover {
+  color: #ddd;
+}
+
+.dark-mode .nav-link {
+  color: #ccc;
+}
+
+.dark-mode .nav-link:hover {
+  color: #00bfff;
+}
+
+.dark-mode .navbar-collapse {
+  background-color: #1e1e1e;
+}
+
+.dark-mode .top-right-controls {
+  color: #ccc;
+}
+
+.dark-mode .switch .slider {
+  background-color: #444;
+}
+
+.dark-mode .switch input:checked + .slider {
+  background-color: #00bfff;
+}
+
+.dark-mode .bg-body-tertiary {
+  background-color: #1e1e1e !important;
+}
+
+.dark-mode .logo {
+  filter: brightness(0.8);
+}
+
+@media (max-width: 768px) {
+  .dark-mode .navbar-collapse {
+    background-color: #1e1e1e;
+  }
+
+  .me-2 {
+    margin-right: 0px !important;
+    padding: 0px;
   }
 }
 </style>

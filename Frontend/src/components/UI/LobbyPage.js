@@ -1,22 +1,22 @@
 import { mapActions, mapGetters } from "vuex";
-import * as ENUMS from '../enums';
-import QRCode from 'qrcode';
-import { nextTick } from 'vue';
+import * as ENUMS from "../enums";
+import QRCode from "qrcode";
+import { nextTick } from "vue";
 /**
  * Vue component for managing the Lobby.
- * @module LobbyPage 
+ * @module LobbyPage
  * @vue-data {String} [mode=player_vs_kim] - Mode of the game, which can be "player_vs_player", "player_vs_kim", "playerai_vs_kim", or "playerai_vs_player".
  * @vue-data {String} [difficulty=easy] - Difficulty level of the game, which can be "easy", "medium", or "hard".
  * @vue-data {String} selectedGame - Identifier of the selected game
- * 
+ *
  * @vue-computed {Object} enums - Provides enums imported from '../enums.js'.
  * @vue-computed {String} positionSelect - Current position in the lobby, with a getter and setter for updating the position.
  *  * @vue-computed {Object} ...mapGetters - Vuex getters mapped to component computed properties.
- * 
+ *
  * @vue-methods {Function} transformGameName - Transforms the game name for display using a translation function.
  * @vue-methods {Function} generateQrCode - Generates a QR code for the lobby key.
  * @vue-methods {Function} lobbyPos - Requests the current lobby positions.
- * 
+ *
  * @vue-event {String} game - Updates the selected game when the game is changed via Vuex.
  * @vue-event {Object} callPos - Automatically updates the lobby status if there are potential changes.
  * @vue-event {Boolean} gameActive - Redirects to the play page once a game has started.
@@ -29,12 +29,11 @@ export default {
    */
   data() {
     return {
-
       mode: "player_vs_kim",
 
       difficulty: "easy",
 
-      selectedGame: '',
+      selectedGame: "",
     };
   },
 
@@ -43,13 +42,26 @@ export default {
      * Vuex getters required for the Lobby
      * @type {Object}
      */
-    ...mapGetters(["notif","lobbyKey", "position", "gameActive", "positionsInLobby", "callPos", "game", "socketConnected", "popup", "gameReady"]),
+    ...mapGetters([
+      "notif",
+      "lobbyKey",
+      "position",
+      "gameActive",
+      "positionsInLobby",
+      "callPos",
+      "game",
+      "socketConnected",
+      "popup",
+      "gameReady",
+    ]),
 
     /**
      * Enums imported from '../enums.js'.
      * @type {Object}
      */
-    enums() { return ENUMS; },
+    enums() {
+      return ENUMS;
+    },
 
     /**
      * Current position in the lobby.
@@ -81,7 +93,14 @@ export default {
      * Vuex actions mapped to component methods.
      * @type {Object}
      */
-    ...mapActions(["initWebSocket", "sendWebSocketMessage", "setGame", "updatePosition", "setPopup",'setNotif',]),
+    ...mapActions([
+      "initWebSocket",
+      "sendWebSocketMessage",
+      "setGame",
+      "updatePosition",
+      "setPopup",
+      "setNotif",
+    ]),
 
     /**
      * Sends a message through the WebSocket.
@@ -106,8 +125,8 @@ export default {
      */
     lobbyPos() {
       const data = {
-        command: 'lobby',
-        command_key: 'pos',
+        command: "lobby",
+        command_key: "pos",
       };
       this.sendMessage(data);
     },
@@ -133,7 +152,7 @@ export default {
       };
       this.sendMessage(data);
       this.$router.push({
-        name: 'home',
+        name: "home",
       });
     },
 
@@ -167,9 +186,9 @@ export default {
       if (this.lobbyKey) {
         try {
           await QRCode.toCanvas(canvas, this.lobbyKey);
-          console.log('QR code generated!');
+          console.log("QR code generated!");
         } catch (error) {
-          console.error('Failed to generate QR code:', error);
+          console.error("Failed to generate QR code:", error);
         }
       }
     },
@@ -204,10 +223,10 @@ export default {
      */
     playCreate() {
       this.lobbyStatus();
-      if (this.gameReady && this.position === 'p1') {
+      if (this.gameReady && this.position === "p1") {
         const data = {
-          command: 'play',
-          command_key: 'create',
+          command: "play",
+          command_key: "create",
           game: this.game,
           mode: this.mode,
           difficulty: this.difficulty,
@@ -216,23 +235,27 @@ export default {
         this.sendMessage(data);
         if (this.gameActive) {
           this.$router.push({
-            name: 'play'
+            name: "play",
           });
         }
       } else if (this.gameReady) {
         const data = {
-          command: 'play',
-          command_key: 'create',
+          command: "play",
+          command_key: "create",
           game: this.game,
-          mode: this.mode === 'player_vs_kim' ? 'kim_vs_player' :
-            this.mode === 'playerai_vs_kim' ? 'kim_vs_playerai' : this.mode,
+          mode:
+            this.mode === "player_vs_kim"
+              ? "kim_vs_player"
+              : this.mode === "playerai_vs_kim"
+              ? "kim_vs_playerai"
+              : this.mode,
           difficulty: this.difficulty,
         };
         this.setGame(this.game);
         this.sendMessage(data);
         if (this.gameActive) {
           this.$router.push({
-            name: 'play'
+            name: "play",
           });
         }
       } else {
@@ -268,20 +291,20 @@ export default {
     gameActive(newVal) {
       if (newVal) {
         this.$router.push({
-          name: 'play',
+          name: "play",
         });
       }
     },
-        /**
+    /**
      * Displays notification when needed and clears them after a delay.
      * @param {string|null} newVal - The new value of notif.
      */
-        notif(newVal) {
-          if (newVal) {
-            setTimeout(() => {
-              this.setNotif(null);
-            }, 5000);
-          }
-        },
+    notif(newVal) {
+      if (newVal) {
+        setTimeout(() => {
+          this.setNotif(null);
+        }, 5000);
+      }
+    },
   },
 };
