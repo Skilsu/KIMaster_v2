@@ -105,6 +105,14 @@ class SocketServer(AbstractConnectionManager):
                         board = np.array(read_object["board"], dtype=default.dtype).reshape(default.shape)
                         mcts = ai_funcs.get(lobby.game).get(lobby.difficulty)
                         self.submit_task(loop, self.kim_Action, game, board, it, mcts, cur_player, lobby)
+                    case "evaluate_move":
+                        game = game_instances[command_key]
+                        default = game.getInitBoard()
+                        it = int(read_object["it"])
+                        cur_player = int(read_object.get("cur_player"))
+                        board = np.array(read_object["board"], dtype=default.dtype).reshape(default.shape)
+                        mcts = ai_funcs.get(lobby.game).get(EDifficulty.hard)
+                        self.submit_task(loop, self.evaluate_move, game, board, it, mcts, cur_player)
                     case "blunder":
                         game = game_instances[command_key]
                         default = game.getInitBoard()

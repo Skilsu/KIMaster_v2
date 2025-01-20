@@ -76,14 +76,13 @@
     </div>
   </base-card>
 
+  <!-- Turn Evaluation -->
   <base-card>
-      <div class="button-group">
-        <p v-if="yourTurn && position !== 'sp'">{{ $t('message.turn_evaluation', { turn: }) }}</p>
+      <div class="SpielerZug">
+        <p v-if="yourTurn && position !== 'sp'">{{ $t('message.turn_evaluation', { turn: evaluatedTurn }) }}</p>
         <p v-if="!yourTurn && position !== 'sp'">{{ $t('message.turn_evaluation') }}</p>
-        <p class="myPosition">{{ $t('message.your_position', { position: position }) }}</p>
-        <p class="guestPosition">{{ $t('message.lobby_position', { p1: positionsInLobby[0], p2: positionsInLobby[1], spectators: positionsInLobby[2] }) }}</p>
       </div>
-    </base-card>
+  </base-card>
 
   <!-- Footer -->
   <footer-bar class="FooterPlay"></footer-bar>

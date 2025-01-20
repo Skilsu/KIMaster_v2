@@ -241,6 +241,15 @@ export default createStore({
         },
 
         /**
+         * Evaluates the current turn.
+         * @param {Object} state - The current state.
+         * @param {number} evaluatedTurn - The evaluation of the last move.
+         */
+        evaluateTurn(state, evaluatedTurn) {
+            state.evaluatedTurn = evaluatedTurn;
+        },
+
+        /**
          * Sets the source of the image.
          * @param {Object} state - The current state.
          * @param {string} imagesrc - The image source URL.
