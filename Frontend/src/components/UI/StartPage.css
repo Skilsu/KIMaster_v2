@@ -32,12 +32,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 19px; /* Verringert den Abstand zwischen den Buttons */
 }
 
 .base-card.LobbySection {
   display: flex;
-  gap: 19px;
   position: relative;
 }
 
@@ -50,7 +48,9 @@ input[type="text"] {
 
 .message-box {
   position: absolute;
-  top: calc(100% + 8px); /* Adjusts the top position to place it directly under the input field */
+  top: calc(
+    100% + 8px
+  ); /* Adjusts the top position to place it directly under the input field */
   left: 0;
   background-color: #f8d7da;
   color: #721c24;
@@ -64,29 +64,177 @@ input[type="text"] {
   z-index: 1000;
 }
 
-.FooterStart{
+.FooterStart {
   position: fixed;
 }
 
+.dark-mode #hauptteil {
+  background-color: #333333;
+  color: #e0e0e0;
+}
 
-@media (max-width: 768px) {
-  .game-selection-container {
-      flex-direction: column;
+.dark-mode .content-container {
+  background-color: #333333;
+  color: #e0e0e0;
+}
+
+.dark-mode .welcome-container h1 {
+  color: #ffffff;
+  background-color: transparent
+}
+.dark-mode .subtitle {
+  background-color: transparent;
+  color: #b0b0b0;
+}
+
+.dark-mode .game-selection-container {
+  background-color: transparent;
+}
+
+.dark-mode .base-card.LobbySection {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark-mode input[type="text"] {
+  border: 2px solid #444;
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .message-box {
+  background-color: #2c2c2c;
+  color: #ff5252;
+  border: 1px solid #ff8888;
+}
+
+.dark-mode .FooterStart {
+  background-color: #333333;
+  color: #e0e0e0;
+}
+
+.game-timer {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff0000;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .dark-mode .LobbySection {
+    background-color: #1e1e1e;
   }
 
-  .LobbySection {
-      flex-direction: column;
+  .dark-mode .welcome-container h1 {
+    color: #9dcc67;
+    background-color: transparent;
   }
 
-  .welcome-container h1 {
-      font-size: 3rem; /* Kleinere Schriftgröße für Überschrift */
+  .dark-mode .subtitle {
+    background-color: transparent;
+    color: #b0b0b0;
+  }
+
+  .dark-mode .base-card.LobbySection {
+    background-color: #2c2c2c;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  @media (max-width: 1100px) and (max-height: 1400px) {
+    #hauptteil {
+      flex-direction: column-reverse;
+        padding-bottom: 100px;
+    }
+    .welcome-container h1 {
+      font-size: 3.5rem;
+      font-family: Honk,sans-serif;
+      font-weight: 700;
+   
   }
 
   .subtitle {
-      font-size: 1.2rem; /* Kleinere Schriftgröße für Untertitel */
+      font-size: 1.6rem;
+      font-family: Honk,sans-serif;
+      font-style: italic
+  }
+    .game-selection-container {
+      flex-direction:column;
+    }
+    .LobbySection {
+      flex-direction: column
+  }
+    .game-selection-container a {
+      width: 100%
+  }
+  .music-toggle button {
+    font-family: 'Honk', sans-serif;
+    font-size: 1.5rem;
+    background: #ff8d5b;
+    animation: mymove 5s infinite;
+    margin-top: 10px;
+  }
+  @keyframes mymove {
+    20% {background-color: #98ca60;}
   }
 
-  .base-card.LobbySection {
-    margin-bottom: 10%;
+  .dark-mode .LobbySection {
+    background-color: #1e1e1e;
+  }
+
+  .dark-mode .welcome-container h1 {
+    color: #ffffff;
+  }
+
+  .dark-mode .subtitle {
+    color: #b0b0b0;
+  }
+
+  .dark-mode .base-card.LobbySection {
+    background-color: #2c2c2c;
+  }
+  .dark-mode .music-toggle button{
+    margin-top: 10px;
+    font-family: 'Honk', sans-serif;
+    font-size: 1.5rem;
+    background-color: #2c2c2c;
   }
 }

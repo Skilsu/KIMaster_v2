@@ -66,6 +66,16 @@ dialog {
   align-items: center;
 }
 
+.dark-mode .dialog-overlay {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.dark-mode dialog {
+  background: #1e1e1e;
+  color: #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
 header {
   background-color: white;
   color: black;
@@ -74,6 +84,17 @@ header {
   text-align: center;
 }
 
+.dark-mode header { 
+  background-color: #1e1e1e;
+  color: white;
+}
+header {
+  background-color: white;
+  color: black;
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+}
 header h2 {
   margin: 0;
 }
@@ -114,9 +135,23 @@ menu {
   margin: 0.5rem 0; /* Vertikaler Abstand oben und unten */
 }
 
-@media (min-width: 768px) {
+
+
+@media (max-width: 1100px) and (max-height: 1400px)  {
   dialog {
     width: 40rem;
+    font-family: 'Honk', sans-serif;
+    font-size: 25px;
   }
+
+  .dialog-overlay menu, menu{
+    flex-direction: column;
+    font-family: 'Honk', sans-serif;
+    font-size: 25px;
+  }
+  header h2 {
+    font-family: 'Honk', sans-serif;
+    font-size: 25px;
+}
 }
 </style>

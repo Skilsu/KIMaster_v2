@@ -1,6 +1,4 @@
-
-
-
+@import "./base.css";
 /**
 @import './base.css';
 
@@ -24,7 +22,7 @@ a,
   }
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 1400px) {
   body {
     display: flex;
     place-items: center;
