@@ -2,60 +2,72 @@
     <div class="container">
         <div class="card">
             <div class="card-body">
-                <h3 class="card-title">Manage your account</h3>
                 
-                <h1>Your account details</h1>
-                <p class="text-muted">Click here to edit your information</p>
                 
-                <h4>Account details</h4>
+                <h1>Hinweis</h1>
+                <p class="text-muted">
+                  Benutzer können sich mit ihrer THM-E-Mail-Adresse registrieren und sich anschließend mit dieser sowie ihrer THM-Kennung anmelden. Die E-Mail-Adresse sowie der Vor- und Nachname des Benutzers, das Datum der Kontoerstellung und der letzten Anmeldung werden gespeichert. Nach 18 Monaten Inaktivität werden die Benutzerdaten, einschließlich E-Mail-Adresse sowie Vor- und Nachname, anonymisiert. 30 Tage vor der Anonymisierung erhalten die Benutzer eine Benachrichtigung per E-Mail. Zudem werden Spielaktivitäten für weiterführende Analysen aufgezeichnet. Nach der Anonymisierung sind keine Rückschlüsse auf einzelne Personen mehr möglich.
+                </p><br><br>
+                
+                <h4>Konto-Details</h4>
                 
                 <div class="row">
+
+
                 <div class="column">
                     <div class="inner-card">
                     <div class="inner-card-body">
-                        <h5>PERSONAL</h5>
+                        <h5>PERSÖNLICH</h5>
                         <div class="info-group">
                         <label>EMAIL:</label>
-                        <span>laurentiu@hogash.com</span>
+                        <span>floriane@thm.de</span>
                         </div>
                         <div class="info-group">
-                        <label>USERNAME:</label>
-                        <span>Bobo</span>
+                        <label>Benutzername:</label>
+                        <span>Floriane</span>
                         </div>
                         <div class="info-group">
-                        <label>DISPLAY NAME:</label>
                         <span></span>
                         </div>
                     </div>
                     </div>
                 </div>
-                
+
+
                 <div class="column">
                     <div class="inner-card">
                     <div class="inner-card-body">
-                        <h5>CUSTOMER HISTORY</h5>
+                        <h5>Spieler Geschichte</h5>
                         <div class="info-group">
-                        <label>CUSTOMER SINCE:</label>
+                        <label>Benutzer seit:</label>
                         <span>Apr 2020</span>
                         </div>
                         <div class="info-group">
-                        <label>COMPLETED PURCHASES:</label>
-                        <span>0</span>
+                        <label>Letzter Besuch:</label>
+                        <span>20 Jan 2025</span>
                         </div>
                         <div class="info-group">
-                        <label>VALUE OF PURCHASES:</label>
-                        <span>0</span>
+                        <span></span>
                         </div>
                     </div>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+                
+               
                 </div>
 
-                <div class="access-passes">
-                <h4>Access passes</h4>
-                <p>Congratulations! You are an Access Pass holder. You can download multiple extensions from one location.</p>
-                <button class="btn-theme">VIEW YOUR DOWNLOADS!</button>
-                </div>
+                
             </div>
         </div>
     </div>

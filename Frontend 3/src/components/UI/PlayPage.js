@@ -110,7 +110,7 @@ export default {
       isRulesVisible: false,
       nimTest: [-1, 0],
       savedPos: null,
-      moveTimer: localStorage.getItem("selectedTime") ? parseInt(localStorage.getItem("selectedTime")) : 10,
+      moveTimer: 10,
       timerInterval: null,
     };
   },
@@ -279,7 +279,7 @@ export default {
       if (this.timerInterval) {
         clearInterval(this.timerInterval);
       }
-      //this.moveTimer = 10;
+      this.moveTimer = 10;
       this.timerInterval = setInterval(() => {
         this.moveTimer--;
         if (this.moveTimer === 0) {

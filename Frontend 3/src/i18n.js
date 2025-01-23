@@ -452,7 +452,6 @@ const messages = {
     footer: {
       datenschutz: "Privacy Policy",
       impressum: "Imprint",
-      account : "Account"
     },
   },
 
@@ -926,7 +925,6 @@ const messages = {
     footer: {
       datenschutz: "Datenschutz",
       impressum: "Impressum",
-      account : "Konto"
     },
   },
   ////////////////////////////////////////////////////////////////Französisch///////////////////////////////////////////////////////////////////////////////////
@@ -1282,7 +1280,6 @@ const messages = {
     footer: {
       datenschutz: "Politique de Confidentialité",
       impressum: "Mentions légales",
-      account : "Compte"
     },
   },
   /////////////////////////////////////////////////////////Spanisch////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1646,7 +1643,6 @@ const messages = {
     footer: {
       datenschutz: "Política de Privacidad",
       impressum: "Pie de imprenta",
-      account : "Cuenta"
     },
   },
 };

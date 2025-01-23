@@ -6,17 +6,22 @@
           <img :src="logo" alt="KIM Logo" class="logo" />
         </router-link>
         <span class="nav-title">Anleitung</span>
+        <router-link class="navbar-brand" :to="{ name: 'login' }">
+          <img :src="logo" alt="KIM Logo" class="logo" />
+        </router-link>
       </div>
       
       <div class="nav-right">
-        <div class="color-buttons">
-          <button 
-            v-for="color in colors" 
-            :key="color.name"
-            @click="changeBackground(color.class)"
-            :class="['color-btn', color.class]"
-            :title="color.name"
-          ></button>
+        <div class="color-select">
+          <select @change="changeBackground($event.target.value)">
+            <option 
+              v-for="color in colors" 
+              :key="color.name" 
+              :value="color.class"
+            >
+              {{ color.name }}
+            </option>
+          </select>
         </div>
         <language-switcher class="language-switcher"></language-switcher>
       </div>
@@ -56,6 +61,23 @@ export default {
 </script>
 
 <style scoped>
+.color-select select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.color-select select:focus {
+  outline: none;
+  border-color: #2196f3;
+}
+
+
+
 .navbar {
   padding: 0.5rem 1rem;
   display: flex;
@@ -149,12 +171,12 @@ export default {
 
 .navbar.background-red {
   background-color: #f44336;
-  color: #ffffff;
+  color: #000000;
 }
 
 .navbar.background-green {
   background-color: #4caf50;
-  color: #ffffff;
+  color: #000000;
 }
 
 .navbar.background-blue {

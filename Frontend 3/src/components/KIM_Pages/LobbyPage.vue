@@ -30,13 +30,6 @@
             <option value="hard">{{ $t('message.hard') }}</option>
           </select>
 
-          <select v-model="time">
-            <option value="10">10 s</option>
-            <option value="60">60 s</option>
-            <option value="300">5 min</option>
-            <option value="600">10 min</option>
-          </select>
-
           <select v-model="selectedGame" @change="setGame(selectedGame)">
             <option v-for="(value, key) in enums.games" :key="key" :value="value">
               {{ $t(`message.${value}`) }}

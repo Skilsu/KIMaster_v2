@@ -1,12 +1,10 @@
 <template>
-  <footer id="footer">
+  <footer>
     <!-- External link to the THM website -->
     <a href="https://www.thm.de">THM</a>
 
     <!-- Router link to the 'about' page -->
     <RouterLink :to="{ name: 'about' }">{{ $t('footer.datenschutz') }}</RouterLink>
-
-    <RouterLink :to="{ name: 'account' }">{{ $t('footer.account') }}</RouterLink>
 
     <!-- External link to the Impressum page -->
     <a href="https://www.thm.de/site/impressum.html">{{ $t('footer.impressum') }}</a>
@@ -38,7 +36,7 @@ footer {
 }
 
 .dark-mode footer {
-  background-color: #333333 ;
+  background-color: #333333;
   color: #ffffff;
 }
 

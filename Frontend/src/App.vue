@@ -14,6 +14,18 @@
             <base-button @click="connectWebSocket">Try Reconnecting</base-button>
           </template></base-dialog> </teleport></div>
       <dragable-image v-if="gameActive && !isPlayPage"></dragable-image>
+
+      <div>
+        <select class="floating-select" v-model="selectedAudio" @change="handleAudioChange">
+          <option disabled value="">Wählen Sie eine Musik aus</option>
+          <option v-for="audio in audioFiles" :key="audio.name" :value="audio">
+            {{ audio.name }}
+          </option>
+        </select>
+        <button class="floating-button" @click="toggleAudio" :disabled="!selectedAudio">
+          {{ isPlaying ? '⏸️' : '▶️' }}
+        </button>
+      </div>
     </main>
   </div>
 </template>
@@ -31,13 +43,13 @@ export default {
       selectedBackground: "background-gray", // Standardhintergrund
       colorSchemes: {
         'background-dark': {
-          primary: '#000000',
+          primary: '#333333',
           secondary: '#a0a0a0',
           accent: '#808080',
-          text: '#000000',
+          text: '#ffffff',
           link: '#404040',
           hover: '#666666',
-          border: '#b3b3b3',
+          border: '#fff',
           shadow: 'rgba(0, 0, 0, 0.1)'
         },
         'background-gray': {
@@ -90,7 +102,15 @@ export default {
           border: '#90caf9',
           shadow: 'rgba(33, 150, 243, 0.1)'
         }
-      }
+      },
+      audioFiles: [
+        { name: "Musik 1", url: "/audios/audio1.mp3" },
+        { name: "Musik 2", url: "/audios/audio2.mp3" },
+        { name: "Musik 3", url: "/audios/audio3.mp3" },
+      ],
+      selectedAudio: null, // Musique sélectionnée
+      audio: null, // Instance Audio
+      isPlaying: false, // État de lecture
     };
   },
   computed: {
@@ -134,6 +154,29 @@ export default {
     },
     connectWebSocket() {
       this.$store.dispatch("initWebSocket");
+    },
+    handleAudioChange() {
+      if (this.audio) {
+        this.audio.pause();
+        this.isPlaying = false;
+      }
+      if (this.selectedAudio) {
+        this.audio = new Audio(this.selectedAudio.url);
+        this.audio.addEventListener("ended", () => {
+          this.isPlaying = false;
+        });
+      }
+    },
+    toggleAudio() {
+      if (!this.audio) return;
+
+      if (this.isPlaying) {
+        this.audio.pause();
+        this.isPlaying = false;
+      } else {
+        this.audio.play();
+        this.isPlaying = true;
+      }
     },
   },
   mounted() {
@@ -201,17 +244,17 @@ export default {
 
 .background-red {
   background-color: #f44336;
-  color: #ffffff;
+  color: #000000;
 }
 
 .background-green {
   background-color: #4caf50;
-  color: #ffffff;
+  color: #000000 !important;
 }
 
 .background-blue {
   background-color: #2196f3;
-  color: #ffffff;
+  color: #000000;
 }
 
 /* Dark Mode */
@@ -230,6 +273,12 @@ export default {
   color: #e0e0e0;
 }
 
+.dark-mode footer{
+  color: #00008b;
+}
+
+
+
 .dark-mode .background-red {
   background-color: #8b0000;
   color: #e0e0e0;
@@ -237,12 +286,40 @@ export default {
 
 .dark-mode .background-green {
   background-color: #006400;
-  color: #e0e0e0;
+  color: #000000;
 }
 
 .dark-mode .background-blue {
   background-color: #00008b;
   color: #e0e0e0;
+}
+
+.floating-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #6200ea;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.floating-button:hover {
+  background-color: #3700b3;
+}
+
+select {
+  margin: 10px;
+  padding: 5px;
+  font-size: 16px;
 }
   
 }

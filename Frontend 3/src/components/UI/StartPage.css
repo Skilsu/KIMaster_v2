@@ -27,7 +27,7 @@
 
 .subtitle {
   font-size: 1.5rem; /* Größe des Untertitels */
-  color: var(--text-color); /* Farbe des Untertitels */
+  color: grey; /* Farbe des Untertitels */
 }
 
 .game-selection-container {
@@ -195,16 +195,10 @@ input[type="text"] {
   }
 
 
-/* /* Neue Hintergrundfarben 
-#hauptteil {
-  background-color: #ffffff; 
-  color: #000000;
-} */
-
 /* Neue Hintergrundfarben */
 #hauptteil {
-  background-color: var(--primary-color); /* Standard: Weißer Hintergrund */
-  color: var(--text-color); /* Standard: Schwarzer Text */
+  background-color: #ffffff; /* Standard: Weißer Hintergrund */
+  color: #000000; /* Standard: Schwarzer Text */
 }
 
 .background-gray {
