@@ -1,11 +1,11 @@
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 import * as ENUMS from "@/components/enums.js";
 import BaseDialog from "@/components/UI/BaseDialog.vue";
 
 /**
  * Vue component for handling the logic of the StartPage.
  * Includes methods for interacting with the game lobby and handling UI state.
- * @module StartPage 
+ * @module StartPage
  * @vue-prop {string} title - The title to display in the component.
  * @vue-data {Array} games - List of available games from ENUMS.
  * @vue-data {string|null} lobbyKeyToJoin - Key for joining a lobby.
@@ -20,15 +20,15 @@ export default {
   components: {
     BaseDialog,
   },
+  
   data() {
     return {
-
       games: ENUMS.games,
 
       lobbyKeyToJoin: null,
 
-
       popUpTrigger: false,
+    
     };
   },
   computed: {
@@ -44,14 +44,21 @@ export default {
      * Vuex getters mapped to component computed properties.
      * @type {Object}
      */
-    ...mapGetters(['inLobby', 'popup', 'notif', 'gameActive', 'game', 'callPos']),
+    ...mapGetters([
+      "inLobby",
+      "popup",
+      "notif",
+      "gameActive",
+      "game",
+      "callPos",
+    ]),
   },
   methods: {
     /**
      * Vuex actions mapped to component methods.
      * @type {Object}
      */
-    ...mapActions(['sendWebSocketMessage', 'setNotif', 'setGame']),
+    ...mapActions(["sendWebSocketMessage", "setNotif", "setGame"]),
 
     /**
      * Sends a message via WebSocket.
@@ -68,9 +75,8 @@ export default {
      * @returns {string} - The transformed game name.
      */
     transformGameName(game) {
-      return game.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      return game.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
     },
-
     /**
      * Starts the process of joining a lobby.
      * Sends a message to join the lobby and waits for confirmation.
@@ -79,10 +85,10 @@ export default {
       if (!this.lobbyKeyToJoin) return; // Avoid sending request with empty key
 
       const data = {
-        command: 'lobby',
-        command_key: 'join',
+        command: "lobby",
+        command_key: "join",
         key: this.lobbyKeyToJoin.trim(),
-        pos: 'sp',
+        pos: "sp",
       };
       this.sendMessage(data);
       this.joinLobbyWait();
@@ -94,8 +100,8 @@ export default {
      */
     surrenderGame() {
       const data = {
-        command: 'play',
-        command_key: 'surrender',
+        command: "play",
+        command_key: "surrender",
       };
       this.sendMessage(data);
       this.closePopUp();
@@ -106,7 +112,7 @@ export default {
      */
     returnToGame() {
       this.closePopUp();
-      this.$router.push({ name: 'play', params: { game: this.game }});
+      this.$router.push({ name: "play", params: { game: this.game } });
     },
 
     /**
@@ -129,8 +135,8 @@ export default {
      */
     lobbyPos() {
       const data = {
-        command: 'lobby',
-        command_key: 'pos',
+        command: "lobby",
+        command_key: "pos",
       };
       this.sendMessage(data);
     },
@@ -153,7 +159,7 @@ export default {
     joinLobbyWait() {
       console.log(this.inLobby);
       if (this.inLobby) {
-        this.$router.push({ name: 'wait' });
+        this.$router.push({ name: "wait" });
       } else if (this.notif === ENUMS.notifStatus.LOBBYJOINFAIL) {
         console.log("Couldn't Find Lobby!");
       } else {
