@@ -445,7 +445,8 @@ const messages = {
     footer: {
       datenschutz: 'Privacy Policy',
       impressum: 'Imprint',
-      logout: "Logout"
+      logout: "Logout",
+      login: "Login"
     },
   },
 
@@ -923,7 +924,8 @@ const messages = {
     footer: {
       datenschutz: 'Datenschutz',
       impressum: 'Impressum',
-      logout: "Abmelden"
+      logout: "Abmelden",
+      login: "Anmelden"
     },
   },
 ////////////////////////////////////////////////////////////////Französisch///////////////////////////////////////////////////////////////////////////////////
@@ -1264,7 +1266,8 @@ const messages = {
       footer: {
         datenschutz: 'Politique de Confidentialité',
         impressum: 'Mentions légales',
-        logout: "Abmelden"
+        logout: "Se déconnecter",
+        login: "connexion"
       },
   },
 /////////////////////////////////////////////////////////Spanisch////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1613,7 +1616,8 @@ es: {
     footer: {
       datenschutz: 'Política de Privacidad',
       impressum: 'Pie de imprenta',
-      logout: "Abmelden"
+      logout: "Cerrar sesión",
+      login: "Registro"
     },
   },
 };

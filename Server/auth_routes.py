@@ -6,6 +6,7 @@ from passlib.context import CryptContext
 from pydantic import BaseModel
 from datetime import datetime
 from ldap3 import Server, Connection, ALL
+from enum import Enum
 
 # Passwort-Hashing-Kontext
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -30,18 +31,27 @@ def get_db():
     finally:
         db.close()
 
+class ReturnAttribute(Enum):
+    FULLNAME = 'cn'
+    MAIL = 'mail'
+
+
+class UserInfoField(Enum):
+    EMAIL = "email"
+    FULLNAME = "fullname"
+    LASTSEENAT = "lastSeenAt"
+
 
 # Überprüfe, ob Mail THM Mail ist
-def getLDAPthmMail(email: str):
+def getLDAPthmInfo(email: str, returnValue: ReturnAttribute = ReturnAttribute.MAIL):
     ldap_server = 'ldap://ldap.fh-giessen.de'  # LDAP-Server-Adresse
     user_dn = 'LDAP_USER_DN'
     user_password = 'LDAP_PASSWORD'
-    # Basis-DN für die Suche
     base_dn = 'dc=fh-giessen-friedberg,dc=de'
 
     # Suchfilter und Attribute
-    search_filter = f'(mail={email})' if "@" in email else f'(uid={email})' # Filter für die gewünschte E-Mail
-    attributes = ['cn', 'mail']  # Attribute, die abgefragt werden sollen
+    search_filter = f'(mail={email})' if "@" in email else f'(uid={email})'  # Filter für die gewünschte E-Mail
+    attributes = [returnValue.value]  # Nur das ausgewählte Attribut wird abgefragt
 
     try:
         # Verbindung zum LDAP-Server herstellen
@@ -57,11 +67,13 @@ def getLDAPthmMail(email: str):
         conn.search(search_base=base_dn, search_filter=search_filter, attributes=attributes)
 
         if conn.entries:  # Wenn Ergebnisse gefunden wurden
-            return conn.entries[0].mail.value
+            # Gibt den Wert des gewünschten Attributs zurück
+            return getattr(conn.entries[0], returnValue.value).value
         else:
             return None
 
     except Exception as e:
+        print(f"Fehler: {e}")
         return None
 
     finally:
@@ -71,11 +83,12 @@ def getLDAPthmMail(email: str):
 
 
 
+
 # Registrierung
 @router.post("/register")
 def register(request: RegisterRequest, db: Session = Depends(get_db)):
     # THM Mail?
-    if not getLDAPthmMail(request.email):
+    if not getLDAPthmInfo(request.email):
         raise HTTPException(status_code=400, detail="Not THM Mail") 
 
     requestedMail = request.email
@@ -83,7 +96,7 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
     # Prüfen, ob `requestedMail` eine gültige E-Mail ist
     if "@" not in requestedMail:
         # E-Mail aus LDAP ableiten
-        ldap_email = getLDAPthmMail(request.email)
+        ldap_email = getLDAPthmInfo(request.email)
         if not ldap_email:
             raise HTTPException(status_code=401, detail="Invalid credentials")
         requestedMail = ldap_email
@@ -96,8 +109,10 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
     # Passwort hashen
     hashed_password = pwd_context.hash(request.password)
     
+    fullname = getLDAPthmInfo(requestedMail, ReturnAttribute.FULLNAME)
+
     # Benutzer erstellen
-    user = User(email=requestedMail, password=hashed_password, sessionKey="")
+    user = User(email=requestedMail, fullname=fullname, password=hashed_password, sessionKey="")
     db.add(user)
     db.commit()
     db.refresh(user)
@@ -116,7 +131,7 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
     # Prüfen, ob `requestedMail` eine gültige E-Mail ist
     if "@" not in requestedMail:
         # E-Mail aus LDAP ableiten
-        ldap_email = getLDAPthmMail(request.email)
+        ldap_email = getLDAPthmInfo(request.email)
         if not ldap_email:
             raise HTTPException(status_code=401, detail="Invalid credentials")
         requestedMail = ldap_email
@@ -154,3 +169,52 @@ def is_authenticated(sessionKey: str, db: Session = Depends(get_db)):
     return {"message": "User is authenticated", "email": user.email}
 
 
+@router.get("/getUserInformation")
+def get_user_information(
+    sessionKey: str, 
+    field: UserInfoField = UserInfoField.EMAIL,  # Standardwert ist 'email'
+    db: Session = Depends(get_db)
+):
+    # Überprüfe, ob der sessionKey in der Datenbank vorhanden ist
+    user = db.query(User).filter(User.sessionKey == sessionKey).first()
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid session")
+    
+    # Aktualisiere last_seen_at auf das aktuelle Datum und die aktuelle Uhrzeit
+    user.lastSeenAt = datetime.now()
+    db.commit()  # Änderungen speichern
+    
+    # Wähle das gewünschte Feld aus
+    if field == UserInfoField.EMAIL:
+        return {"message": "User is authenticated", "email": user.email}
+    elif field == UserInfoField.FULLNAME:
+        return {"message": "User is authenticated", "fullname": user.fullname}
+    elif field == UserInfoField.LASTSEENAT:
+        return {"message": "User is authenticated", "lastSeenAt": user.lastSeenAt}
+    else:
+        raise HTTPException(status_code=400, detail="Invalid field requested")
+
+
+@router.post("/anonymizeUserInformation")
+def anonymize_user_information(sessionKey: str, db: Session = Depends(get_db)):
+    """
+    Anonymisiert Benutzerdaten basierend auf dem übergebenen sessionKey.
+    
+    :param sessionKey: Der Session-Key des Benutzers.
+    :param db: Die Datenbank-Session.
+    :return: Erfolgsnachricht nach der Anonymisierung.
+    """
+    # Überprüfe, ob der Benutzer mit diesem Session-Key existiert
+    user = db.query(User).filter(User.sessionKey == sessionKey).first()
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid session")
+    
+    # Benutzer anonymisieren
+    user.email = None
+    user.fullname = "__ANONYMIZED__"
+    user.sessionKey = ""  # Entferne den Session-Key
+    user.lastSeenAt = datetime.now()  # Aktualisiere den Zeitstempel (optional)
+    
+    db.commit()  # Änderungen speichern
+    
+    return {"message": "User information anonymized successfully"}

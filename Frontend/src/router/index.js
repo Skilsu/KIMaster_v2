@@ -28,6 +28,9 @@ async function isAuthenticated() {
   }
 }
 
+
+
+
 const routes = [
   {
     path: '/',
@@ -85,6 +88,17 @@ router.beforeEach(async (to, from, next) => {
   // Überspringen der Authentifizierung für die Login-Seite
   const authenticated = await isAuthenticated();
 
+  // if(authenticated){
+  //   const fullnameResponse = await getUserInformation("fullname");
+  //   const emailResponse = await getUserInformation("email");
+
+  //   localStorage.setItem("fullname", fullnameResponse.fullname);
+  //   localStorage.setItem("email", emailResponse.email);
+  // }else {
+  //   localStorage.removeItem("email");
+  //   localStorage.removeItem("fullname");
+  // }
+
   if (to.name === 'login' && !authenticated) {
     return next();
   }
@@ -94,11 +108,11 @@ router.beforeEach(async (to, from, next) => {
   }
 
   // Wenn die Route Authentifizierung erfordert
-  if (to.meta.authRequired) {
-    if (!authenticated) {
-      return next({ name: 'login' });
-    }
-  }
+  // if (to.meta.authRequired) {
+  //   if (!authenticated) {
+  //     return next({ name: 'login' });
+  //   }
+  // }
 
   next(); // Erlaubt den Zugriff
 });

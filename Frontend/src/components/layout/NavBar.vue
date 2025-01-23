@@ -6,23 +6,34 @@
       <router-link class="navbar-brand" @click="leaveLobby()" :to="{ name: 'home' }">
         <img :src="logo" alt="KI Master Logo" class="logo" />
       </router-link>
+      
+      <!-- Navigation links -->
       <div class="navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <!-- Conditional link for instructions page, shown only on starting page -->
           <li class="nav-item" v-if="isStartingPage">
             <router-link class="nav-link" :to="{ name: 'instruction' }">{{ $t('message.instruction') }}</router-link>
           </li>
         </ul>
       </div>
-      <!-- Controls for theme switcher and language selection -->
+      
+      <!-- Top-right controls -->
       <div class="top-right-controls">
+        <!-- Fullname Display -->
+        <label id="fullname" class="user-info">
+          {{ fullname }}
+        </label>
+        
+        <!-- Dark Mode Toggle -->
         <label class="switch">
           <input type="checkbox" v-model="isDarkMode" @change="toggleDarkMode">
           <span class="slider round"></span>
         </label>
+        
+        <!-- Language Switcher -->
         <language-switcher class="me-2"></language-switcher>
       </div>
     </div>
+    
     <!-- Rules Dialog Component -->
     <teleport to="body">
       <base-dialog :title="$t('rules.game_title')" v-if="isRulesVisible" @close="closeRules">
@@ -74,9 +85,14 @@ export default {
       currentRuleComponent: null,
       /** - Path to the logo image */
       logo, // Add logo path to data function
+
     };
   },
   computed: {
+    fullname() {
+      return localStorage.getItem("fullname");
+    },
+
     /**
      * Checks if the current route is the starting page.
      * @returns {boolean} - True if on the starting page, otherwise false.
@@ -111,7 +127,7 @@ export default {
      * @type {Function} 
      */
     ...mapActions(["sendWebSocketMessage"]),
-    
+
     /**
      * Sends a WebSocket message.
      * @param {Object} data - Data to be sent in the message.

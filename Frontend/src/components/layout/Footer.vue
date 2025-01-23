@@ -13,6 +13,7 @@
 
     <!-- Logout button, only visible if the user is logged in -->
     <button v-if="isLoggedIn" @click="logout">{{ $t('footer.logout') }}</button>
+    <button v-if="!isLoggedIn" @click="goToLogin">{{ $t('footer.login') }}</button>
   </footer>
 </template>
 
@@ -30,6 +31,9 @@ export default {
     };
   },
   methods: {
+    goToLogin() {
+      this.$router.push({ name: 'login' }); // 'login' sollte der Name deiner Route sein
+    },
     /**
      * Meldet den Benutzer ab.
      * Entfernt das Authentifizierungs-Token und leitet zur Login-Seite um.
@@ -37,12 +41,17 @@ export default {
     logout() {
       // Entfernt das Authentifizierungs-Token aus dem LocalStorage
       localStorage.removeItem("authToken");
+      localStorage.removeItem("fullname");
+      localStorage.removeItem("email");
+
+      this.isLoggedIn = false;
 
       // Leitet den Benutzer zur Login-Seite um
       this.$router.push({ name: "login" });
+      // this.$router.push({ name: "home" }).then(()=>window.location.reload());
 
       // Aktualisiert den Login-Status
-      this.isLoggedIn = false;
+      
     },
     /**
      * Überprüft, ob der Benutzer eingeloggt ist.

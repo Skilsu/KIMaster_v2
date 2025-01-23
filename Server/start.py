@@ -4,62 +4,79 @@ import uvicorn
 from fastAPIServer import FastAPIServer
 from socketServer import SocketServer
 from Tools.language_handler import LanguageHandler
-
-from os import environ
-from fastapi import FastAPI
-import uvicorn
-from fastAPIServer import FastAPIServer
-from socketServer import SocketServer
-from Tools.language_handler import LanguageHandler
-
-from auth_routes import router as auth_router  # Importiere den Router aus auth_routes
+from auth_routes import router as auth_router
 from fastapi.middleware.cors import CORSMiddleware
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.interval import IntervalTrigger
+from db import SessionLocal
+from anonymizeDSGVO import anonymize_and_remind_users
+import logging
 
+# Logger konfigurieren
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("start.py")
 
 def create_app():
     """
     Create the FastAPI application.
-
-    Initializes the language handler, socket server, and FastAPI server.
-    Configures WebSocket endpoints.
     """
-    # Create a FastAPI application instance
     app = FastAPI()
 
-    # Initialize LanguageHandler with a path to the language file
     msg_builder = LanguageHandler("../Tools/language.csv")
-
-    # Initialize the SocketServer with the language handler
     socket_server = SocketServer(msg_builder)
-
-    # Initialize the FastAPIServer with the socket manager and language handler
     fast_api_server = FastAPIServer(socket_server.manager, msg_builder, socket_server.importer)
 
-    # Define WebSocket endpoints
-    app.websocket("/ws")(fast_api_server.websocket_endpoint)  # WebSocket endpoint for FastAPIServer
-    app.websocket("/game")(socket_server.websocket_endpoint)  # WebSocket endpoint for SocketServer
+    app.websocket("/ws")(fast_api_server.websocket_endpoint)
+    app.websocket("/game")(socket_server.websocket_endpoint)
 
-    # Authentifizierungsrouten hinzufügen
-    app.include_router(auth_router, prefix="/auth")  # Alle Routen unter /auth verfügbar
+    app.include_router(auth_router, prefix="/auth")
 
-    # CORS-Middleware hinzufügen
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],  # Alle Ursprünge zulassen (entwicklungsfreundlich)
+        allow_origins=["*"],
         allow_credentials=True,
-        allow_methods=["*"],  # Alle Methoden (GET, POST, etc.) zulassen
-        allow_headers=["*"],  # Alle Header zulassen
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
-
     return app
+
+
+def start_scheduler():
+    """
+    Start the APScheduler to run periodic tasks every 5 minutes.
+    """
+    scheduler = BackgroundScheduler()
+
+    def scheduled_task():
+        """Task to anonymize and remind inactive users."""
+        logger.info("Scheduler task started: Anonymizing and reminding users.")
+        db = SessionLocal()
+        try:
+            anonymize_and_remind_users(db)
+        finally:
+            db.close()
+        logger.info("Scheduler task completed.")
+
+    # Job alle 5 Minuten
+    scheduler.add_job(
+        scheduled_task,
+        IntervalTrigger(minutes=1),  # Wiederholung alle 3 Minuten
+        id="five_minute_task",
+        replace_existing=True,  # Ersetze vorhandene Jobs mit derselben ID
+    )
+
+    # Scheduler starten
+    scheduler.start()
+    logger.info("Scheduler gestartet: Task wird alle 1 Minuten ausgeführt.")
 
 
 app = create_app()
 
 if __name__ == "__main__":
-    # If this script is run directly, execute the main function
-    uvicorn.run("start:app",
-                host=environ["SERVER_HOST"],
-                port=int(environ["SERVER_PORT"]),
-                workers=int(environ["WORKER"]))
+    host = environ.get("SERVER_HOST", "0.0.0.0")
+    port = int(environ.get("SERVER_PORT", 8000))
+    workers = int(environ.get("WORKER", 1))
+
+    start_scheduler()
+    uvicorn.run("start:app", host=host, port=port, workers=workers)
