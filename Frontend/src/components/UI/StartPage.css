@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   background-size: cover;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .content-container {
@@ -15,6 +16,7 @@
   padding: 20px; /* Added padding to prevent edge overlap */
   box-sizing: border-box;
   max-width: 80rem;
+  transition: color 0.3s ease;
 }
 
 .welcome-container h1 {
@@ -25,7 +27,7 @@
 
 .subtitle {
   font-size: 1.5rem; /* Größe des Untertitels */
-  color: grey; /* Farbe des Untertitels */
+  color: var(--text-color); /* Farbe des Untertitels */
 }
 
 .game-selection-container {
@@ -50,7 +52,9 @@ input[type="text"] {
 
 .message-box {
   position: absolute;
-  top: calc(100% + 8px); /* Adjusts the top position to place it directly under the input field */
+  top: calc(
+    100% + 8px
+  ); /* Adjusts the top position to place it directly under the input field */
   left: 0;
   background-color: #f8d7da;
   color: #721c24;
@@ -64,29 +68,185 @@ input[type="text"] {
   z-index: 1000;
 }
 
-.FooterStart{
+.FooterStart {
   position: fixed;
 }
 
-
 @media (max-width: 768px) {
   .game-selection-container {
-      flex-direction: column;
+    flex-direction: column;
+  }
+
+  .game-selection-container a {
+    width: 100%;
   }
 
   .LobbySection {
-      flex-direction: column;
+    flex-direction: column;
   }
 
   .welcome-container h1 {
-      font-size: 3rem; /* Kleinere Schriftgröße für Überschrift */
+    font-size: 3rem; /* Kleinere Schriftgröße für Überschrift */
   }
 
   .subtitle {
-      font-size: 1.2rem; /* Kleinere Schriftgröße für Untertitel */
+    font-size: 1.2rem; /* Kleinere Schriftgröße für Untertitel */
   }
 
   .base-card.LobbySection {
     margin-bottom: 10%;
   }
 }
+
+.dark-mode #hauptteil {
+  background-color: #333333;
+  color: #e0e0e0;
+}
+
+.dark-mode .content-container {
+  background-color: #333333;
+  color: #e0e0e0;
+}
+
+.dark-mode .welcome-container h1 {
+  color: #ffffff;
+}
+
+.dark-mode .subtitle {
+  color: #b0b0b0;
+}
+
+.dark-mode .game-selection-container {
+  background-color: transparent;
+}
+
+.dark-mode .base-card.LobbySection {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark-mode input[type="text"] {
+  border: 2px solid #444;
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .message-box {
+  background-color: #2c2c2c;
+  color: #ff5252;
+  border: 1px solid #ff8888;
+}
+
+.dark-mode .FooterStart {
+  background-color: #333333;
+  color: #e0e0e0;
+}
+
+.game-timer {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff0000;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  @media (max-width: 768px) {
+    .background-gray,
+    .background-yellow,
+    .background-red,
+    .background-green,
+    .background-blue {
+      background-size: cover;
+      text-align: center;
+    }
+  
+    .background-gray .content-container,
+    .background-yellow .content-container,
+    .background-red .content-container,
+    .background-green .content-container,
+    .background-blue .content-container {
+      padding: 10px;
+    }
+  
+    .background-gray input[type="text"],
+    .background-yellow input[type="text"],
+    .background-red input[type="text"],
+    .background-green input[type="text"],
+    .background-blue input[type="text"] {
+      font-size: 1rem;
+      padding: 10px;
+    }
+  }
+  
+  }
+
+  .dark-mode .welcome-container h1 {
+    color: #ffffff;
+  }
+
+  .dark-mode .subtitle {
+    color: #b0b0b0;
+  }
+
+  .dark-mode .base-card.LobbySection {
+    background-color: #2c2c2c;
+  }
+
+
+/* /* Neue Hintergrundfarben 
+#hauptteil {
+  background-color: #ffffff; 
+  color: #000000;
+} */
+
+/* Neue Hintergrundfarben */
+#hauptteil {
+  background-color: var(--primary-color); /* Standard: Weißer Hintergrund */
+  color: var(--text-color); /* Standard: Schwarzer Text */
+}
+
+.background-gray {
+  background-color: #cccccc;
+  color: #000000; /* Textfarbe */
+}
+
+.background-yellow {
+  background-color: #ffeb3b;
+  color: #000000;
+}
+
+.background-red {
+  background-color: #f44336;
+  color: #000000 !important;
+}
+
+.background-green {
+  background-color: #4caf50;
+  color: #000000 !important;
+}
+
+.background-blue {
+  background-color: #2196f3;
+  color: #000000 !important;
+}
+
+.background-gray .content-container,
+.background-yellow .content-container,
+.background-red .content-container,
+.background-green .content-container,
+.background-blue .content-container {
+  color: inherit; /* Erbt die Textfarbe basierend auf dem Hauptcontainer */
+}
+
+.background-gray input[type="text"],
+.background-yellow input[type="text"],
+.background-red input[type="text"],
+.background-green input[type="text"],
+.background-blue input[type="text"] {
+  border: 2px solid currentColor; /* Passt sich an die aktuelle Textfarbe an */
+  background-color: inherit; /* Hintergrundfarbe übernehmen */
+  color: inherit;
+}
+

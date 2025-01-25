@@ -96,7 +96,7 @@
 </template>
 
 <style>
-@media (min-width: 1024px) {
+
   .about {
     min-height: 100vh;
     display: flex;
@@ -110,5 +110,24 @@
     padding: 20px;
     text-align: left;
   }
+  .dark-mode .about {
+    color: white;
+  }
+
+@media (max-width: 768px) {
+  .about {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .privacy-policy {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: left;
+  }
+  
 }
 </style>

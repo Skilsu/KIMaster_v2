@@ -35,6 +35,7 @@ export default {
       difficulty: "easy",
 
       selectedGame: '',
+      time: "10", 
     };
   },
 
@@ -73,6 +74,12 @@ export default {
     if (this.lobbyKey === null) {
       this.createLobby();
       this.selectedGame = this.game;
+    }
+
+    // Récupérer le temps sauvegardé dans localStorage
+    const savedTime = localStorage.getItem('selectedTime');
+    if (savedTime) {
+      this.time = savedTime;
     }
   },
 
@@ -244,6 +251,11 @@ export default {
   },
 
   watch: {
+
+    time(newTime) {
+      localStorage.setItem('selectedTime', newTime); // Sauvegarde la valeur dans localStorage
+    },
+    
     /**
      * Updates the selected game when the game is changed via Vuex
      * @param {string} newGame - The new game identifier.
