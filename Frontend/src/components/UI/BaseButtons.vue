@@ -67,7 +67,7 @@ export default {
 }
 
 .dark-mode .button {
-  background-color: rgba(53, 45, 45, 0.7); /* Transparent dark background */
+  background-color: rgba(50, 50, 50, 0.7); /* Transparent dark background */
   color: #fff; /* White text */
   border: 2px solid #444; /* White border */
   box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* Transparent shadow */

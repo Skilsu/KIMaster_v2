@@ -71,6 +71,57 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+}
+.floating-button {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background-color: #006400;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.floating-button:hover {
+  background-color: #006400;
+}
+
+.floating-select {
+  font-family: 'Honk', sans-serif;
+  position: fixed;
+  bottom: 100px;
+  right: 120px;
+  background-color: white;
+  color: #006400;
+  border: 2px solid #006400;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.floating-select:focus {
+  outline: none;
+  border-color: #006400;
+}
+.background-green {
+  background-color: #4caf50;
+  color: #000000  !important;
+}
+
+.background-blue {
+  background-color: #2196f3 ;
+  color: #000000;
 }
 
 .dark-mode body {
@@ -102,7 +153,7 @@ body {
   background-color: #333333 !important;
   color: #faf7f7 !important;
   border:2px solid #535252 !important;
-  
+
 }
 
 .background-dark footer {

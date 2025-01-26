@@ -130,7 +130,7 @@
             this.mode == 'playerai_vs_playerai'
           "
         >
-          {{ $t("message.upload_ai") }}
+          {{ $t("Fehlende KI-Modellen") }}
         </div>
       </base-card>
 

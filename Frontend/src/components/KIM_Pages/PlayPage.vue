@@ -23,6 +23,10 @@
         $t("message.show_rules")
       }}</base-button>
       <base-button
+      v-if="!gameOver && moveTimer > 0" @click="stopGameTimer">
+        {{ $t("message.stop_timer") }}
+      </base-button>
+      <base-button
         v-if="!this.gameOver && position !== 'sp'"
         @click="surrenderGame()"
       >

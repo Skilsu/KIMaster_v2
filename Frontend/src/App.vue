@@ -40,7 +40,7 @@ export default {
   },
   data() {
     return {
-      selectedBackground: "background-gray", 
+      selectedBackground: "background-gray",
       colorSchemes: {
         'background-dark': {
           primary: '#333333',
@@ -234,6 +234,20 @@ export default {
     const savedBackground = localStorage.getItem('selectedBackground');
     if (savedBackground) {
       this.selectedBackground = savedBackground;
+    }
+    const savedAudio = localStorage.getItem("selectedAudio");
+    if (savedAudio) {
+      this.selectedAudio = JSON.parse(savedAudio);
+    } else if (this.audioFiles.length > 0) {
+      this.selectedAudio = this.audioFiles[0]; // Set first item as default
+    }
+
+
+    if (this.selectedAudio) {
+      this.audio = new Audio(this.selectedAudio.url);
+      this.audio.addEventListener("ended", () => {
+        this.isPlaying = false;
+      });
     }
   },
 };

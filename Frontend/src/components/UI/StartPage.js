@@ -21,6 +21,7 @@ export default {
   components: {
     BaseDialog,
   },
+
   data() {
     return {
       games: ENUMS.games,
@@ -104,7 +105,6 @@ export default {
         this.musicPlaying = false;
       }
     },
-
     /**
      * Starts the process of joining a lobby.
      * Sends a message to join the lobby and waits for confirmation.

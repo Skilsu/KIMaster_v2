@@ -139,8 +139,14 @@
     margin: 0 auto;
     padding: 20px;
     text-align: left;
+    font-family: 'Honk', sans-serif;
+    font-size: 25px;
   }
 
+  .dark-mode .about{
+  background-color: #1e1e1e;
+
+}
 }
 }
 </style>

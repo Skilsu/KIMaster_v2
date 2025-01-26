@@ -86,11 +86,6 @@ footer {
   color: #ffffff;
 }
 
-.dark-mode footer {
-  background-color: #333333 ;
-  color: #ffffff;
-}
-
 /* Styles for anchor tags within the footer */
 footer a {
   color: #9dcc67; /* Text color for links */

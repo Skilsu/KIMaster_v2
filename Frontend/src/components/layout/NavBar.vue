@@ -78,7 +78,7 @@ export default {
   mixins: [PlayPageLogic],
   data() {
     return {
-      /** 
+      /**
        * Current language of the application */
       currentLanguage: this.$i18n.locale,
       /** Whether the rules dialog is visible */
