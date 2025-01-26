@@ -83,27 +83,27 @@ body {
 
 .background-dark .base-card , .background-dark .game-selection-container {
   background-color: #333333 !important;
-  
+
 }
 
 
 .background-dark .base-card h1, .background-dark .base-card p, .background-dark .base-card label, .background-dark .base-card span{
   color: #ffffff !important;
-  
+
 }
 
 .background-dark a {
   color: #006400 !important;
-  
+
 }
 .background-dark button{
   color: #ffffff !important;
-  
+
 }
 
 .background-dark footer {
   background-color: #333333 !important;
-  
+
 }
 
 .floating-button {
@@ -147,4 +147,11 @@ body {
   border-color: #006400;
 }
 
-
+@media (max-width: 1100px) and (max-height: 1400px) {
+body {
+background-image: repeating-conic-gradient(red 10%, yellow 20%);
+}
+.dark-mode .PlayPage,.dark-mode .Startpage,.dark-mode .Lobbypage {
+  background: var(--color-background); /* Schwarz für den Dark Mode */
+}
+}

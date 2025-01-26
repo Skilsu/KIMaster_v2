@@ -34,12 +34,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 19px; /* Verringert den Abstand zwischen den Buttons */
 }
 
 .base-card.LobbySection {
   display: flex;
-  gap: 19px;
   position: relative;
 }
 
@@ -72,32 +70,6 @@ input[type="text"] {
   position: fixed;
 }
 
-@media (max-width: 768px) {
-  .game-selection-container {
-    flex-direction: column;
-  }
-
-  .game-selection-container a {
-    width: 100%;
-  }
-
-  .LobbySection {
-    flex-direction: column;
-  }
-
-  .welcome-container h1 {
-    font-size: 3rem; /* Kleinere Schriftgröße für Überschrift */
-  }
-
-  .subtitle {
-    font-size: 1.2rem; /* Kleinere Schriftgröße für Untertitel */
-  }
-
-  .base-card.LobbySection {
-    margin-bottom: 10%;
-  }
-}
-
 .dark-mode #hauptteil {
   background-color: #333333;
   color: #e0e0e0;
@@ -110,9 +82,10 @@ input[type="text"] {
 
 .dark-mode .welcome-container h1 {
   color: #ffffff;
+  background-color: transparent
 }
-
 .dark-mode .subtitle {
+  background-color: transparent;
   color: #b0b0b0;
 }
 
@@ -151,35 +124,102 @@ input[type="text"] {
   margin-bottom: 10px;
 }
 
-@media (max-width: 768px) {
-  @media (max-width: 768px) {
-    .background-gray,
-    .background-yellow,
-    .background-red,
-    .background-green,
-    .background-blue {
-      background-size: cover;
-      text-align: center;
-    }
-  
-    .background-gray .content-container,
-    .background-yellow .content-container,
-    .background-red .content-container,
-    .background-green .content-container,
-    .background-blue .content-container {
-      padding: 10px;
-    }
-  
-    .background-gray input[type="text"],
-    .background-yellow input[type="text"],
-    .background-red input[type="text"],
-    .background-green input[type="text"],
-    .background-blue input[type="text"] {
-      font-size: 1rem;
-      padding: 10px;
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .dark-mode .LobbySection {
+    background-color: #1e1e1e;
   }
-  
+
+  .dark-mode .welcome-container h1 {
+    color: #9dcc67;
+    background-color: transparent;
+  }
+
+  .dark-mode .subtitle {
+    background-color: transparent;
+    color: #b0b0b0;
+  }
+
+  .dark-mode .base-card.LobbySection {
+    background-color: #2c2c2c;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  @media (max-width: 1100px) and (max-height: 1400px) {
+    #hauptteil {
+      flex-direction: column-reverse;
+        padding-bottom: 100px;
+    }
+    .welcome-container h1 {
+      font-size: 3.5rem;
+      font-family: Honk,sans-serif;
+      font-weight: 700;
+
+  }
+
+  .subtitle {
+      font-size: 1.6rem;
+      font-family: Honk,sans-serif;
+      font-style: italic
+  }
+    .game-selection-container {
+      flex-direction:column;
+    }
+    .LobbySection {
+      flex-direction: column
+  }
+    .game-selection-container a {
+      width: 100%
+  }
+  .music-toggle button {
+    font-family: 'Honk', sans-serif;
+    font-size: 1.5rem;
+    background: #ff8d5b;
+    animation: mymove 5s infinite;
+    margin-top: 10px;
+  }
+  @keyframes mymove {
+    20% {background-color: #98ca60;}
+  }
+
+  .dark-mode .LobbySection {
+    background-color: #1e1e1e;
   }
 
   .dark-mode .welcome-container h1 {
@@ -193,60 +233,10 @@ input[type="text"] {
   .dark-mode .base-card.LobbySection {
     background-color: #2c2c2c;
   }
-
-
-/* /* Neue Hintergrundfarben 
-#hauptteil {
-  background-color: #ffffff; 
-  color: #000000;
-} */
-
-/* Neue Hintergrundfarben */
-#hauptteil {
-  background-color: var(--primary-color); /* Standard: Weißer Hintergrund */
-  color: var(--text-color); /* Standard: Schwarzer Text */
+  .dark-mode .music-toggle button{
+    margin-top: 10px;
+    font-family: 'Honk', sans-serif;
+    font-size: 1.5rem;
+    background-color: #2c2c2c;
+  }
 }
-
-.background-gray {
-  background-color: #cccccc;
-  color: #000000; /* Textfarbe */
-}
-
-.background-yellow {
-  background-color: #ffeb3b;
-  color: #000000;
-}
-
-.background-red {
-  background-color: #f44336;
-  color: #000000 !important;
-}
-
-.background-green {
-  background-color: #4caf50;
-  color: #000000 !important;
-}
-
-.background-blue {
-  background-color: #2196f3;
-  color: #000000 !important;
-}
-
-.background-gray .content-container,
-.background-yellow .content-container,
-.background-red .content-container,
-.background-green .content-container,
-.background-blue .content-container {
-  color: inherit; /* Erbt die Textfarbe basierend auf dem Hauptcontainer */
-}
-
-.background-gray input[type="text"],
-.background-yellow input[type="text"],
-.background-red input[type="text"],
-.background-green input[type="text"],
-.background-blue input[type="text"] {
-  border: 2px solid currentColor; /* Passt sich an die aktuelle Textfarbe an */
-  background-color: inherit; /* Hintergrundfarbe übernehmen */
-  color: inherit;
-}
-

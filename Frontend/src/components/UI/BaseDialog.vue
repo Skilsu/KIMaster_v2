@@ -84,7 +84,19 @@ header {
   text-align: center;
 }
 
-.dark-mode header { 
+.dark-mode header {
+  background-color: #1e1e1e;
+  color: white;
+}
+header {
+  background-color: white;
+  color: black;
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+}
+
+.dark-mode header {
   background-color: #1e1e1e;
   color: white;
 }
@@ -129,16 +141,24 @@ menu {
   margin: 0.5rem 0; /* Vertikaler Abstand oben und unten */
 }
 
-@media (max-width: 768px) {
+
+
+@media (max-width: 1100px) and (max-height: 1400px)  {
   dialog {
     width: 40rem;
+    font-family: 'Honk', sans-serif;
+    font-size: 25px;
   }
 
-  .dialog-overlay menu {
-    display: flex;
+  .dialog-overlay menu, menu{
     flex-direction: column;
+    font-family: 'Honk', sans-serif;
+    font-size: 25px;
   }
-
+  header h2 {
+    font-family: 'Honk', sans-serif;
+    font-size: 25px;
+  }
   menu {
     display: flex;
     flex-direction: column;

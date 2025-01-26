@@ -134,7 +134,7 @@ export default {
         '--hover-color': colors.hover,
         '--border-color': colors.border,
         '--shadow-color': colors.shadow,
-        
+
         // Apply CSS variables to common elements
         color: 'var(--text-color)',
         backgroundColor: 'var(--primary-color)',
@@ -148,12 +148,56 @@ export default {
       };
     }
   },
+  watch: {
+    isDarkMode(newVal) {
+      this.updateDarkModeClass(newVal);
+      localStorage.setItem("dark-mode", newVal);
+    }
+  },
+  created() {
+
+    const darkModePreference = localStorage.getItem("dark-mode");
+
+    if (darkModePreference === "true") {
+      if (!this.isDarkMode) {
+        this.$store.commit("SET_DARK_MODE", true);
+      }
+      this.updateDarkModeClass(true);
+    } else if (darkModePreference === "false") {
+      if (this.isDarkMode) {
+        this.$store.commit("SET_DARK_MODE", false);
+      }
+      this.updateDarkModeClass(false);
+    } else {
+
+      localStorage.setItem("dark-mode", this.isDarkMode);
+      this.updateDarkModeClass(this.isDarkMode);
+    }
+
+    // Initialize WebSocket and language settings
+    this.$store.dispatch("initWebSocket");
+    const savedLanguage = localStorage.getItem("locale");
+    if (savedLanguage) {
+      this.$i18n.locale = savedLanguage;
+    }
+  },
   methods: {
     changeBackground(backgroundClass) {
       this.selectedBackground = backgroundClass;
     },
+    updateDarkModeClass(isDarkMode) {
+      if (isDarkMode) {
+        document.documentElement.classList.add("dark-mode");
+      } else {
+        document.documentElement.classList.remove("dark-mode");
+      }
+    },
     connectWebSocket() {
+      this.$router.push({ name: "home" });
       this.$store.dispatch("initWebSocket");
+    },
+    showRules() {
+      this.$root.$emit('show-rules');
     },
     handleAudioChange() {
       if (this.audio) {
@@ -196,7 +240,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 
 :root {
   --primary-color: #cccccc;
@@ -321,6 +365,6 @@ select {
   padding: 5px;
   font-size: 16px;
 }
-  
+
 }
 </style>

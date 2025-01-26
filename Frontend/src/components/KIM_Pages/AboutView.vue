@@ -1,4 +1,6 @@
 <template>
+<link href="https://fonts.googleapis.com/css2?family=Honk&display=swap" rel="stylesheet">
+
   <div class="about">
     <h1>Datenschutzerklärung</h1>
     <div class="privacy-policy">
@@ -97,11 +99,18 @@
 
 <style>
 
+  .dark-mode .about {
+    color: white;
+  }
+
+  @media (max-width: 1100px) and (max-height: 1400px)  {
   .about {
     min-height: 100vh;
     display: flex;
     align-items: center;
     flex-direction: column;
+    font-family: 'Honk', sans-serif;
+    font-size: 25px;
   }
 
   .privacy-policy {
@@ -109,9 +118,12 @@
     margin: 0 auto;
     padding: 20px;
     text-align: left;
+    font-family: 'Honk', sans-serif;
+    font-size: 25px;
   }
   .dark-mode .about {
     color: white;
+  background-color: #1e1e1e;
   }
 
 @media (max-width: 768px) {
@@ -128,6 +140,7 @@
     padding: 20px;
     text-align: left;
   }
-  
+
+}
 }
 </style>

@@ -34,7 +34,11 @@ footer {
   align-items: center; /* Center items vertically */
   padding: 10px; /* Padding inside the footer */
   background-color: #f8f9fa; /* Light background color */
-  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+}
+
+.dark-mode footer {
+  background-color: #333333;
+  color: #ffffff;
 }
 
 .dark-mode footer {
@@ -44,7 +48,7 @@ footer {
 
 /* Styles for anchor tags within the footer */
 footer a {
-  color: green; /* Text color for links */
+  color: #9dcc67; /* Text color for links */
   text-decoration: none; /* No underline for links */
   margin-left: 30px; /* Space between links */
 }
@@ -52,5 +56,19 @@ footer a {
 /* Styles for anchor tags on hover */
 footer a:hover {
   color: #007bff; /* Text color on hover */
+}
+
+
+@media (max-width: 1100px) and (max-height: 1400px) {
+footer {
+  position: fixed;
+}
+footer a {
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Honk', sans-serif;
+  font-size: 25px;
+  font-weight: bolder;
+}
 }
 </style>

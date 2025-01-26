@@ -5,6 +5,11 @@
     <option value="de">Deutsch</option>
     <option value="fr">Français</option>
     <option value="es">Español</option>
+    <option value="ar">Arabic</option>
+    <option value="tr">Turkish</option>
+    <option value="ja">Japanese</option>
+    <option value="zh">Chinese</option>
+    <option value="ru">Russian</option>
   </select>
 </template>
 

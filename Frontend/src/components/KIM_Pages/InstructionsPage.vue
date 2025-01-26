@@ -1,4 +1,5 @@
 <template>
+<link href="https://fonts.googleapis.com/css2?family=Honk&display=swap" rel="stylesheet">
   <div class="instructions-page">
     <base-card>
       <div class="instructions">
@@ -220,7 +221,6 @@ export default {
 
 <style scoped>
 .instructions {
-  max-height: 80vh; /* Set the maximum height */
   overflow-y: auto; /* Enable vertical scrolling */
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -291,5 +291,13 @@ prism {
   overflow-x: auto;
   max-width: 100%;
   color: #e0e0e0;
+}
+
+
+@media (max-width: 1100px) and (max-height: 1400px)   {
+  .instructions,.instructions h1,.instructions h2,.instructions h3,.instructions h4,.instructions ul, .instructions p, .instructions-page div {
+    font-family: 'Honk', sans-serif;
+    font-size: 25px;
+  }
 }
 </style>

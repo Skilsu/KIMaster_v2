@@ -112,6 +112,12 @@ export default {
       savedPos: null,
       moveTimer: localStorage.getItem("selectedTime") ? parseInt(localStorage.getItem("selectedTime")) : 10,
       timerInterval: null,
+
+      isPaused: false, // New state to track pause status
+      pausedRemainingTime: 0,
+
+      gameOverAnimation: false,
+      timerStopped: false,
     };
   },
 
@@ -119,7 +125,7 @@ export default {
     /**
      * Initializes game board dimensions and settings based on the current game.
      */
-    this.startMoveTimer();
+    // this.startMoveTimer();
     switch (this.game) {
       case "chess":
         this.boardWidth = 8;
@@ -196,6 +202,12 @@ export default {
         move: this.nimTest,
       };
       this.sendMessage(data);
+
+      // Reset the timer
+      if (this.gameActive == true) {
+        this.resetTimer();
+      }
+
       this.nimTest = [-1, 0];
     },
 
@@ -250,6 +262,11 @@ export default {
       this.sendMessage(data);
     },
 
+    stopGameTimer() {
+      this.timerStopped = true;
+      this.moveTimer = 0; // Set the timer value to 0 to stop it
+    },
+
     /**
      * Starts a new game with the same set up.
      */
@@ -275,18 +292,56 @@ export default {
       this.sendMessage(data);
     },
 
+
+
+
+
+
+
     startMoveTimer() {
+      if (this.timerStopped) return;
       if (this.timerInterval) {
         clearInterval(this.timerInterval);
       }
-      //this.moveTimer = 10;
+      // If resuming from a pause, use the stored remaining time
+      this.moveTimer = this.pausedRemainingTime || 10;
+      this.isPaused = false;
+      this.pausedRemainingTime = 0;
+
       this.timerInterval = setInterval(() => {
-        this.moveTimer--;
-        if (this.moveTimer === 0) {
-          this.handleTimeOut();
+        if (!this.isPaused) {
+          this.moveTimer--;
+          if (this.moveTimer === 0) {
+            this.handleTimeOut();
+          }
         }
       }, 1000);
     },
+
+
+
+
+
+
+
+
+    pauseGame() {
+      if (!this.isPaused && this.moveTimer > 0) {
+        this.isPaused = true;
+        this.pausedRemainingTime = this.moveTimer;
+        clearInterval(this.timerInterval);
+      }
+    },
+
+    resumeGame() {
+      if (this.isPaused) {
+        this.startMoveTimer();
+      }
+    },
+
+
+
+
 
     handleTimeOut() {
       clearInterval(this.timerInterval);
@@ -296,7 +351,6 @@ export default {
       };
       this.sendMessage(data);
     },
-
     resetTimer() {
       clearInterval(this.timerInterval);
       this.startMoveTimer();
@@ -306,7 +360,14 @@ export default {
       clearInterval(this.timerInterval);
       this.timerInterval = null;
       this.moveTimer = 0;
+      this.isPaused = false;
+      this.pausedRemainingTime = 0;
     },
+
+
+
+
+
 
     playMakeMove() {
       let data;
@@ -331,6 +392,7 @@ export default {
       }
     },
     formatTime() {
+      if (this.timerStopped) return "";
       const minutes = Math.floor(this.moveTimer / 60);
       const secs = this.moveTimer % 60;
       return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(
@@ -526,14 +588,22 @@ export default {
         this.isPlaying = false;
       }, 100); // 100 milliseconds delay so sounds don't overlap too strongly
     },
+    hideAnimation() {
+      this.gameOverAnimation = false;
+    },
   },
 
   watch: {
     gameOver(newVal) {
       if (newVal) {
         this.stopTimer();
+        this.gameOverAnimation = true;
+        setTimeout(() => {
+          this.hideAnimation();
+        }, 3000);
       }
     },
+
     /**
      * Watches for changes in the invalidMoveObserver property.
      * Automatically handles invalid moves if necessary.

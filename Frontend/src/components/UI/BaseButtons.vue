@@ -74,13 +74,41 @@ export default {
   transition: all 0.3s;
 }
 
-@media (max-width: 768px) {
-  .button {
-    width: 100%; 
-    padding: 15px; 
-    font-size: 16px; 
-    border-radius: 10px;
-  }
+.dark-mode .button:hover {
+  background-color: rgba(100, 100, 100, 0.7); /* Lighter gray on hover */
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); /* White glow effect */
+  transform: scale(1.1);
+}
+
+.dark-mode .button:active {
+  transform: scale(0.98);
+}
+
+.dark-mode .button:focus {
+  outline: none;
+}
+
+.dark-mode .qr-code-button {
+  transform: scale(0.7);
+  transform-origin: center;
+  font-size: 16px;
+  background-color: rgba(50, 50, 50, 0.7); /* Matches dark mode button background */
+  color: #fff; /* White text */
+  border: 2px solid #fff; /* White border */
+}
+
+.dark-mode .qr-code-button:hover {
+  transform: scale(0.8) !important;
+  background-color: rgba(100, 100, 100, 0.7); /* Lighter gray on hover */
+  box-shadow: 0 0 7.5px rgba(255, 255, 255, 0.6); /* White glow effect */
+}
+
+.dark-mode .button {
+  background-color: rgba(50, 50, 50, 0.7); /* Transparent dark background */
+  color: #fff; /* White text */
+  border: 2px solid #444; /* White border */
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* Transparent shadow */
+  transition: all 0.3s;
 }
 
 .dark-mode .button:hover {
@@ -110,5 +138,21 @@ export default {
   transform: scale(0.8) !important;
   background-color: rgba(100, 100, 100, 0.7); /* Lighter gray on hover */
   box-shadow: 0 0 7.5px rgba(255, 255, 255, 0.6); /* White glow effect */
+}
+
+
+
+@media (max-width: 1100px) and (max-height: 1400px)  {
+  .button {
+    width: 100%;
+    font-size: 25px;
+    font-family: 'Honk', sans-serif;
+    font-weight: 700;
+    border: 3mm ridge rgb(255 236 107);
+  }
+  .dark-mode .button {
+    font-size: 25px;
+    border: 3mm ridge rgb(255 236 107);
+  }
 }
 </style>

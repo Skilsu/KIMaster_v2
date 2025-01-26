@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 19px;
   flex-wrap: nowrap; /* verhindert das Umbruch der Buttons */
 }
 
@@ -23,7 +22,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 19px;
   flex-wrap: nowrap; /* verhindert das Umbruch der Buttons */
 }
 
@@ -125,11 +123,118 @@
 .wrongMoves base-button {
   flex: 0 1 auto; /* Buttons passen ihre Größe automatisch an */
 }
-
-.dialog-content img {
-  margin-left: 43px; /* Verschiebt das Spielfeld (Bild) nach rechts */
-}
-
 .Timer {
   color: #ff5722;
+}
+.game-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 2rem;
+  animation: fade-in 0.5s ease-in-out;
+}
+
+.win-animation {
+  color: gold;
+  animation: scale-up 1s infinite alternate;
+}
+
+.lose-animation {
+  color: red;
+  animation: shake 1s infinite alternate;
+}
+
+.draw-animation {
+  color: gray;
+  animation: pulse 1s infinite alternate;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-up {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(-5px);
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+  @media (max-width: 1100px) and (max-height: 1400px) {
+    .ButtonUp {
+        font-weight:700;
+        font-family: 'Honk', sans-serif;
+        font-size: 25px;
+        text-align: center;
+        font-size: medium;
+        flex-direction: column;
+    }
+    .base-card.lower-card {
+        text-align: center;
+
+    }
+    .control-Buttons {
+      flex-direction: column;
+      margin-bottom: 50px;
+    }
+    .dialog-content {
+      flex-direction: column;
+    }
+    .Timer {
+      font-size:25px;
+  }
+  .game-animation {
+    font-family: 'Honk', sans-serif;
+    font-size: 25px;
+  }
 }
