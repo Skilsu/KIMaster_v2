@@ -26,9 +26,9 @@ export default {
 <style scoped>
 
 .button {
-  background-color: rgba(255, 255, 255, 0.5); /* Durchsichtige weiße Farbe */
+  background-color: rgba(255, 255, 255, 0.929); /*urchsichtige weiße Farbe */
   color: black; /* Schwarzer Text */
-  border: 2px solid black; /* Schwarzer Rand */
+  border: 2px solid rgb(149, 142, 142); /* Schwarzer Rand */
   padding: 15px 30px;
   font-size: 16px;
   border-radius: 5px;
@@ -40,7 +40,7 @@ export default {
 
 .button:hover {
   background-color: rgba(211, 211, 211, 0.5); /* Leicht graue Farbe beim Hover */
-  box-shadow: 0 0 15px rgba(128, 128, 128, 0.8); /* Grauer Schatten für den Leuchteffekt */
+  box-shadow: 0 0 15px rgba(138, 134, 134, 0.8); /* Grauer Schatten für den Leuchteffekt */
   transform: scale(1.1); /* Vergrößert den Button beim Hovern */
 }
 
@@ -67,7 +67,7 @@ export default {
 }
 
 .dark-mode .button {
-  background-color: rgba(50, 50, 50, 0.7); /* Transparent dark background */
+  background-color: rgba(53, 45, 45, 0.7); /* Transparent dark background */
   color: #fff; /* White text */
   border: 2px solid #444; /* White border */
   box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* Transparent shadow */
@@ -84,24 +84,27 @@ export default {
 }
 
 .dark-mode .button:hover {
-  background-color: rgba(100, 100, 100, 0.7); /* Lighter gray on hover */
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); /* White glow effect */
+  background-color: rgba(15, 15, 15, 0.7); /* Lighter gray on hover */
+  box-shadow: 0 0 15px rgba(48, 47, 47, 0.6); /* White glow effect */
   transform: scale(1.1);
 }
 
 .dark-mode .button:active {
+  background-color: #333333;
   transform: scale(0.98);
 }
 
 .dark-mode .button:focus {
   outline: none;
+  background-color: #000000; /* Fokus ebenfalls Schwarz */
+  color: #ffffff; /* Text bleibt weiß */
 }
 
 .dark-mode .qr-code-button {
   transform: scale(0.7);
   transform-origin: center;
   font-size: 16px;
-  background-color: rgba(50, 50, 50, 0.7); /* Matches dark mode button background */
+  background-color: rgba(15, 15, 15, 0.7); /* Matches dark mode button background */
   color: #fff; /* White text */
   border: 2px solid #fff; /* White border */
 }
@@ -109,6 +112,6 @@ export default {
 .dark-mode .qr-code-button:hover {
   transform: scale(0.8) !important;
   background-color: rgba(100, 100, 100, 0.7); /* Lighter gray on hover */
-  box-shadow: 0 0 7.5px rgba(255, 255, 255, 0.6); /* White glow effect */
+  box-shadow: 0 0 7.5px rgba(225, 225, 225, 0.6); /* White glow effect */
 }
 </style>
