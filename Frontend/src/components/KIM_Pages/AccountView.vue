@@ -6,7 +6,14 @@
                 
                 <h1>Hinweis</h1>
                 <p class="text-muted">
-                  Benutzer können sich mit ihrer THM-E-Mail-Adresse registrieren und sich anschließend mit dieser sowie ihrer THM-Kennung anmelden. Die E-Mail-Adresse sowie der Vor- und Nachname des Benutzers, das Datum der Kontoerstellung und der letzten Anmeldung werden gespeichert. Nach 18 Monaten Inaktivität werden die Benutzerdaten, einschließlich E-Mail-Adresse sowie Vor- und Nachname, anonymisiert. 30 Tage vor der Anonymisierung erhalten die Benutzer eine Benachrichtigung per E-Mail. Zudem werden Spielaktivitäten für weiterführende Analysen aufgezeichnet. Nach der Anonymisierung sind keine Rückschlüsse auf einzelne Personen mehr möglich.
+                  Benutzer können sich mit ihrer THM-E-Mail-Adresse oder THM-Kennung registrieren und 
+                  sich anschließend mit diesen Daten anmelden. Die E-Mail-Adresse sowie der Vor- und 
+                  Nachname des Benutzers, das Datum der Kontoerstellung und der letzten Anmeldung werden 
+                  gespeichert. Nach 18 Monaten Inaktivität werden die Benutzerdaten, einschließlich 
+                  E-Mail-Adresse sowie Vor- und Nachname, anonymisiert. 30 Tage vor der Anonymisierung 
+                  erhalten die Benutzer eine Benachrichtigung per E-Mail. Zudem werden Spielaktivitäten 
+                  für weiterführende Analysen aufgezeichnet. Nach der Anonymisierung ist es nicht mehr 
+                  möglich, einzelne Personen zu identifizieren.
                 </p><br><br>
                 
                 <h4>Konto-Details</h4>

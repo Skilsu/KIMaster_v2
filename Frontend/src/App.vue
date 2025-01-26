@@ -40,7 +40,7 @@ export default {
   },
   data() {
     return {
-      selectedBackground: "background-gray", // Standardhintergrund
+      selectedBackground: "background-gray", 
       colorSchemes: {
         'background-dark': {
           primary: '#333333',

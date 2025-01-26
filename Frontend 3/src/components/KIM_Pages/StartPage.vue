@@ -25,7 +25,7 @@
       </base-card>
 
       <base-card class="LobbySection">
-        <input type="text" v-model="lobbyKeyToJoin" :placeholder="$t('message.enter_lobby_key')" />
+        <input id="lobbyInput" type="text" v-model="lobbyKeyToJoin" :placeholder="$t('message.enter_lobby_key')" />
         <div class="message-box" v-if="this.notif === ENUMS.notifStatus.LOBBYJOINFAIL">
           {{ $t('message.lobby_join_failed') }}
         </div>
