@@ -12,6 +12,9 @@
       </div>
 
       <div class="nav-right">
+        <label id="fullname" class="user-info">
+          {{ fullname }}
+        </label>
         <div class="color-select">
           <select @change="changeBackground($event.target.value)">
             <option
@@ -26,6 +29,7 @@
         <language-switcher class="language-switcher"></language-switcher>
       </div>
     </div>
+
     <!-- Rules Dialog Component -->
     <teleport to="body">
       <base-dialog
@@ -95,6 +99,10 @@ export default {
     };
   },
   computed: {
+    fullname() {
+      return localStorage.getItem("fullname");
+    },
+
     /**
      * Checks if the current route is the starting page.
      * @returns {boolean} - True if on the starting page, otherwise false.

@@ -1,0 +1,59 @@
+#hauptteil {
+  height: 100vh;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-container {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.welcome-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.message-box {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.FooterLogin {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}

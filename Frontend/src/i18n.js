@@ -104,6 +104,17 @@ const messages = {
       pause_game: "Pause Game",
       stop_timer: "Stop Timer",
 
+
+      login: {
+        header: "Bitte logge dich ein",
+        email: "Email",
+        password: "Passwort",
+        placeholderEmail: "THM Mail Adresse",
+        placeholderPassword: "*********",
+        loginBtn: "Anmelden",
+        registerBtn: "Registrieren",
+        failed: "Anmeldung leider fehlgeschlagen.<br>Möglich Gründe: <br>- Kombination existiert nicht. <br>- Email existiert bereits <br>- Email ist keine offizielle THM Mail"
+      }
     },
 
     rules: {
@@ -237,32 +248,25 @@ const messages = {
 
         capturing: {
           title: "Capturing",
-          description1:
-            "There is a capture obligation. If your own free pieces cannot be clicked during a move, it may be because there is a capture opportunity somewhere on the board. Only one of these pieces can then be selected. Single pieces are only allowed to capture forward. When capturing, the piece must stand directly in front of the opponent's piece and must land directly behind the captured piece. This square must be free.",
-          description2:
-            "If you have a choice between different capture opportunities, you are free to decide. An exception is multiple captures.",
-          description3:
-            "Multiple captures mean: If a piece has captured and there is an opportunity to capture again with the same piece, the player continues their turn until multiple captures are no longer possible.",
+          description1: "There is a capture obligation. If your own free pieces cannot be clicked during a move, it may be because there is a capture opportunity somewhere on the board. Only one of these pieces can then be selected. Single pieces are only allowed to capture forward. When capturing, the piece must stand directly in front of the opponent's piece and must land directly behind the captured piece. This square must be free.",
+          description2: "If you have a choice between different capture opportunities, you are free to decide. An exception is multiple captures.",
+          description3: "Multiple captures mean: If a piece has captured and there is an opportunity to capture again with the same piece, the player continues their turn until multiple captures are no longer possible.",
         },
 
         queening: {
           title: "Queening",
-          description1:
-            "You get a queen when one of your pieces reaches the opponent's back row, either by a normal move or by a capture. The piece is marked with a 'Crown' (in the board game, a second piece is placed on top).",
-          description2:
-            "A queen can move diagonally both forward and backward and can also capture in both directions. Unlike international checkers, the king can only move one square forward or backward.",
+          description1: "You get a queen when one of your pieces reaches the opponent's back row, either by a normal move or by a capture. The piece is marked with a 'Crown' (in the board game, a second piece is placed on top).",
+          description2: "A queen can move diagonally both forward and backward and can also capture in both directions. Unlike international checkers, the king can only move one square forward or backward.",
         },
 
         endgame: {
           title: "End of the Game",
-          description:
-            "You lose if you have no pieces left or if your pieces are blocked and cannot move. You can also concede the game by choosing 'Surrender'.",
+          description: "You lose if you have no pieces left or if your pieces are blocked and cannot move. You can also concede the game by choosing 'Surrender'.",
         },
 
         draw: {
           title: "Draw",
-          description:
-            "Some games end in a draw. This happens when neither player can win unless the other makes a significant mistake. To prevent endless games, there are two ways to declare a draw:",
+          description: "Some games end in a draw. This happens when neither player can win unless the other makes a significant mistake. To prevent endless games, there are two ways to declare a draw:",
           point1: "Both players agree to a draw, or",
           point2: "30 moves have been made without a capture.",
         },
@@ -458,6 +462,8 @@ const messages = {
       datenschutz: "Privacy Policy",
       impressum: "Imprint",
       account : "Account",
+      logout: "Logout",
+      login: "Login"
     },
   },
 
@@ -558,6 +564,18 @@ const messages = {
       blunder: "Fehler anzeigen",
       you_won: "Du hast gewonnen!",
       opponent_won: "Gegner hat gewonnen",
+
+      login: {
+        header: "Bitte logge dich ein",
+        email: "Email",
+        password: "Passwort",
+        placeholderEmail: "THM Mail Adresse",
+        placeholderPassword: "*********",
+        loginBtn: "Anmelden",
+        registerBtn: "Registrieren",
+        failed: "Anmeldung leider fehlgeschlagen.<br>Möglich Gründe: <br>- Kombination existiert nicht. <br>- Email existiert bereits. <br>- Keine offizielle THM Mail."
+      },
+
       time_remaining: "Verbleibende Zeit",
       play_music: "Musik abspielen",
       pause_music: "Musik pausieren",
@@ -936,7 +954,9 @@ const messages = {
     footer: {
       datenschutz: "Datenschutz",
       impressum: "Impressum",
-      account : "Konto"
+      account : "Konto",
+      logout: "Abmelden",
+      login: "Anmelden",
     },
   },
   ////////////////////////////////////////////////////////////////Französisch///////////////////////////////////////////////////////////////////////////////////
@@ -1297,7 +1317,9 @@ const messages = {
     footer: {
       datenschutz: "Politique de Confidentialité",
       impressum: "Mentions légales",
-      account : "Compte"
+      account : "Compte",
+        logout: "Se déconnecter",
+        login: "connexion",
     },
   },
   /////////////////////////////////////////////////////////Spanisch////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1666,6 +1688,8 @@ const messages = {
     footer: {
       datenschutz: "Política de Privacidad",
       impressum: "Pie de imprenta",
+      logout: "Cerrar sesión",
+      login: "Registro"
     },
   },
 
