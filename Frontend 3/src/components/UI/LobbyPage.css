@@ -1,0 +1,71 @@
+#hauptteil-lobby {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+}
+
+.content-container {
+  display: flex;
+  width: 100%;
+  max-width: 100rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.control {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem; /* Abstand zwischen den Elementen */
+  margin-top: 1.5rem; /* Oberer Abstand */
+}
+
+.message-box {
+  position: absolute;
+  top:100%;
+  left: 0;
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 8px;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  width: 100%; /* Adjust the width to match the input field */
+  white-space: nowrap; /* Ensures the message stays on one line */
+  overflow: hidden; /* Hides overflow text */
+  text-overflow: ellipsis; /* Adds ellipsis (...) if text overflows */
+  z-index: 1000;
+}
+
+.base-card.LobbyButton {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+}
+
+p1 {
+  margin: 0.5rem; /* Setzt die Margin der p1-Elemente auf 0 */
+}
+
+.myPosition, .guestPosition {
+  margin: 0.5rem; /* Setzt die Margin der myPosition- und guestPosition-Elemente auf 0.5rem */
+}
+
+/* Neues CSS für die horizontalen Dropdown-Menüs */
+.horizontal-selects {
+  display: flex;
+  gap: 19px; /* Abstand zwischen den Dropdowns */
+  flex-wrap: wrap; /* Umbrüche erlauben, wenn der Platz nicht reicht */
+}
+
+.horizontal-selects select {
+  flex: none; /* Verhindert, dass die Dropdowns die gleiche Breite haben */
+  width: auto; /* Automatische Breite basierend auf Inhalt */
+  padding: 5px 10px; /* Reduziertes Padding für kleinere Dropdowns */
+  font-size: 14px; /* Kleinere Schriftgröße für Dropdown-Text */
+  border: 1px solid #ccc; /* Optional: Rand hinzufügen */
+  border-radius: 4px; /* Optional: Abgerundete Ecken */
+  margin-bottom: 19px;
+}

@@ -1,34 +1,43 @@
 <template>
-  <!-- Navigation bar with brand logo and links for navigation -->
-  <nav class="navbar-expand-lg bg-body-tertiary nav-bar">
+  <nav :class="['navbar', currentBackground]">
     <div class="container-fluid">
-      <!-- Link to home page with logo -->
-      <router-link class="navbar-brand" @click="leaveLobby()" :to="{ name: 'home' }">
-        <img :src="logo" alt="KI Master Logo" class="logo" />
-      </router-link>
-      <div class="navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <!-- Conditional link for instructions page, shown only on starting page -->
-          <li class="nav-item" v-if="isStartingPage">
-            <router-link class="nav-link" :to="{ name: 'instruction' }">{{ $t('message.instruction') }}</router-link>
-          </li>
-        </ul>
+      <div class="nav-left">
+        <router-link class="navbar-brand" :to="{ name: 'home' }">
+          <img :src="logo" alt="KIM Logo" class="logo" />
+        </router-link>
+        <span class="nav-title">Anleitung</span>
+        <router-link class="navbar-brand" :to="{ name: 'login' }">
+          <img :src="logo" alt="KIM Logo" class="logo" />
+        </router-link>
       </div>
-      <!-- Controls for theme switcher and language selection -->
-      <div class="top-right-controls">
-        <label class="switch">
-          <input type="checkbox" v-model="isDarkMode" @change="toggleDarkMode">
-          <span class="slider round"></span>
-        </label>
-        <language-switcher class="me-2"></language-switcher>
+
+      <div class="nav-right">
+        <div class="color-select">
+          <select @change="changeBackground($event.target.value)">
+            <option
+              v-for="color in colors"
+              :key="color.name"
+              :value="color.class"
+            >
+              {{ color.name }}
+            </option>
+          </select>
+        </div>
+        <language-switcher class="language-switcher"></language-switcher>
       </div>
     </div>
     <!-- Rules Dialog Component -->
     <teleport to="body">
-      <base-dialog :title="$t('rules.game_title')" v-if="isRulesVisible" @close="closeRules">
+      <base-dialog
+        :title="$t('rules.game_title')"
+        v-if="isRulesVisible"
+        @close="closeRules"
+      >
         <component :is="currentRuleComponent" />
         <template #actions>
-          <base-button @click="closeRules">{{ $t('message.okay') }}</base-button>
+          <base-button @click="closeRules">{{
+            $t("message.okay")
+          }}</base-button>
         </template>
       </base-dialog>
     </teleport>
@@ -39,14 +48,14 @@
 import { mapActions, mapGetters } from "vuex";
 import { useRoute } from "vue-router";
 // Importing rule components for various games
-import Connect4Rules from '@/components/gameRules/Connect4Rules.vue';
-import NimRules from '@/components/gameRules/NimRules.vue';
-import OthelloRules from '@/components/gameRules/OthelloRules.vue';
-import TicTacToeRules from '@/components/gameRules/TicTacToeRules.vue';
-import PlayPageLogic from '../UI/PlayPage.js';
-import BaseDialog from '@/components/UI/BaseDialog.vue';
-import LanguageSwitcher from './LanguageSwitcher.vue';
-import logo from '@/components/icons/logo.png'; // Import the logo image
+import Connect4Rules from "@/components/gameRules/Connect4Rules.vue";
+import NimRules from "@/components/gameRules/NimRules.vue";
+import OthelloRules from "@/components/gameRules/OthelloRules.vue";
+import TicTacToeRules from "@/components/gameRules/TicTacToeRules.vue";
+import PlayPageLogic from "../UI/PlayPage.js";
+import BaseDialog from "@/components/UI/BaseDialog.vue";
+import LanguageSwitcher from "./LanguageSwitcher.vue";
+import logo from "@/components/icons/logo.png"; // Import the logo image
 
 /**
  * NavBar component that includes a Home Button and language selection Options
@@ -72,8 +81,17 @@ export default {
       isRulesVisible: false,
       /** - Component name to be displayed in the rules dialog */
       currentRuleComponent: null,
+      currentBackground: "background-gray",
       /** - Path to the logo image */
-      logo, // Add logo path to data function
+      logo,
+      colors: [
+        { name: "Grau", class: "background-gray" },
+        { name: "Dark", class: "background-dark" },
+        { name: "Gelb", class: "background-yellow" },
+        { name: "Rot", class: "background-red" },
+        { name: "Grün", class: "background-green" },
+        { name: "Blau", class: "background-blue" },
+          ]
     };
   },
   computed: {
@@ -83,35 +101,36 @@ export default {
      * @method
      */
     isStartingPage() {
-      return this.$route.name === 'home';
+      return this.$route.name === "home";
     },
     /**
      * Checks if the current route is the play page.
      * @returns {boolean} - True if on the play page, otherwise false.
      */
     isPlayPage() {
-      return this.$route.name === 'play';
+      return this.$route.name === "play";
     },
     /**
      * Checks if the current route is the lobby page.
      * @returns {boolean} - True if on the lobby page, otherwise false.
      */
     isLobbyPage() {
-      return this.$route.name === 'lobby';
+      return this.$route.name === "lobby";
     },
     /**
      * Vuex getter for game active state.
      * @type {boolean}
      */
-    ...mapGetters(['gameActive']),
+    ...mapGetters(["gameActive"]),
+    ...mapGetters(["isDarkMode"]),
   },
   methods: {
     /**
      * Maps Vuex actions to the component.
-     * @type {Function} 
+     * @type {Function}
      */
     ...mapActions(["sendWebSocketMessage"]),
-    
+
     /**
      * Sends a WebSocket message.
      * @param {Object} data - Data to be sent in the message.
@@ -120,17 +139,19 @@ export default {
       console.log(data);
       this.sendWebSocketMessage(JSON.stringify(data));
     },
-    
+
     /**
      * Handles leaving the lobby based on the current route and game state.
      */
     leaveLobby() {
-      if (this.$route.name === 'lobby' || 
-        this.$route.name === 'wait' || 
-        (this.$route.name === 'play' && !this.gameActive) || 
-        (this.$route.name === 'instructions' && !this.gameActive) || 
-        (this.$route.name === 'impressum' && !this.gameActive) || 
-        (this.$route.name === 'about' && !this.gameActive)) {   
+      if (
+        this.$route.name === "lobby" ||
+        this.$route.name === "wait" ||
+        (this.$route.name === "play" && !this.gameActive) ||
+        (this.$route.name === "instructions" && !this.gameActive) ||
+        (this.$route.name === "impressum" && !this.gameActive) ||
+        (this.$route.name === "about" && !this.gameActive)
+      ) {
         const data = {
           command: "lobby",
           command_key: "leave",
@@ -138,56 +159,79 @@ export default {
         this.sendMessage(data);
       }
     },
-    
+
     /**
      * Toggles the application language.
      */
     changeLanguage() {
-      if (this.$i18n.locale === 'en') {
-        this.$i18n.locale = 'de';
-        this.currentLanguage = 'de';
+      if (this.$i18n.locale === "en") {
+        this.$i18n.locale = "de";
+        this.currentLanguage = "de";
       } else {
-        this.$i18n.locale = 'en';
-        this.currentLanguage = 'en';
+        this.$i18n.locale = "en";
+        this.currentLanguage = "en";
       }
       this.$nextTick(() => {
-        document.querySelector('.form-select').blur();
+        document.querySelector(".form-select").blur();
       });
     },
-    
+
     /**
      * Shows the rules dialog based on the current game.
      */
     showRules() {
-      if (this.game === 'connect4') {
-        this.currentRuleComponent = 'Connect4Rules';
-      } else if (this.game === 'tictactoe') {
-        this.currentRuleComponent = 'TicTacToeRules';
-      } else if (this.game === 'nim') {
-        this.currentRuleComponent = 'NimRules';
-      } else if (this.game === 'othello') {
-        this.currentRuleComponent = 'OthelloRules';
+      if (this.game === "connect4") {
+        this.currentRuleComponent = "Connect4Rules";
+      } else if (this.game === "tictactoe") {
+        this.currentRuleComponent = "TicTacToeRules";
+      } else if (this.game === "nim") {
+        this.currentRuleComponent = "NimRules";
+      } else if (this.game === "othello") {
+        this.currentRuleComponent = "OthelloRules";
       } else {
         this.currentRuleComponent = null;
       }
       this.isRulesVisible = true;
     },
-    
+    ...mapActions(["toggleDarkMode"]),
     /**
      * Closes the rules dialog.
      */
     closeRules() {
       this.isRulesVisible = false;
     },
+    changeBackground(backgroundClass) {
+      this.currentBackground = backgroundClass;
+      this.$emit('change-bg', backgroundClass);
+    },
   },
 };
 </script>
 
 <style scoped>
-/* Styles for the navigation bar container */
-.navbar-expand-lg {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+.color-select select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.color-select select:focus {
+  outline: none;
+  border-color: #2196f3;
+}
+
+
+
+.navbar {
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  height: 64px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .container-fluid {
@@ -280,7 +324,7 @@ export default {
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 input:checked + .slider:before {
@@ -290,26 +334,162 @@ input:checked + .slider:before {
 /* Styles for the logo image */
 .logo {
   width: auto;
-  height: 40px; /* Adjust the height to fit within the navbar */
+  height: 30px; /* Adjust the height to fit within the navbar */
   max-height: 40px; /* Ensure it doesn't overflow the navbar */
   aspect-ratio: 2.31; /* Maintain the aspect ratio */
 }
+.nav-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.color-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.color-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.color-btn:hover {
+  transform: scale(1.1);
+}
+
+.color-btn.background-gray {
+  background-color: #cccccc;
+}
+
+.color-btn.background-dark {
+  background-color: #000000;
+}
+
+.color-btn.background-yellow {
+  background-color: #ffeb3b;
+}
+
+.color-btn.background-red {
+  background-color: #f44336;
+}
+
+.color-btn.background-green {
+  background-color: #4caf50;
+}
+
+.color-btn.background-blue {
+  background-color: #2196f3;
+}
+
+/* Background classes for the navbar */
+.navbar.background-gray {
+  background-color: #cccccc;
+  color: #000000;
+}
+
+.navbar.background-yellow {
+  background-color: #ffeb3b;
+  color: #000000;
+}
+
+.navbar.background-red {
+  background-color: #f44336;
+  color: #000000;
+}
+
+.navbar.background-green {
+  background-color: #4caf50;
+  color: #000000;
+}
+
+.navbar.background-blue {
+  background-color: #2196f3;
+  color: #ffffff;
+}
+
+.language-switcher {
+  margin-left: 1rem;
+}
+
+@media (max-width: 768px) {
+  .nav-title {
+    display: none;
+  }
+
+  .color-buttons {
+    gap: 0.25rem;
+  }
+
+  .color-btn {
+    width: 20px;
+    height: 20px;
+  }
+}
+.dark-mode .navbar-brand {
+  color: #fff;
+}
+
+.dark-mode .navbar-brand:hover {
+  color: #ddd;
+}
+
+.dark-mode .nav-link {
+  color: #ccc;
+}
+
+.dark-mode .nav-link:hover {
+  color: #00bfff;
+}
+
+.dark-mode .navbar-collapse {
+  background-color: #1e1e1e;
+}
+
+.dark-mode .top-right-controls {
+  color: #ccc;
+}
+
+.dark-mode .switch .slider {
+  background-color: #444;
+}
+
+.dark-mode .switch input:checked + .slider {
+  background-color: #00bfff;
+}
+
+.dark-mode .bg-body-tertiary {
+  background-color: #1e1e1e !important;
+}
+
+.dark-mode .logo {
+  filter: brightness(0.8);
+}
 
 /* Responsive adjustments for mobile view */
-@media (max-width: 768px) {
-  .navbar-collapse {
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
+@media (max-width: 1100px) and (max-height: 1400px)  {
+  .dark-mode .navbar-collapse {
+    background-color: #1e1e1e;
   }
-
-  .navbar-nav {
-    flex-direction: row;
-    align-items: center;
+  .dark-mode.nav-link{
+    background-color: #1e1e1e;
+    color: #9dcc67;
   }
+  .nav-link {
+    font-family: 'Honk', sans-serif;
+    font-size: 25px;
+    font-weight: bolder;
+    color: #98ca60;
+    font-size: small;
+  }
+  .me-2 {
+    margin-right: 0px !important;
+    padding: 0px;
+    font-family: 'Honk', sans-serif;
 
-  .form-select {
-    margin-bottom: 0.5rem;
   }
 }
 </style>

@@ -1,10 +1,12 @@
 <template>
-  <footer>
+  <footer id="footer">
     <!-- External link to the THM website -->
     <a href="https://www.thm.de">THM</a>
 
     <!-- Router link to the 'about' page -->
     <RouterLink :to="{ name: 'about' }">{{ $t('footer.datenschutz') }}</RouterLink>
+
+    <RouterLink :to="{ name: 'account' }">{{ $t('footer.account') }}</RouterLink>
 
     <!-- External link to the Impressum page -->
     <a href="https://www.thm.de/site/impressum.html">{{ $t('footer.impressum') }}</a>
@@ -32,12 +34,21 @@ footer {
   align-items: center; /* Center items vertically */
   padding: 10px; /* Padding inside the footer */
   background-color: #f8f9fa; /* Light background color */
-  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+}
+
+.dark-mode footer {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.dark-mode footer {
+  background-color: #333333 ;
+  color: #ffffff;
 }
 
 /* Styles for anchor tags within the footer */
 footer a {
-  color: green; /* Text color for links */
+  color: #9dcc67; /* Text color for links */
   text-decoration: none; /* No underline for links */
   margin-left: 30px; /* Space between links */
 }
@@ -45,5 +56,19 @@ footer a {
 /* Styles for anchor tags on hover */
 footer a:hover {
   color: #007bff; /* Text color on hover */
+}
+
+
+@media (max-width: 1100px) and (max-height: 1400px) {
+footer {
+  position: fixed;
+}
+footer a {
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Honk', sans-serif;
+  font-size: 25px;
+  font-weight: bolder;
+}
 }
 </style>

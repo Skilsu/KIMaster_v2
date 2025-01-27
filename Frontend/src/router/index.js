@@ -8,6 +8,7 @@ import Impressum from '@/components/ImpressumView.vue';
 import About from '@/components/KIM_Pages/AboutView.vue';
 import Wait from '@/components/KIM_Pages/WaitPage.vue';
 import Instructions from '@/components/KIM_Pages/InstructionsPage.vue'
+import AccountView from '@/components/KIM_Pages/AccountView.vue';
 
   /**
   * Provides the different Routings used throughout the application
@@ -50,6 +51,11 @@ const router = createRouter({
       path: '/',
       name: 'instruction',
       component: Instructions
+    },
+    {
+      path: '/',
+      name: 'account',
+      component: AccountView
     }
   ]
 });

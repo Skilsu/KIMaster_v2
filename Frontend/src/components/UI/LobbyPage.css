@@ -41,8 +41,7 @@
 
 .base-card.LobbyButton {
   position: relative;
-  display: flex;
-  gap: 1rem;
+
 }
 
 p1 {
@@ -55,9 +54,12 @@ p1 {
 
 /* Neues CSS für die horizontalen Dropdown-Menüs */
 .horizontal-selects {
-  display: flex;
-  gap: 19px; /* Abstand zwischen den Dropdowns */
-  flex-wrap: wrap; /* Umbrüche erlauben, wenn der Platz nicht reicht */
+    gap: 19px;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px;
 }
 
 .horizontal-selects select {
@@ -68,4 +70,26 @@ p1 {
   border: 1px solid #ccc; /* Optional: Rand hinzufügen */
   border-radius: 4px; /* Optional: Abgerundete Ecken */
   margin-bottom: 19px;
+}
+
+@media (max-width: 1100px) and (max-height: 1400px) {
+ .myPosition,.guestPosition,p,.horizontal-selects, p1 {
+    font-family: 'Honk', sans-serif;
+    font-weight: 700;
+    font-size: 25px;
+  }
+  .dark-mode .myPosition,.guestPosition,p,.horizontal-selects, p1 {
+    font-family: 'Honk', sans-serif;
+    font-weight: 700;
+    font-size: 25px;
+  }
+  .horizontal-selects {
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+}
+.content-container{
+  padding-bottom: 400px;
+
+}
 }

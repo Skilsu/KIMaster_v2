@@ -1,54 +1,88 @@
 <template>
-  <section id="hauptteil" class="d-flex align-items-center justify-content-center">
+<link href="https://fonts.googleapis.com/css2?family=Honk&display=swap" rel="stylesheet">
+  <section
+    id="hauptteil"
+    class="d-flex align-items-center justify-content-center"
+  >
     <div class="content-container">
       <div class="welcome-container">
         <base-card>
           <template #header>
-            <h1>{{ $t('message.welcome') }}</h1>
+            <h1>{{ $t("message.welcome") }}</h1>
           </template>
-          <p class="subtitle">{{ $t('message.subtitle') }}</p>
+          <p class="subtitle">{{ $t("message.subtitle") }}</p>
         </base-card>
       </div>
       <base-card>
-      <div class="game-selection-container">
+        <div class="game-selection-container">
           <template v-if="gameActive">
-            <base-button v-for="game in Object.values(games)" :key="game" @click="triggerPopUp">
+            <base-button
+              v-for="game in Object.values(games)"
+              :key="game"
+              @click="triggerPopUp"
+            >
               {{ $t(`message.${game}`) }}
             </base-button>
           </template>
           <template v-else>
-            <router-link v-for="game in Object.values(games)" :key="game" :to="{ name: 'lobby' }">
-              <base-button @click="setGame(game)">{{ $t(`message.${game}`) }}</base-button>
+            <router-link
+              v-for="game in Object.values(games)"
+              :key="game"
+              :to="{ name: 'lobby' }"
+            >
+              <base-button @click="setGame(game)">{{
+                $t(`message.${game}`)
+              }}</base-button>
             </router-link>
           </template>
         </div>
       </base-card>
 
       <base-card class="LobbySection">
-        <input type="text" v-model="lobbyKeyToJoin" :placeholder="$t('message.enter_lobby_key')" />
-        <div class="message-box" v-if="this.notif === ENUMS.notifStatus.LOBBYJOINFAIL">
-          {{ $t('message.lobby_join_failed') }}
+        <input
+          type="text"
+          v-model="lobbyKeyToJoin"
+          :placeholder="$t('message.enter_lobby_key')"
+        />
+        <div
+          class="message-box"
+          v-if="notif === ENUMS.notifStatus.LOBBYJOINFAIL"
+        >
+          {{ $t("message.lobby_join_failed") }}
         </div>
-        <base-button @click.prevent="joinLobbyStart">{{ $t('message.join_lobby') }}</base-button>
-    </base-card>
+        <base-button @click.prevent="joinLobbyStart">{{
+          $t("message.join_lobby")
+        }}</base-button>
+      </base-card>
     </div>
 
     <teleport to="body">
-      <base-dialog
-        v-if="popUpTrigger"
-        @close="closePopUp"
-      >
+      <base-dialog v-if="popUpTrigger" @close="closePopUp">
         <template #default>
-         <p>{{ $t('message.surrender_before_start') }}</p>
+          <p>{{ $t("message.surrender_before_start") }}</p>
         </template>
         <template #actions>
-          <base-button @click="surrenderGame">{{ $t('message.surrender') }}</base-button>
-          <base-button @click="returnToGame">  {{ $t('message.return_to_game') }} </base-button>
-          <base-button @click="closePopUp">{{ $t('message.okay') }}</base-button>
+          <base-button @click="surrenderGame">{{
+            $t("message.surrender")
+          }}</base-button>
+          <base-button @click="returnToGame">{{
+            $t("message.return_to_game")
+          }}</base-button>
+          <base-button @click="closePopUp">{{
+            $t("message.okay")
+          }}</base-button>
         </template>
       </base-dialog>
     </teleport>
 
+    <div class="music-toggle">
+      <button @click="toggleMusic">
+        {{
+          musicPlaying ? $t("message.pause_music") : $t("message.play_music")
+        }}
+      </button>
+    </div>
+    <audio ref="backgroundMusic" loop :src="backgroundMusicSrc"></audio>
   </section>
   <footer-bar class="FooterStart"></footer-bar>
 </template>

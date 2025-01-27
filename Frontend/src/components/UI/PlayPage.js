@@ -1,16 +1,16 @@
 import { mapActions, mapGetters } from "vuex";
-import * as ENUMS from '../enums';
-import click1 from '@/assets/Audio/Click1.mp3';
-import click2 from '@/assets/Audio/Click2.mp3';
-import click3 from '@/assets/Audio/Click3.mp3';
-import click4 from '@/assets/Audio/Click4.mp3';
-import click5 from '@/assets/Audio/Click5.mp3';
-import click6 from '@/assets/Audio/Click6.mp3';
-import click7 from '@/assets/Audio/Click7.mp3';
+import * as ENUMS from "../enums";
+import click1 from "@/assets/Audio/Click1.mp3";
+import click2 from "@/assets/Audio/Click2.mp3";
+import click3 from "@/assets/Audio/Click3.mp3";
+import click4 from "@/assets/Audio/Click4.mp3";
+import click5 from "@/assets/Audio/Click5.mp3";
+import click6 from "@/assets/Audio/Click6.mp3";
+import click7 from "@/assets/Audio/Click7.mp3";
 /**
  * Vue component logic for Playing the game
  * @module PlayPage
- * 
+ *
  * @vue-data {boolean} [isPlaying=false] - Indicates if a sound is currently playing.
  * @vue-data {Array} [sounds] - Array of sound files for click sounds.
  * @vue-data {?number} [mouseX=null] - Current X-coordinate of the mouse.
@@ -28,7 +28,7 @@ import click7 from '@/assets/Audio/Click7.mp3';
  * @vue-data {boolean} [isRulesVisible=false] - Indicates if the rules are currently visible.
  * @vue-data {number[]} [nimTest=[-1,0]] - Array for the Nim game.
  * @vue-data {?number} [savedPos=null] - Saved position for invalid move handling.
- * 
+ *
  *  @vue-computed {Object} ...mapGetters - Vuex getters mapped to component computed properties.
  * @vue-computed {Object} enums - Enumeration constants imported from the ENUMS module.
  * @vue-computed {string} currentRuleComponent - Determines the component to render based on the current game.
@@ -73,22 +73,22 @@ export default {
      */
     currentRuleComponent() {
       switch (this.game) {
-        case 'chess':
-          return 'ChessRules';
-        case 'connect4':
-          return 'Connect4Rules';
-        case 'tictactoe':
-          return 'TicTacToeRules';
-        case 'othello':
-          return 'OthelloRules';
-        case 'nim':
-          return 'NimRules';
-        case 'checkers':
-          return 'CheckersRules';
+        case "chess":
+          return "ChessRules";
+        case "connect4":
+          return "Connect4Rules";
+        case "tictactoe":
+          return "TicTacToeRules";
+        case "othello":
+          return "OthelloRules";
+        case "nim":
+          return "NimRules";
+        case "checkers":
+          return "CheckersRules";
         default:
           return null;
       }
-    }
+    },
   },
 
   data() {
@@ -110,14 +110,22 @@ export default {
       isRulesVisible: false,
       nimTest: [-1, 0],
       savedPos: null,
-  };
-  
+      moveTimer: localStorage.getItem("selectedTime") ? parseInt(localStorage.getItem("selectedTime")) : 10,
+      timerInterval: null,
+
+      isPaused: false, // New state to track pause status
+      pausedRemainingTime: 0,
+
+      gameOverAnimation: false,
+      timerStopped: false,
+    };
   },
 
   mounted() {
     /**
      * Initializes game board dimensions and settings based on the current game.
      */
+    // this.startMoveTimer();
     switch (this.game) {
       case "chess":
         this.boardWidth = 8;
@@ -156,11 +164,7 @@ export default {
     /**
      * Vuex actions mapped to component methods.
      */
-    ...mapActions([
-      "sendWebSocketMessage",
-      'setNotif',
-      "setPopup",
-    ]),
+    ...mapActions(["sendWebSocketMessage", "setNotif", "setPopup"]),
 
     /**
      * Handles a move in the Nim game.
@@ -193,11 +197,17 @@ export default {
      */
     sendNimMove() {
       const data = {
-        command: 'play',
-        command_key: 'make_move',
+        command: "play",
+        command_key: "make_move",
         move: this.nimTest,
       };
       this.sendMessage(data);
+
+      // Reset the timer
+      if (this.gameActive == true) {
+        this.resetTimer();
+      }
+
       this.nimTest = [-1, 0];
     },
 
@@ -225,7 +235,7 @@ export default {
         mouseY / (this.$refs.imageRef.offsetHeight / this.boardHeight)
       );
       // Set the hovered cell coordinates
-      if(cellX!=0&&cellY!=0) this.hoveredCell = { x: cellX, y: cellY };
+      if (cellX != 0 && cellY != 0) this.hoveredCell = { x: cellX, y: cellY };
     },
 
     /**
@@ -247,9 +257,14 @@ export default {
       const data = {
         command: "play",
         command_key: "undo_move",
-        num: 1
+        num: 1,
       };
       this.sendMessage(data);
+    },
+
+    stopGameTimer() {
+      this.timerStopped = true;
+      this.moveTimer = 0; // Set the timer value to 0 to stop it
     },
 
     /**
@@ -258,7 +273,7 @@ export default {
     newGame() {
       const data = {
         command: "play",
-        command_key: "new_game"
+        command_key: "new_game",
       };
       this.sendMessage(data);
     },
@@ -277,9 +292,83 @@ export default {
       this.sendMessage(data);
     },
 
-    /**
-     * Executes the move depending on wether it's a two turn game or a one turn game.
-     */
+
+
+
+
+
+
+    startMoveTimer() {
+      if (this.timerStopped) return;
+      if (this.timerInterval) {
+        clearInterval(this.timerInterval);
+      }
+      // If resuming from a pause, use the stored remaining time
+      this.moveTimer = this.pausedRemainingTime || 10;
+      this.isPaused = false;
+      this.pausedRemainingTime = 0;
+
+      this.timerInterval = setInterval(() => {
+        if (!this.isPaused) {
+          this.moveTimer--;
+          if (this.moveTimer === 0) {
+            this.handleTimeOut();
+          }
+        }
+      }, 1000);
+    },
+
+
+
+
+
+
+
+
+    pauseGame() {
+      if (!this.isPaused && this.moveTimer > 0) {
+        this.isPaused = true;
+        this.pausedRemainingTime = this.moveTimer;
+        clearInterval(this.timerInterval);
+      }
+    },
+
+    resumeGame() {
+      if (this.isPaused) {
+        this.startMoveTimer();
+      }
+    },
+
+
+
+
+
+    handleTimeOut() {
+      clearInterval(this.timerInterval);
+      const data = {
+        command: "play",
+        command_key: "surrender",
+      };
+      this.sendMessage(data);
+    },
+    resetTimer() {
+      clearInterval(this.timerInterval);
+      this.startMoveTimer();
+    },
+
+    stopTimer() {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+      this.moveTimer = 0;
+      this.isPaused = false;
+      this.pausedRemainingTime = 0;
+    },
+
+
+
+
+
+
     playMakeMove() {
       let data;
       if (!this.twoTurnGame) {
@@ -294,10 +383,22 @@ export default {
           command: "play",
           command_key: "make_move",
           move: [this.fromPos, this.toPos],
-          isFrontend: true
+          isFrontend: true,
         };
       }
       this.sendMessage(data);
+      if (this.gameActive == true) {
+        this.resetTimer();
+      }
+    },
+    formatTime() {
+      if (this.timerStopped) return "";
+      const minutes = Math.floor(this.moveTimer / 60);
+      const secs = this.moveTimer % 60;
+      return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(
+        2,
+        "0"
+      )}`;
     },
 
     /**
@@ -350,7 +451,9 @@ export default {
             this.playMakeMove();
             break;
           default:
-            this.toPos = this.mouseX + (this.boardHeight * this.mouseY - this.boardHeight - 1);
+            this.toPos =
+              this.mouseX +
+              (this.boardHeight * this.mouseY - this.boardHeight - 1);
             this.playMakeMove();
             break;
         }
@@ -363,8 +466,9 @@ export default {
     surrenderGame() {
       const data = {
         command: "play",
-        command_key: "surrender"
+        command_key: "surrender",
       };
+      this.stopTimer();
       this.sendMessage(data);
     },
 
@@ -375,11 +479,11 @@ export default {
       if (this.gameActive !== true) {
         const data2 = {
           command: "lobby",
-          command_key: "leave"
+          command_key: "leave",
         };
         this.sendMessage(data2);
         this.$router.push({
-          name: "home"
+          name: "home",
         });
       } else {
         this.setNotif === ENUMS.notifStatus.SURRENDERFIRST;
@@ -392,11 +496,11 @@ export default {
     leaveGame() {
       const data2 = {
         command: "lobby",
-        command_key: "leave"
+        command_key: "leave",
       };
       this.sendMessage(data2);
       this.$router.push({
-        name: "home"
+        name: "home",
       });
     },
 
@@ -405,8 +509,8 @@ export default {
      */
     first() {
       const data = {
-        command: 'play',
-        command_key: 'timeline',
+        command: "play",
+        command_key: "timeline",
         num: 0,
       };
       this.sendMessage(data);
@@ -417,8 +521,8 @@ export default {
      */
     step() {
       const data = {
-        command: 'play',
-        command_key: 'step',
+        command: "play",
+        command_key: "step",
       };
       this.sendMessage(data);
     },
@@ -428,8 +532,8 @@ export default {
      */
     unstep() {
       const data = {
-        command: 'play',
-        command_key: 'unstep',
+        command: "play",
+        command_key: "unstep",
       };
       this.sendMessage(data);
     },
@@ -439,8 +543,8 @@ export default {
      */
     last() {
       const data = {
-        command: 'play',
-        command_key: 'timeline',
+        command: "play",
+        command_key: "timeline",
         num: this.turn,
       };
       this.sendMessage(data);
@@ -452,8 +556,8 @@ export default {
      */
     jumpTimeLine(it) {
       const data = {
-        command: 'play',
-        command_key: 'timeline',
+        command: "play",
+        command_key: "timeline",
         num: it,
       };
       this.sendMessage(data);
@@ -464,7 +568,7 @@ export default {
      */
     returnLobby() {
       this.$router.push({
-        name: 'lobby',
+        name: "lobby",
       });
     },
 
@@ -472,7 +576,7 @@ export default {
      * Plays a random sound effect.
      */
     playRandomSound() {
-      if (this.game === 'Nim') {
+      if (this.game === "Nim") {
         return; // Disabling sound when playing Nim
       }
       this.isPlaying = true;
@@ -484,13 +588,27 @@ export default {
         this.isPlaying = false;
       }, 100); // 100 milliseconds delay so sounds don't overlap too strongly
     },
+    hideAnimation() {
+      this.gameOverAnimation = false;
+    },
   },
 
   watch: {
+    gameOver(newVal) {
+      if (newVal) {
+        this.stopTimer();
+        this.gameOverAnimation = true;
+        setTimeout(() => {
+          this.hideAnimation();
+        }, 3000);
+      }
+    },
+
     /**
      * Watches for changes in the invalidMoveObserver property.
      * Automatically handles invalid moves if necessary.
      */
+
     invalidMoveObserver() {
       if (this.twoTurnGame) this.invalidMoveHandling();
     },
@@ -517,16 +635,20 @@ export default {
         this.sendMessage(data);
       }
     },
-        /**
+    /**
      * Displays notification when needed and clears them after a delay.
      * @param {string|null} newVal - The new value of notif.
      */
-        notif(newVal) {
-          if (newVal) {
-            setTimeout(() => {
-              this.setNotif(null);
-            }, 5000);
-          }
-        },
+    notif(newVal) {
+      if (newVal) {
+        setTimeout(() => {
+          this.setNotif(null);
+        }, 5000);
+      }
+    },
   },
-}
+
+  beforeDestroy() {
+    this.stopTimer();
+  },
+};
