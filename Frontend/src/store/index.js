@@ -37,6 +37,9 @@ const getDefaultState = () => {
         blunder: [],
         yourTurn: false,
         playSound: false,
+        board: null,
+        currentPlayer: 1,
+        kpiData: null
     };
 };
 
@@ -71,6 +74,9 @@ export default createStore({
         skipMove: false,
         yourTurn: false,
         playSound: false,
+        board: null,
+        currentPlayer: 1,
+        kpiData: null
     },
     mutations: {
         /**
@@ -308,6 +314,29 @@ export default createStore({
          */
         setYourTurn(state, yourTurn) {
             state.yourTurn = yourTurn;
+        },
+
+        /**
+         * Setzt das aktuelle Spielbrett
+         */
+        setBoard(state, board) {
+            state.board = board;
+        },
+
+        /**
+         * Setzt den aktuellen Spieler
+         */
+        setCurrentPlayer(state, player) {
+            state.currentPlayer = player;
+        },
+
+        /**
+         * Sets the KPI data.
+         * @param {Object} state - The current state.
+         * @param {Object} kpiData - The KPI data.
+         */
+        setKPIData(state, kpiData) {
+            state.kpiData = kpiData;
         }
     },
     actions: {
@@ -553,17 +582,63 @@ export default createStore({
         },
 
         /**
-         * Sends a message through the WebSocket connection.
+         * Processes a received WebSocket message.
          * @param {Object} context - The Vuex context.
-         * @param {string} message - The message to be sent.
+         * @param {Object} message - The received message.
+         */
+        processMessage({ commit, dispatch, state }, message) {
+            console.log('Processing WebSocket message:', message);
+            
+            // Verarbeite Analyse-Nachrichten
+            if (message.command === 'analysis') {
+                console.log('Received analysis message:', message);
+                // Leite die Nachricht an die Komponente weiter
+                if (state.socket) {
+                    state.socket.dispatchEvent(new CustomEvent('message', { 
+                        detail: message 
+                    }));
+                }
+            }
+            
+            // ... rest of the message processing ...
+        },
+
+        /**
+         * Sends a WebSocket message.
+         * @param {Object} context - The Vuex context.
+         * @param {string} message - The message to send.
          */
         sendWebSocketMessage({ state }, message) {
+            console.log('Sending WebSocket message:', message);
             if (state.socket && state.socket.readyState === WebSocket.OPEN) {
                 state.socket.send(message);
             } else {
-                console.error('WebSocket is not open.');
+                console.error('WebSocket is not connected');
             }
         },
+
+        /**
+         * Aktualisiert das Spielbrett
+         */
+        updateBoard({ commit }, board) {
+            commit('setBoard', board);
+        },
+
+        /**
+         * Aktualisiert den aktuellen Spieler
+         */
+        updateCurrentPlayer({ commit }, player) {
+            commit('setCurrentPlayer', player);
+        },
+
+        /**
+         * Updates the KPI data.
+         * @param {Object} context - The Vuex context.
+         * @param {Object} kpiData - The new KPI data.
+         */
+        updateKPIData({ commit }, kpiData) {
+            commit('setKPIData', kpiData);
+        }
     },
     getters: {
         /**
@@ -740,5 +815,22 @@ export default createStore({
          * @returns {boolean} - Whether to play sound.
          */
         playSound: (state) => state.playSound,
+
+        /**
+         * Gibt das aktuelle Spielbrett zurück
+         */
+        board: state => state.board,
+
+        /**
+         * Gibt den aktuellen Spieler zurück
+         */
+        currentPlayer: state => state.currentPlayer,
+
+        /**
+         * Gets the KPI data.
+         * @param {Object} state - The current state.
+         * @returns {Object|null} - The KPI data.
+         */
+        kpiData: state => state.kpiData
     },
 });

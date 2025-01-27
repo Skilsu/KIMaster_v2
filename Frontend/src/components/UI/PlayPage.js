@@ -28,6 +28,8 @@ import click7 from '@/assets/Audio/Click7.mp3';
  * @vue-data {boolean} [isRulesVisible=false] - Indicates if the rules are currently visible.
  * @vue-data {number[]} [nimTest=[-1,0]] - Array for the Nim game.
  * @vue-data {?number} [savedPos=null] - Saved position for invalid move handling.
+ * @vue-data {?object} [aiPerformance=null] - AI performance data.
+ * @vue-data {?number} [evaluationInterval=null] - Interval for AI performance updates.
  * 
  *  @vue-computed {Object} ...mapGetters - Vuex getters mapped to component computed properties.
  * @vue-computed {Object} enums - Enumeration constants imported from the ENUMS module.
@@ -110,11 +112,13 @@ export default {
       isRulesVisible: false,
       nimTest: [-1, 0],
       savedPos: null,
-  };
-  
+      aiPerformance: null,
+      evaluationInterval: null
+    };
   },
 
   mounted() {
+    console.log('PlayPage mounted. Game:', this.game, 'AI Performance:', this.aiPerformance);
     /**
      * Initializes game board dimensions and settings based on the current game.
      */
@@ -138,6 +142,17 @@ export default {
         this.boardWidth = 3;
         this.boardHeight = 3;
         this.twoTurnGame = false;
+        // Initiale KI-Performance-Aktualisierung
+        console.log('Requesting initial AI performance update');
+        this.requestAIPerformance();
+        // Regelmäßige Aktualisierung alle 2 Sekunden
+        setInterval(() => {
+          if (!this.gameOver) {
+            console.log('Requesting regular AI performance update');
+            this.requestAIPerformance();
+          }
+        }, 2000);
+        this.startPerformanceUpdates();
         break;
       case "othello":
         this.boardWidth = 8;
@@ -355,6 +370,19 @@ export default {
             break;
         }
       }
+
+      // Nach dem Zug die KI-Performance sofort und nach einer Verzögerung aktualisieren
+      if (this.game === 'tictactoe') {
+        console.log('Requesting AI performance update after move');
+        // Sofortige Aktualisierung
+        this.requestAIPerformance();
+        
+        // Verzögerte Aktualisierung für bessere UX
+        setTimeout(() => {
+          console.log('Requesting delayed AI performance update');
+          this.requestAIPerformance();
+        }, 500);
+      }
     },
 
     /**
@@ -484,6 +512,84 @@ export default {
         this.isPlaying = false;
       }, 100); // 100 milliseconds delay so sounds don't overlap too strongly
     },
+
+    /**
+     * Verarbeitet eingehende WebSocket-Nachrichten
+     */
+    handleWebSocketMessage(data) {
+        console.log('Received WebSocket message:', data);
+        const command = data.command;
+        const commandKey = data.command_key;
+        
+        if (command === "analysis") {
+            if (commandKey === "move_analysis") {
+                console.log('Received move analysis:', data.data.analysis);
+                this.currentAnalysis = data.data.analysis;
+            } else if (commandKey === "ai_performance") {
+                console.log('Received AI performance:', data.data.performance);
+                this.aiPerformance = data.data.performance;
+            } else if (commandKey === "evaluate_position") {
+                // Empfange die KI-Bewertung und aktualisiere aiPerformance
+                const evaluation = data.data;
+                this.aiPerformance = {
+                    win_probability: evaluation.win_probability,
+                    best_move: evaluation.best_move,
+                    current_evaluation: evaluation.evaluation_score
+                };
+                console.log('AI Performance updated:', this.aiPerformance);
+            }
+        }
+    },
+
+    /**
+     * Fordert die KI-Performance-Daten an
+     */
+    requestAIPerformance() {
+        if (this.game === 'tictactoe') {
+            // Simulierte Performance-Daten
+            const simulatedPerformance = {
+                win_probability: Math.random(),  // Zufälliger Wert zwischen 0 und 1
+                best_move: [1, 1],  // Simulierter bester Zug
+                current_evaluation: Math.random() * 2 - 1  // Wert zwischen -1 und 1
+            };
+            
+            // Direkt die Performance aktualisieren
+            this.aiPerformance = simulatedPerformance;
+            console.log('Updated AI performance with simulated data:', simulatedPerformance);
+        }
+    },
+
+    requestPositionEvaluation() {
+        if (this.game === 'tictactoe' && this.$store.state.board) {
+            const data = {
+                command: 'analysis',
+                command_key: 'evaluate_position',
+                game: 'tictactoe',
+                board: this.$store.state.board,
+                player: this.$store.state.currentPlayer,
+                lobby_key: this.$store.state.lobbyKey
+            };
+            this.sendMessage(data);
+            console.log('Position evaluation requested:', data);
+        }
+    },
+
+    startPerformanceUpdates() {
+        // Erste Bewertung anfordern
+        this.requestPositionEvaluation();
+        
+        // Regelmäßige Updates alle 2 Sekunden
+        this.evaluationInterval = setInterval(() => {
+            this.requestPositionEvaluation();
+        }, 2000);
+    },
+
+    stopPerformanceUpdates() {
+        if (this.evaluationInterval) {
+            clearInterval(this.evaluationInterval);
+            this.evaluationInterval = null;
+        }
+    }
   },
 
   watch: {
@@ -529,4 +635,8 @@ export default {
           }
         },
   },
+
+  beforeDestroy() {
+    this.stopPerformanceUpdates();
+  }
 }

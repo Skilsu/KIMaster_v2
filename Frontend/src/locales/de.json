@@ -1,0 +1,38 @@
+{
+  "game": {
+    "analyze_position": "Position analysieren",
+    "current_player": "Aktueller Spieler",
+    "surrender": "Aufgeben",
+    "quit": "Beenden",
+    "undo": "Rückgängig",
+    "show_blunder": "Fehler anzeigen"
+  },
+  "analysis": {
+    "positive_message": "Guter Zug! Diese Position ist vorteilhaft.",
+    "negative_message": "Vorsicht! Diese Position ist nachteilig.",
+    "neutral_message": "Die Position ist ausgeglichen.",
+    "strategic_patterns": "Strategische Muster",
+    "tactical_patterns": "Taktische Muster",
+    "better_moves": "Bessere Züge",
+    "best_sequence": "Beste Zugfolge",
+    "analyze_position": "Position analysieren",
+    "patterns": {
+      "doppelte_eckposition": "Doppelte Eckposition",
+      "dreifache_diagonale": "Dreifache Diagonale",
+      "blockade": "Blockade",
+      "zentrumsformation": "Zentrumsformation",
+      "randkontrolle": "Randkontrolle"
+    },
+    "tactics": {
+      "gabel": "Gabelangriff",
+      "fesselung": "Fesselung",
+      "opferung": "Opferkombination",
+      "durchbruch": "Durchbruch zur Dame",
+      "hinterhalt": "Hinterhalt"
+    }
+  },
+  "ai": {
+    "performance_title": "KI Performance",
+    "win_probability": "Gewinnwahrscheinlichkeit"
+  }
+} 

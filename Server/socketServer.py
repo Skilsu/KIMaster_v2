@@ -63,6 +63,42 @@ class SocketServer(AbstractConnectionManager):
         byte_io.close()
         return png_bytes
 
+    async def analyze_move(self, game: IGame, board: np.array, move: tuple, player: int, game_client: WebSocket):
+        """Analysiert einen Zug und sendet die Analyse an den Client."""
+        if move is None:
+            # Analyse der aktuellen Position ohne Zug
+            analysis = game.analyze_move(board, None, player)
+            # MCTS Performance-Daten abrufen
+            mcts = self.importer.get_ai_func().get(game.__class__.__name__.lower()).get(EDifficulty.hard)
+            if mcts:
+                action_probs = mcts.get_action_prob(board, player, temp=0.5)
+                best_move_index = np.argmax(action_probs)
+                best_move = game.translate(board, player, best_move_index)
+                win_probability = float(action_probs[best_move_index])
+                
+                performance_data = {
+                    "win_probability": win_probability,
+                    "best_move": best_move,
+                    "current_evaluation": analysis.get("evaluation", 0)
+                }
+                
+                await self.send_cmd(
+                    game_client=game_client,
+                    command="analysis",
+                    command_key="ai_performance",
+                    data={"performance": performance_data}
+                )
+        else:
+            # Analyse eines spezifischen Zuges
+            analysis = game.analyze_move(board, move, player)
+            
+        await self.send_cmd(
+            game_client=game_client,
+            command="analysis",
+            command_key="move_analysis",
+            data={"analysis": analysis}
+        )
+
     async def websocket_endpoint(self, websocket: WebSocket):
         await self.connect(websocket)
         loop = asyncio.get_event_loop()
@@ -105,6 +141,14 @@ class SocketServer(AbstractConnectionManager):
                         board = np.array(read_object["board"], dtype=default.dtype).reshape(default.shape)
                         mcts = ai_funcs.get(lobby.game).get(lobby.difficulty)
                         self.submit_task(loop, self.kim_Action, game, board, it, mcts, cur_player, lobby)
+                    case "play":
+                        if command_key == "analyze_move":
+                            game = game_instances[lobby.game]
+                            default = game.getInitBoard()
+                            board = np.array(read_object.get("board", []), dtype=default.dtype).reshape(default.shape)
+                            move = read_object.get("move")
+                            player = int(read_object.get("player", 1))
+                            await self.analyze_move(game, board, move, player, lobby.game_client)
                     case "blunder":
                         game = game_instances[command_key]
                         default = game.getInitBoard()
