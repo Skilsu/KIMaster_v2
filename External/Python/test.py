@@ -46,7 +46,7 @@ async def listen_and_send(uri, key):
 
 
 async def main(key):
-    uri = "ws://localhost:8010/ws"  # ws://localhost:8010/ws
+    uri = "ws://localhost:8210/ws"  # ws://localhost:8210/ws
     await listen_and_send(uri, key)
 
 
