@@ -61,7 +61,7 @@ def start_scheduler():
     # Job alle 5 Minuten
     scheduler.add_job(
         scheduled_task,
-        IntervalTrigger(minutes=1),  # Wiederholung alle 3 Minuten
+        IntervalTrigger(minutes=1),  # Wiederholung alle 1 Minuten
         id="five_minute_task",
         replace_existing=True,  # Ersetze vorhandene Jobs mit derselben ID
     )

@@ -32,9 +32,6 @@
             <div class="button-group">
               <!-- Anmelden -->
               <base-button @click.prevent="handleLogin">{{ $t('message.login.loginBtn') }}</base-button>
-              
-              <!-- Registrieren -->
-              <base-button @click.prevent="handleRegister">{{ $t('message.login.registerBtn') }}</base-button>
             </div>
           </form>
         </div>

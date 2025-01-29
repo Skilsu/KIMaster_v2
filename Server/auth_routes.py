@@ -7,6 +7,8 @@ from pydantic import BaseModel
 from datetime import datetime
 from ldap3 import Server, Connection, ALL
 from enum import Enum
+import requests
+from bs4 import BeautifulSoup
 
 # Passwort-Hashing-Kontext
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -34,13 +36,13 @@ def get_db():
 class ReturnAttribute(Enum):
     FULLNAME = 'cn'
     MAIL = 'mail'
+    USERNAME = 'uid'
 
 
 class UserInfoField(Enum):
     EMAIL = "email"
     FULLNAME = "fullname"
     LASTSEENAT = "lastSeenAt"
-
 
 # Überprüfe, ob Mail THM Mail ist
 def getLDAPthmInfo(email: str, returnValue: ReturnAttribute = ReturnAttribute.MAIL):
@@ -61,7 +63,6 @@ def getLDAPthmInfo(email: str, returnValue: ReturnAttribute = ReturnAttribute.MA
         conn.open()  # Öffnet eine Verbindung zum LDAP-Server
         conn.start_tls()  # StartTLS aktiviert für verschlüsselte Verbindung
         conn.bind()  # Sendet die Benutzeranmeldedaten und authentifiziert den Benutzer
-        print("Erfolgreich verbunden!")
 
         # Abfrage durchführen
         conn.search(search_base=base_dn, search_filter=search_filter, attributes=attributes)
@@ -80,43 +81,32 @@ def getLDAPthmInfo(email: str, returnValue: ReturnAttribute = ReturnAttribute.MA
         if 'conn' in locals() and conn:
             conn.unbind()  # Verbindung schließen
 
-
-
-
-
-# Registrierung
-@router.post("/register")
-def register(request: RegisterRequest, db: Session = Depends(get_db)):
-    # THM Mail?
-    if not getLDAPthmInfo(request.email):
-        raise HTTPException(status_code=400, detail="Not THM Mail") 
-
-    requestedMail = request.email
-
-    # Prüfen, ob `requestedMail` eine gültige E-Mail ist
-    if "@" not in requestedMail:
-        # E-Mail aus LDAP ableiten
-        ldap_email = getLDAPthmInfo(request.email)
-        if not ldap_email:
-            raise HTTPException(status_code=401, detail="Invalid credentials")
-        requestedMail = ldap_email
-
-    # Prüfen, ob der Benutzer bereits existiert
-    existing_user = db.query(User).filter(User.email == requestedMail).first()
-    if existing_user:
-        raise HTTPException(status_code=400, detail="Email is already registered")
+def loginTHMCas(username: str, password: str):
+    if "@" in username:
+        username = getLDAPthmInfo(username, ReturnAttribute.USERNAME)
     
-    # Passwort hashen
-    hashed_password = pwd_context.hash(request.password)
-    
-    fullname = getLDAPthmInfo(requestedMail, ReturnAttribute.FULLNAME)
+    url = "https://cas.thm.de/cas/login"
 
-    # Benutzer erstellen
-    user = User(email=requestedMail, fullname=fullname, password=hashed_password, sessionKey="")
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-    return {"message": "User registered successfully"}
+    # Erster GET-Request, um das Login-Formular zu laden und den CSRF-Token (falls vorhanden) abzurufen
+    session = requests.Session()
+    response = session.get(url)
+
+    # HTML des Formulars parsen
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # Optional: Falls CSRF-Token oder andere versteckte Felder erforderlich sind
+    hidden_inputs = soup.find_all("input", type="hidden")
+    form_data = {input_tag["name"]: input_tag.get("value", "") for input_tag in hidden_inputs}
+
+    # Benutzername und Passwort hinzufügen
+    form_data["username"] = username
+    form_data["password"] = password
+
+    # POST-Request senden
+    post_response = session.post(url, data=form_data) 
+
+    return post_response.status_code == 200
+
 
 
 # Login
@@ -124,11 +114,9 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
 def login(request: LoginRequest, db: Session = Depends(get_db)):
     # Benutzer nach Email suchen
 
-    # search_filter = f'(mail={email})' if "@" in email else f'(uid={email})' # Filter für die gewünschte E-Mail
- 
     requestedMail = request.email
 
-    # Prüfen, ob `requestedMail` eine gültige E-Mail ist
+    # # Prüfen, ob `requestedMail` eine gültige E-Mail ist
     if "@" not in requestedMail:
         # E-Mail aus LDAP ableiten
         ldap_email = getLDAPthmInfo(request.email)
@@ -136,10 +124,19 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
             raise HTTPException(status_code=401, detail="Invalid credentials")
         requestedMail = ldap_email
 
-    user = db.query(User).filter(User.email == requestedMail).first()
-    if not user or not pwd_context.verify(request.password, user.password):
+
+    if not loginTHMCas(requestedMail, request.password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    
+
+    user = db.query(User).filter(User.email == requestedMail).first()
+    fullname = getLDAPthmInfo(requestedMail, ReturnAttribute.FULLNAME)
+    if not user:
+        # trage user in db ein
+        user = User(email=requestedMail, fullname=fullname, sessionKey="")
+        db.add(user)
+        db.commit()
+        db.refresh(user)        
+
     # Session-Key generieren (optional)
     now = datetime.now()
 

@@ -31,7 +31,7 @@ def anonymize_and_remind_users(db: Session, anonymize_days: int = 540, reminder_
     db.commit()  # Änderungen speichern
     print(f"{len(users_to_anonymize)} Benutzer wurden anonymisiert.")
 
-    # **2. Erinnerungs-E-Mails senden (Tagesunterschied >= reminder_days und < anonymize_days)** 
+    # Erinnerungs-E-Mails senden (Tagesunterschied >= reminder_days und < anonymize_days)** 
     users_to_remind = db.query(User).filter(
         func.datediff(func.now(), User.lastSeenAt) >= reminder_days,
         func.datediff(func.now(), User.lastSeenAt) < anonymize_days,

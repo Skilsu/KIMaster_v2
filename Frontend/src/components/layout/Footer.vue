@@ -47,7 +47,7 @@ export default {
       this.isLoggedIn = false;
 
       // Leitet den Benutzer zur Login-Seite um
-      this.$router.push({ name: "login" });
+      this.$router.push({ name: "login" }).then(()=>document.getElementById("fullname").innerHTML="");
       // this.$router.push({ name: "home" }).then(()=>window.location.reload());
 
       // Aktualisiert den Login-Status

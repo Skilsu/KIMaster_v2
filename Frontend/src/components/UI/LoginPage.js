@@ -17,33 +17,6 @@ export default {
   methods: {
 
 
-    
-    /**
-     * Registrierung eines neuen Benutzers.
-     */
-    async handleRegister() {
-      if (this.email && this.password) {
-        try {
-          const response = await axios.post(
-            VUE_APP_API_URL+"/auth/register",
-            {
-              email: this.email,
-              password: this.password,
-            }
-          );
-          console.log(response.data.message);
-          alert("Registration successful!");
-        } catch (error) {
-          console.error(error.response?.data?.detail || error.message);
-          this.loginErrorMessage = error.response?.data?.detail || "Registration failed!";
-          this.loginError = true;
-        }
-      } else {
-        this.loginErrorMessage = "Please fill in all fields.";
-        this.loginError = true;
-      }
-    },
-
     /**
      * Anmeldung eines Benutzers.
      */
