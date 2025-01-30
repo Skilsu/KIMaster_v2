@@ -563,7 +563,8 @@ else {this.socket = new WebSocket('ws://localhost:8010/ws');} //Static URL if ad
   z-index: 10;
 }
 
-@media (min-width: 1024px) {
+
+@media (max-width: 1100px) and (max-height: 1400px)  {
   #app {
     display: grid;
     grid-template-columns: repeat(autofill, 0.5fr);

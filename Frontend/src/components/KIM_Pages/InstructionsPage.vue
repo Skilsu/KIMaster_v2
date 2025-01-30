@@ -1,5 +1,4 @@
 <template>
-<link href="https://fonts.googleapis.com/css2?family=Honk&display=swap" rel="stylesheet">
   <div class="instructions-page">
     <base-card>
       <div class="instructions">

@@ -1,5 +1,4 @@
 <template>
-  <link href="https://fonts.googleapis.com/css2?family=Honk&display=swap" rel="stylesheet">
   <div id="hauptteil-about">
     <section class="content-container">
       <base-card class="WaitingTitle">

@@ -1,5 +1,4 @@
 <template>
-  <link href="https://fonts.googleapis.com/css2?family=Honk&display=swap" rel="stylesheet">
   <!-- Game Controls -->
   <base-card>
     <div class="ButtonUp">

@@ -1,3 +1,5 @@
+@import "./base.css";
+/**
 @import './base.css';
 
 #app {
@@ -21,7 +23,8 @@ a,
   }
 }
 
-@media (min-width: 1024px) {
+
+@media (max-width: 1100px) and (max-height: 1400px)  {
   body {
     display: flex;
     place-items: center;
@@ -33,3 +36,4 @@ a,
     padding: 0 2rem;
   }
 }
+**/

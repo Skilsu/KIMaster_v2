@@ -1,5 +1,4 @@
 <template>
-<link href="https://fonts.googleapis.com/css2?family=Honk&display=swap" rel="stylesheet">
   <section
     id="hauptteil"
     class="d-flex align-items-center justify-content-center"
