@@ -2,6 +2,13 @@ import logging
 import time
 import os
 import re
+import sys
+
+# Den korrekten Pfad zum KIMaster_v2 Verzeichnis hinzufügen
+current_dir = os.path.dirname(os.path.abspath(__file__))
+kimaster_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, kimaster_dir)
+
 from Tools.dynamic_imports import Importer
 from coach import Coach
 from Tools.utils import dotdict
@@ -112,20 +119,38 @@ class Trainer:
         game_entry = self.available_games[entered]
         print(f"\033[95mSelected: [\033[92m{game_entry.key}\033[95m] importing Game.py and NNet.py ...\033[0m")
         try:
-            game_class = Importer.import_class_from_file(game_entry.game_path)()
-            nn_class = Importer.import_class_from_file(game_entry.nn, "NNetWrapper")(game_class)
+            # Debug-Ausgaben hinzufügen
+            print(f"Versuche Game zu importieren von: {game_entry.game_path}")
+            print(f"Versuche NNet zu importieren von: {game_entry.nn}")
+            
+            # Hier sollten wir die Klassen einzeln importieren und initialisieren
+            game_class = Importer.import_class_from_file(game_entry.game_path)
+            game_instance = game_class()
+            
+            nn_class = Importer.import_class_from_file(game_entry.nn, "NNetWrapper")
+            nn_instance = nn_class(game_instance)
+            
+            # Statt return die Variablen zuweisen
+            g = game_instance
+            nnet = nn_instance
         except Exception as e:
             print("\033[91mSomething went wrong with import selected game classes")
-            print("\033[93m", e, "\033[0m")
+            print("\033[93mDetails:", str(e), "\033[0m")
+            print("\033[93mGame path:", game_entry.game_path)
+            print("\033[93mNN path:", game_entry.nn, "\033[0m")
             exit(1)
+
         # find last checkpoint
         path = f"{self.saves}/{game_entry.key}/"
+        # Erstelle das Checkpoint-Verzeichnis, falls es nicht existiert
+        os.makedirs(path, exist_ok=True)
+        
         highest_checkpoint_file, highest_iteration = self.find_highest_checkpoint_file(path)
         if not highest_checkpoint_file or not (os.path.exists(path + "best.h5")
                                                or os.path.exists(path + "temp.h5")
                                                or os.path.exists(path + "best.pth.tar")
                                                or os.path.exists(path + "temp.pth.tar")):
-            print('\033[91mNo checkpoint file or .h5 /.pth.tar file found!\033[0m')
+            print('\033[93mNo checkpoint file or .h5 /.pth.tar file found! Starting new training.\033[0m')
             ld_model = False
             it = 0
         else:
@@ -186,11 +211,8 @@ class Trainer:
         })
 
         start_time = time.time()
-        print('\033[95mLoading %s...\033[93m', game_class.__class__.__name__, "\033[0m")
-        g = game_class
-
-        print('\033[95mLoading %s...\033[93m', nn_class.__class__.__name__, "\033[0m")
-        nnet = nn_class
+        print(f'\033[95mLoading {game_class.__name__}...\033[93m\033[0m')
+        print(f'\033[95mLoading {nn_class.__name__}...\033[93m\033[0m')
 
         if args.load_model:
             log.info('Loading checkpoint "%s%s"...', args.load_folder_file[0], args.load_folder_file[1])
@@ -226,6 +248,10 @@ class Trainer:
 
 
 if __name__ == "__main__":
+    # Den korrekten absoluten Pfad zum Games-Verzeichnis erstellen
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    games_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Games")
+    
     # if multiple games training at once -> threading
-    t = Trainer("../Games")
+    t = Trainer(games_dir)
     t.run()

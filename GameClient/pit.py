@@ -1,9 +1,14 @@
 import asyncio
 import numpy as np
+import os
+import sys
+
+# Add project root to Python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from GameClient.arena import Arena
 from GameClient.player import Player
 from Tools.Game_Config.game_config import GameConfig
-
 
 # The Pit class manages the game interactions and states
 class Pit:
@@ -91,7 +96,6 @@ class Pit:
                         self.arena.blunder_history.pop()
 
         return board, last_player, it
-
 
     # Navigate through the game timeline
     def timeline(self, p_pos: str, forward: bool = True, start_index: int | None = None):
